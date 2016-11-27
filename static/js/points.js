@@ -7,7 +7,6 @@ var pointsJSON = [
 		"type": "gate",
 		"concourse": "A"
 	},
-
 	{
 		"long": "-84.4390335",
 		"lat": "33.6379332",
