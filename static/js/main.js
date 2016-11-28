@@ -183,8 +183,8 @@ for (var concourse in concourses){
 
 ////// GET ROUTE FOR TRIP //////////////////////////////////////
 // Hard coded origin and destination for testing (temporary)
-var origin = 'C3';
-var destination = 'C57';
+var origin = 'C10';
+var destination = 'C36';
 
 // Using the shortestPath method of the graph object to get the route for the current origin and destination (see graph.js)
 var route = g.shortestPath(origin, destination);
