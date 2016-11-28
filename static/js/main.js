@@ -65,6 +65,33 @@ concourses = {'A': {'name':'A', 'long':'-84.439175'},
               'F': {'name':'F', 'long':'-84.419815'}
 };
 /////////////////////////////////////////////////////////////////
+console.log(pointsJSON.length);
+var E_horizontal = ["E14","E15","E16","E17","E18"];
+for (var epoint in E_horizontal){
+  for(var point in pointsJSON){
+    if(E_horizontal[epoint] === pointsJSON[point].name){
+      var gate = pointsJSON[point];
+      console.log(E_horizontal[epoint]);
+      var centerh = {};
+      centerh.long = gate.long;
+      centerh.lat = "33.640631";
+      centerh.name = "HC"+ E_horizontal[epoint];
+      centerh.type = "centerh";
+      centerh.concourse = "E";
+      pointsJSON.push(centerh);
+
+      var cen_h = {};
+      var gat_h = {};
+      cen_h[centerh.name] = 45;
+      gat_h[E_horizontal[epoint]] = 45;
+
+      g.addVertex(E_horizontal[epoint], cen_h);
+      g.addVertex(centerh.name, gat_h);
+
+    }
+  }
+}
+console.log(pointsJSON.length);
 
 
 /////AUTO CREATES CENTER LINE POINTS & NETWORK VERTICES FOR STANDARD GATES
@@ -73,8 +100,13 @@ for (var concourse in concourses) {
     // For each initial JSON point (from OpenStreetMap)
     for (var point in pointsJSON) {
         // Only look at points (gates) in the current concourse
-        if (pointsJSON[point].name[0] === concourses[concourse].name) {
             // Create new JSON point that connects JSON point (gate) to concourse centerline
+        if ((pointsJSON[point].concourse === concourses[concourse].name))
+        {
+          var bool = E_horizontal.includes(pointsJSON[point].name.substring(2,5));
+          var bool2 = E_horizontal.includes(pointsJSON[point].name);
+            console.log(pointsJSON);
+          if (!bool && !bool2){
             var gate = pointsJSON[point];
             var center = {};
             // Longitude of new point is the centerline longitude of current concourse
@@ -87,7 +119,6 @@ for (var concourse in concourses) {
             center.concourse = gate.concourse;
             // Add new point to JSON points list
             pointsJSON.push(center);
-
             var cen_name = center.name;
             var gat_name = gate.name;
             var cen = {};
@@ -98,9 +129,12 @@ for (var concourse in concourses) {
             g.addVertex(gate.name, cen);
             g.addVertex(center.name, gat);
         }
+      }
+
     }
 }
-/////////////////////////////////////////////////////////////////
+
+console.log(pointsJSON.length);
 
 
 //////// CONNECTS CENTER LINE POINTS TO EACH OTHER IN THE NETWORK
