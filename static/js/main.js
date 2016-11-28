@@ -183,6 +183,7 @@ for (var concourse in concourses){
 
 ////// GET ROUTE FOR TRIP //////////////////////////////////////
 // Hard coded origin and destination for testing (temporary)
+
 var origin = 'C10';
 var destination = 'C36';
 
