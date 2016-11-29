@@ -198,13 +198,24 @@ destination = 'C3'
 shor_test_path = g.shortest_path(origin,destination);
 shor_test_path.append(origin);
 
+# route that returns the shortest_path array
 @app.route('/shortest_path')
 def shortest_Path():
     return jsonify(shor_test_path);
 
+#route that returns all the points in the airport
 @app.route('/all_points')
 def all_points():
     return jsonify(pointsJSON);
+
+#route that returns points that are searched by names
+@app.route('/search')
+def search():
+    search_points = []
+    for i in range(0,len(pointsJSON)):
+        if pointsJSON[i]['name'] == 'Starbucks' and pointsJSON[i]['poi_type'] != "center":
+            search_points.append(pointsJSON[i])
+    return jsonify(search_points)
 
 print g
 print len(pointsJSON)
