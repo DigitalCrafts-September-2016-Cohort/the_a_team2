@@ -1,29 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="airport_connect">
 
 <head>
-    <title>Project 2 Testing</title>
+    <title>Airport Connect</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <!-- <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js"></script>
-    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.css" rel="stylesheet" /> -->
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
-
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
+    <script src="static/js/angular-leaflet-directive.min.js"></script>
     <script src="https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js"></script>
-    <link href="https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css" rel="stylesheet"/>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
     <script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css" />
+    <link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="static/css/style.css">
+
 </head>
 
 <body>
-    <div id="map"></div>
-    <script src="static/js/points.js"></script>
-    <script src="static/js/graph.js"></script>
-    <script src="static/js/main.js"></script>
+    <!-- <div id="map"></div> -->
+    <div ng-controller="MapDivController">
+        <leaflet id="map" lf-center="center" defaults="defaults" width="100%" height="480px"></leaflet>
+    </div>
+
+
+    <script src="static/js/airport.js"></script>
 </body>
 
 </html>
