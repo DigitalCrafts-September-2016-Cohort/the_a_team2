@@ -1,5 +1,13 @@
 import heapq
 import sys
+import json
+
+with open('points.json') as json_file:
+    pointsJSON = json.load(json_file)
+
+def add2way_vertex(origin,destination,distance):
+    g.add_vertex(origin,{destination:distance})
+    g.add_vertex(destination,{origin:distance})
 
 class Graph:
 
@@ -57,108 +65,12 @@ class Graph:
 if __name__ == '__main__':
    g = Graph()
 
-
-pointsJSON = [
-
-	{
-		"longitude": "-84.439033",
-		"latitude": "33.6375916",
-		"name": "A1",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"longitude": "-84.4390335",
-		"latitude": "33.6379332",
-		"name": "A3",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"longitude": "-84.4393355",
-		"latitude": "33.637749",
-		"name": "A2",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"longitude": "-84.4393433",
-		"latitude": "33.6382532",
-		"name": "A4",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"longitude": "-84.4390341",
-		"latitude": "33.6382586",
-		"name": "A5",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"longitude": "-84.4393492",
-		"latitude": "33.6386307",
-		"name": "A6",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-    {
-		"longitude": "-84.4259055",
-		"latitude": "33.6402222",
-		"name": "E12",
-		"poi_type": "gate",
-		"concourse": "E"
-	},
-	{
-		"longitude": "-84.424755",
-		"latitude": "33.6409796",
-		"name": "E14",
-		"poi_type": "gate",
-		"concourse": "E"
-	},
-	{
-		"longitude": "-84.4241395",
-		"latitude": "33.6405127",
-		"name": "E15",
-		"poi_type": "gate",
-		"concourse": "E"
-	},
-	{
-		"longitude": "-84.4236256",
-		"latitude": "33.6407834",
-		"name": "E16",
-		"poi_type": "gate",
-		"concourse": "E"
-	},
-	{
-		"longitude": "-84.4235044",
-		"latitude": "33.6405127",
-		"name": "E17",
-		"poi_type": "gate",
-		"concourse": "E"
-	},
-	{
-		"longitude": "-84.4232146",
-		"latitude": "33.640801",
-		"name": "E18",
-		"poi_type": "gate",
-		"concourse": "E"
-	},
-	{
-		"longitude": "-84.42593",
-		"latitude": "33.6414548",
-		"name": "E26",
-		"poi_type": "gate",
-		"concourse": "E"
-	}
-    ]
-
 concourses = [{'name':'A', 'longitude':'-84.439175'},
-            #   {'name':'B', 'longitude':'-84.435897'},
-            #   {'name':'C', 'longitude':'-84.432600'},
-            #   {'name':'D', 'longitude':'-84.429307'},
-              {'name':'E', 'longitude':'-84.425720'}
-            #   {'name':'F', 'longitude':'-84.419815'}
+              {'name':'B', 'longitude':'-84.435897'},
+              {'name':'C', 'longitude':'-84.432600'},
+              {'name':'D', 'longitude':'-84.429307'},
+              {'name':'E', 'longitude':'-84.425720'},
+              {'name':'F', 'longitude':'-84.419815'}
 ]
 
 
@@ -178,11 +90,11 @@ for epoint in E_horizontal:
 
               cen_h = {}
               gat_h = {}
-              cen_h[centerh['name']] = 45
-              gat_h[pointsJSON[i]['name']] = 45
-              g.add_vertex(pointsJSON[i]['name'], cen_h)
-              g.add_vertex(centerh['name'], gat_h);
-
+            #   cen_h[centerh['name']] = 45
+            #   gat_h[pointsJSON[i]['name']] = 45
+            #   g.add_vertex(pointsJSON[i]['name'], cen_h)
+            #   g.add_vertex(centerh['name'], gat_h);
+              add2way_vertex(centerh['name'],pointsJSON[i]['name'],45)
 
 json_len = len(pointsJSON)
 for concourse in concourses:
@@ -192,8 +104,6 @@ for concourse in concourses:
 
         # // Only look at points (gates) in the current concourse
             # // Create new JSON point that connects JSON point (gate) to concourse centerline
-
-
 
         if pointsJSON[i]['concourse'] == concourse['name']:
           bool1 = pointsJSON[i]['name'][1:] in E_horizontal
@@ -213,15 +123,14 @@ for concourse in concourses:
             pointsJSON.append(center)
             cen_name = center['name']
             gat_name = gate['name']
-            cen = {}
-            gat = {}
-            cen[cen_name] =  46 #46 ft is half the approximate width of a concourse
-            gat[gat_name] = 46
-            # // Add vetices for new point (one in each direction)
-            g.add_vertex(gate['name'], cen)
-            g.add_vertex(center['name'], gat)
-print g
-
+            # cen = {}
+            # gat = {}
+            # cen[cen_name] =  46 #46 ft is half the approximate width of a concourse
+            # gat[gat_name] = 46
+            # # // Add vetices for new point (one in each direction)
+            # g.add_vertex(gate['name'], cen)
+            # g.add_vertex(center['name'], gat)
+            add2way_vertex(gate['name'],center['name'],46)
 # connect the center line points
 json_len = len(pointsJSON)
 for concourse in concourses:
@@ -252,9 +161,30 @@ for concourse in concourses:
         #// Getting latitude distance between points and converting to distance for edge definition
         dist = (float(midpoint_arr[i+1]['latitude']) - float(midpoint_arr[i]['latitude'])) * 363917.7912
         #// Setting edge for point i and point i+1
-        first[midpoint_arr[i]['name']] = dist
-        second[midpoint_arr[i+1]['name']] = dist
-        #// Adding vertices with edges from above
-        g.add_vertex(midpoint_arr[i]['name'],second)
-        g.add_vertex(midpoint_arr[i+1]['name'],first)
+        # first[midpoint_arr[i]['name']] = dist
+        # second[midpoint_arr[i+1]['name']] = dist
+        # #// Adding vertices with edges from above
+        # g.add_vertex(midpoint_arr[i]['name'],second)
+        # g.add_vertex(midpoint_arr[i+1]['name'],first)
+        add2way_vertex(midpoint_arr[i]['name'],midpoint_arr[i+1]['name'],dist)
+
+add2way_vertex('TR','AL',300)
+add2way_vertex('AR','BL',300)
+add2way_vertex('BR','CL',300)
+add2way_vertex('CR','DL',300)
+add2way_vertex('DR','ES',300)
+g.add_vertex('TR',{'AR':300})
+g.add_vertex('AR',{'BR':300})
+g.add_vertex('BR',{'CR':300})
+g.add_vertex('CR',{'DR':300})
+g.add_vertex('DR',{'ES':300})
+g.add_vertex('ES',{'DL':300})
+g.add_vertex('DL',{'CL':300})
+g.add_vertex('CL',{'BL':300})
+g.add_vertex('BL',{'AL':300})
+# g.add_vertex('AL',{'TL':300})
+
 print g
+print len(pointsJSON)
+print "The shortest Path"
+print(g.shortest_path('C3','A32'))
