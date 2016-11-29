@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Airport Connect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="static/css/style.css">
+
+    <script src="static/js/angular.js"></script>
+    <script src="static/js/angular-ui-router.js"></script>
+    <script src="static/js/angular-leaflet-directive.min.js"></script>
+    <script src="static/js/airport.js"></script>
+
+    <!-- <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js"></script>
+    <script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script> -->
+
+    <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css"> -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> -->
+    <!-- <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css" />
+    <link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"> -->
+</head>
+
+<body ng-app="airport_connect" ng-controller="NavController"> 
+    <div class="search-box">
+        <input class="search-input" ng-model="query" type="text" name="search" placeholder="search">
+    </div>
+    <ui-view></ui-view>
+    <!-- <leaflet ng-controller="MapDivController" id="map" lf-center="center" defaults="defaults" controls="controls" width="100%"></leaflet> -->
+
+</body>
+
+</html>

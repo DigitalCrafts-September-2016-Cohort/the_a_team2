@@ -1,15 +1,14 @@
 from flask import Flask, render_template, redirect, request, session, flash, jsonify
-from dotenv import load_dotenv, find_dotenv
+# from dotenv import load_dotenv, find_dotenv
 import heapq
 import os
 import sys
 import json
 
 
-load_dotenv(find_dotenv())
-tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
-app = Flask('Connect',template_folder=tmp_dir)
-
+# load_dotenv(find_dotenv())
+# tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+app = Flask('Connect', static_url_path='')
 
 with open('points.json') as json_file:
     pointsJSON = json.load(json_file)
@@ -73,6 +72,7 @@ class Graph:
 
 if __name__ == '__main__':
    g = Graph()
+   app.run(debug=True)
 
 concourses = [{'name':'A', 'longitude':'-84.439175'},
               {'name':'B', 'longitude':'-84.435897'},
@@ -96,9 +96,8 @@ for epoint in E_horizontal:
               centerh['poi_type'] = "hcenter"
               centerh['concourse'] = "E"
               pointsJSON.append(centerh)
-
-              cen_h = {}
-              gat_h = {}
+            #   cen_h = {}
+            #   gat_h = {}
             #   cen_h[centerh['name']] = 45
             #   gat_h[pointsJSON[i]['name']] = 45
             #   g.add_vertex(pointsJSON[i]['name'], cen_h)
@@ -113,7 +112,6 @@ for concourse in concourses:
 
         # // Only look at points (gates) in the current concourse
             # // Create new JSON point that connects JSON point (gate) to concourse centerline
-
         if pointsJSON[i]['concourse'] == concourse['name']:
           bool1 = pointsJSON[i]['name'][1:] in E_horizontal
           bool2 = pointsJSON[i]['name'] in E_horizontal
@@ -198,6 +196,10 @@ destination = 'C3'
 shor_test_path = g.shortest_path(origin,destination);
 shor_test_path.append(origin);
 
+@app.route('/')
+def home():
+    return app.send_static_file('index.html')
+
 # route that returns the shortest_path array
 @app.route('/shortest_path')
 def shortest_Path():
@@ -217,10 +219,7 @@ def search():
             search_points.append(pointsJSON[i])
     return jsonify(search_points)
 
-print g
-print len(pointsJSON)
-print "The shortest Path"
-print shor_test_path
-
-
-app.run(debug=True)
+# print g
+# print len(pointsJSON)
+# print "The shortest Path"
+# print shor_test_path
