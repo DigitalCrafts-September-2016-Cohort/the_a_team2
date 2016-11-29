@@ -1505,53 +1505,11 @@
 		"concourse": "T"
 	},
 	{
-		"longitude": "-84.4358622",
-		"latitude": "33.6406772",
-		"name": "Concourse B",
-		"poi_type": "concourse",
-		"concourse": "B"
-	},
-	{
-		"longitude": "-84.4293135",
-		"latitude": "33.6409069",
-		"name": "Concourse D",
-		"poi_type": "concourse",
-		"concourse": "D"
-	},
-	{
-		"longitude": "-84.4188157",
-		"latitude": "33.6403618",
-		"name": "Concourse F",
-		"poi_type": "concourse",
-		"concourse": "F"
-	},
-	{
 		"longitude": "-84.4439128",
 		"latitude": "33.6408294",
 		"name": "Baggage Claim",
 		"poi_type": "concourse",
 		"concourse": "T"
-	},
-	{
-		"longitude": "-84.4255319",
-		"latitude": "33.640638",
-		"name": "Concourse E",
-		"poi_type": "concourse",
-		"concourse": "E"
-	},
-	{
-		"longitude": "-84.4326106",
-		"latitude": "33.6409154",
-		"name": "Concourse C",
-		"poi_type": "concourse",
-		"concourse": "C"
-	},
-	{
-		"longitude": "-84.4391392",
-		"latitude": "33.640921",
-		"name": "Concourse A",
-		"poi_type": "concourse",
-		"concourse": "A"
 	},
 	{
 		"longitude": "-84.4424199",

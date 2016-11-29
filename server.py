@@ -184,7 +184,11 @@ g.add_vertex('CL',{'BL':300})
 g.add_vertex('BL',{'AL':300})
 # g.add_vertex('AL',{'TL':300})
 
+origin = 'A32'
+destination = 'C3'
+shortest_path = g.shortest_path(origin,destination);
+shortest_path.append(origin);
 print g
 print len(pointsJSON)
 print "The shortest Path"
-print(g.shortest_path('C3','A32'))
+print shortest_path
