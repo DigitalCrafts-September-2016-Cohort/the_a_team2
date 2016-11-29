@@ -33,6 +33,8 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     $scope.search = function() {
         AirportConnect.getSearchResults($scope.query).success(function(searchResults) {
             $scope.results = searchResults;
+        }).error(function(){
+            console.log('no search results');
         });
     };
 
@@ -66,7 +68,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     $scope.startRoute = function (point) {
         //sets time footer ng-if boolean to true & hides search bar ng-if
         $scope.navigating = true;
-
+        var tolerance = 0.000137;
         leafletData.getMap('map').then(function(map) {
             map.locate({
                 watch: true,
@@ -79,32 +81,68 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 console.log(e.latlng, e.accuracy);
                 $scope.origin.lat = e.latlng.lat;
                 $scope.origin.lng = e.latlng.lng;
+
+                if ($scope.point_route_check) {
+                    if ($scope.point_route_check.length === 1){
+                        if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
+                            console.log("You have arrived!");
+                            console.log("End of route check");
+                        }
+                    }else if ($scope.point_route_check.length > 1){
+                    $scope.current_point = $scope.point_route_check[0];
+                    $scope.next_point = $scope.point_route[1];
+                    if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
+                        $scope.point_route_check.splice(0,1);
+                        console.log($scope.point_route_check);
+                    }
+
+                }
+                } else {
+
+                }
+
+
             });
         });
+
         $scope.destination = point;
         AirportConnect.getRoute($scope.origin, $scope.destination).success(function(routeResult) {
             $scope.point_route = routeResult.points;
             $scope.instructions = routeResult.instructions;
-
-            var i=0;
-            while (i < points.length) {
-                if (i < checkStep(i, points, lat, long)){
-                    i++;
-                }
-            }
-
-
-
-            function checkStep(i, points, lat, lng){
-                if (points[i].lat - lat < .5 && points[i].lng <.5){
-
-                }
-            }
-
-
-
-
+            $scope.point_route_check = routeResult.points;
         });
+
+
+        // function checkStep(i, points, lat, long){
+        //     if ()){
+        //         i++;
+        //     } else {
+        //         setTimeout(checkStep, 1000)
+        //         i++;
+        //     }
+        // }
+        //
+        // function whichStep(){
+        //     if (i, ){
+        //
+        //     } else {}
+        //         whichStep();
+        // }
+        //
+        // var i=0;
+        // while (i < points.length) {
+        //     i = whichStep();
+        // }
+
+
+
+
+
+        function checkStep(i, points, lat, lng){
+            if (((points[i].lat - lat) < 0.5) && ((points[i].lat - lat) < 0.5)){
+
+            }
+        }
     };
 });
 

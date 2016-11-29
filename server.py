@@ -240,6 +240,6 @@ def search():
                     temp_point = pointsJSON[i]
                     temp_point['dist_from_origin'] = dist_sum
                     search_points.append(temp_point)
-        print search_points             
+        print search_points
         return jsonify(search_points)
 app.run(debug=True)
