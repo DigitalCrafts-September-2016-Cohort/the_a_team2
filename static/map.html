@@ -1,8 +1,10 @@
 
-<div class="search-box">
+<div ng-show = "!navigating" class="search-box">
     <input class="search-input" ng-change= "search()" ng-model="query" type="text" name="search" placeholder="search">
 </div>
-<div class="search-results">
+
+<!-- Hides search results upon click of "Go" -->
+<div ng-hide = "navigating" class="search-results">
     <!-- <li ng-repeat="result in results">{{result.name}}
     </li> -->
     <div class="search-result" ng-repeat="result in results">
@@ -24,14 +26,23 @@
         <div class="time">
             <p>({{result.time}})</p>
         </div>
-        <div class="go">
+        <div class="go" ng-click="startRoute(result)">
             <p>GO</p>
         </div>
     </div>
 </div>
-
+<!-- //Hidden header for displaying step by step directions -->
+<div ng-show="navigating" class="directions_container">
+    <h1>{{step_by_step}}</h1>
+</div>
+<!-- <button type="button" name="button" ng-click="getLocation()">Console Log Location</button> -->
 <div class="map_container">
 <leaflet id="map" lf-center="center" defaults="defaults" controls="controls" width="100%"></leaflet>
+</div>
+
+<!-- //Hidden footer for displaying time until destination -->
+<div ng-show = "navigating" class="footer">
+    <h1>{{time_left}} min</h1>
 </div>
 
 <script type="text/javascript">

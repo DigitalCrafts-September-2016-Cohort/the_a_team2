@@ -12,6 +12,7 @@ body {
 .map_container {
     /*border: 4px solid orange;*/
     height: 600px;
+    height: 400px;
     width: 100%;
     z-index: -1;
 }
