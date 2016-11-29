@@ -5,18 +5,86 @@ body {
 
 #map {
     /*position: absolute;;*/
-
     width: 100%;
     height: 100%;
 }
 
-.map_container{
-  height: 400px;
-  width: 100%;
+.map_container {
+    border: 4px solid orange;
+    height: 400px;
+    width: 100%;
+    z-index: -1;
+}
+
+.search-input {
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
 
 }
 
-.search-input{
-  width: 100%;
-  text-align: center;
+.search-results {
+    border: 4px solid red;
+    background: white;
+    position: absolute;
+    left: 0;
+    z-index: 4000;
+    width: 100%;
+}
+
+.search-result {
+    border: 4px solid green;
+    display: flex;
+}
+
+.icon {
+    border: 4px solid blue;
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon i {
+    font-size: 1.5em;
+}
+
+.result {
+    border: 4px solid purple;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    /*justify-content: vertical;*/
+    align-items: flex-start;
+}
+
+.result p {
+    border: 4px solid pink;
+    margin: 0;
+}
+
+.result-name {
+    font-size: 2em;
+}
+
+.result-concourse {
+    font-size: 1.5em;
+}
+
+.time {
+    border: 4px solid yellow;
+    font-size: 1.5em;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.go {
+    border: 4px solid orange;
+    font-size: 1.5em;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

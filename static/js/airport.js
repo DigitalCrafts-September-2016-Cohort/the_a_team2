@@ -2,18 +2,6 @@
 var app = angular.module('airport_connect', ['ui.router', 'leaflet-directive']);
 var domain = 'http://localhost:5000/';
 
-app.config(function($stateProvider, $urlRouterProvider) {
-    $stateProvider
-        .state({
-            name: 'home',
-            url: '/home',
-            templateUrl: 'map.html',
-            controller: 'NavController'
-        });
-    $urlRouterProvider.otherwise('/home');
-});
-
-
 app.factory('AirportConnect', function($http) {
     var service = {};
     service.getSearchResults = function(query) {
@@ -28,6 +16,7 @@ app.factory('AirportConnect', function($http) {
     };
     return service;
 });
+
 
 app.controller('NavController', function($scope, $state, AirportConnect) {
   $scope.search = function(){
@@ -56,4 +45,16 @@ app.controller('NavController', function($scope, $state, AirportConnect) {
           ]
       }
   });
+});
+
+
+app.config(function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state({
+            name: 'home',
+            url: '/home',
+            templateUrl: 'map.html',
+            controller: 'NavController'
+        });
+    $urlRouterProvider.otherwise('/home');
 });

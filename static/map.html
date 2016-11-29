@@ -2,11 +2,47 @@
 <div class="search-box">
     <input class="search-input" ng-change= "search()" ng-model="query" type="text" name="search" placeholder="search">
 </div>
-  <div class="search-results">
-    <li ng-repeat="result in results">{{result.name}}
-</li>
-  </div>
+<div class="search-results">
+    <!-- <li ng-repeat="result in results">{{result.name}}
+    </li> -->
+    <div class="search-result" ng-repeat="result in results">
+        <!-- <div class="icon" ng-switch="result.type">
+            <i ng-switch-when="restaurant" class="fa fa-cutlery" aria-hidden="true"></i>
+            <i ng-switch-when="gate" class="fa fa-plane" aria-hidden="true"></i>
+            <i ng-switch-when="restroom" class="fa fa-male" aria-hidden="true"></i>
+            <i ng-switch-when="retail" class="fa fa-shopping-bag" aria-hidden="true"></i>
+            <i ng-switch-when="train" class="fa fa-subway" aria-hidden="true"></i>
+            <i ng-switch-when="baggage-claim" class="fa fa-suitcase" aria-hidden="true"></i>
+        </div> -->
+        <div class="icon">
+            <i class="fa fa-cutlery" aria-hidden="true"></i>
+        </div>
+        <div class="result">
+            <p class="result-name">{{result.name}}</p>
+            <p class="result-concourse">{{result.concourse}}</p>
+        </div>
+        <div class="time">
+            <p>({{result.time}})</p>
+        </div>
+        <div class="go">
+            <p>GO</p>
+        </div>
+    </div>
+</div>
 
 <div class="map_container">
 <leaflet id="map" lf-center="center" defaults="defaults" controls="controls" width="100%"></leaflet>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function (){
+        var searchheight = 0;
+        searchheight = $('.search-box').height();
+        $(".search-results").css('top', searchheight);
+    });
+    $(window).resize(function (){
+        var searchheight = 0;
+        searchheight = $('.search-box').height();
+        $(".search-results").css('top', searchheight);
+    });
+</script>
