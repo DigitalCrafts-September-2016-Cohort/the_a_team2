@@ -70,9 +70,9 @@ class Graph:
    def __str__(self):
        return str(self.vertices)
 
-if __name__ == '__main__':
-   g = Graph()
-   app.run(debug=True)
+# if __name__ == '__main__':
+g = Graph()
+
 
 concourses = [{'name':'A', 'longitude':'-84.439175'},
               {'name':'B', 'longitude':'-84.435897'},
@@ -213,9 +213,12 @@ def all_points():
 #route that returns points that are searched by names
 @app.route('/search')
 def search():
+    search = request.args.get('query').lower()
+    print search
     search_points = []
     for i in range(0,len(pointsJSON)):
-        if pointsJSON[i]['name'] == 'Starbucks' and pointsJSON[i]['poi_type'] != "center":
+        if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] != "center":
+            print "Inside if block"
             search_points.append(pointsJSON[i])
     return jsonify(search_points)
 
@@ -223,3 +226,5 @@ def search():
 # print len(pointsJSON)
 # print "The shortest Path"
 # print shor_test_path
+
+app.run(debug=True)

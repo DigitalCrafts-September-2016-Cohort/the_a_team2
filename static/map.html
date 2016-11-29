@@ -1,2 +1,12 @@
-<h1>map</h1>
-<h2>{{test}}</h2>
+
+<div class="search-box">
+    <input class="search-input" ng-change= "search()" ng-model="query" type="text" name="search" placeholder="search">
+</div>
+  <div class="search-results">
+    <li ng-repeat="result in results">{{result.name}}
+</li>
+  </div>
+
+<div class="map_container">
+<leaflet id="map" lf-center="center" defaults="defaults" controls="controls" width="100%"></leaflet>
+</div>
