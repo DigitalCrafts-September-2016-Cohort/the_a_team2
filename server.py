@@ -1,6 +1,15 @@
+from flask import Flask, render_template, redirect, request, session, flash, jsonify
+from dotenv import load_dotenv, find_dotenv
 import heapq
+import os
 import sys
 import json
+
+
+load_dotenv(find_dotenv())
+tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+app = Flask('Connect',template_folder=tmp_dir)
+
 
 with open('points.json') as json_file:
     pointsJSON = json.load(json_file)
@@ -83,8 +92,8 @@ for epoint in E_horizontal:
               centerh = {}
               centerh['longitude'] = gate['longitude']
               centerh['latitude'] = "33.640631"
-              centerh['name'] = "H" + epoint
-              centerh['poi_type'] = "ehcenter"
+              centerh['name'] = epoint
+              centerh['poi_type'] = "hcenter"
               centerh['concourse'] = "E"
               pointsJSON.append(centerh)
 
@@ -116,7 +125,7 @@ for concourse in concourses:
             # // Latitude of new point is the same as the gate that we are connecting to concourse centerline
             center['latitude'] = gate['latitude']
             # // Name of new point is the same as the gate name but with a double letter for the concourse (ex: gate A1 connects to concourse centerline at point AA1)
-            center['name'] = concourse['name'] + gate['name']
+            center['name'] = gate['name']
             center['poi_type'] = 'center'
             center['concourse'] = gate['concourse']
             # // Add new point to JSON points list
@@ -186,9 +195,21 @@ g.add_vertex('BL',{'AL':300})
 
 origin = 'A32'
 destination = 'C3'
-shortest_path = g.shortest_path(origin,destination);
-shortest_path.append(origin);
+shor_test_path = g.shortest_path(origin,destination);
+shor_test_path.append(origin);
+
+@app.route('/shortest_path')
+def shortest_Path():
+    return jsonify(shor_test_path);
+
+@app.route('/all_points')
+def all_points():
+    return jsonify(pointsJSON);
+
 print g
 print len(pointsJSON)
 print "The shortest Path"
-print shortest_path
+print shor_test_path
+
+
+app.run(debug=True)
