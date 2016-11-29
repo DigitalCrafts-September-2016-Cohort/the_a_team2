@@ -10,7 +10,7 @@ body {
 }
 
 .map_container {
-    border: 4px solid orange;
+    /*border: 4px solid orange;*/
     height: 400px;
     width: 100%;
     z-index: -1;
@@ -23,7 +23,7 @@ body {
 }
 
 .search-results {
-    border: 4px solid red;
+    /*border: 4px solid red;*/
     background: white;
     font-family: 'Hind', sans-serif;
     position: absolute;
@@ -33,12 +33,12 @@ body {
 }
 
 .search-result {
-    border: 4px solid green;
+    /*border: 4px solid green;*/
     display: flex;
 }
 
 .icon {
-    border: 4px solid blue;
+    /*border: 4px solid blue;*/
     color: blue;
     width: 10%;
     display: flex;
@@ -51,7 +51,7 @@ body {
 }
 
 .result {
-    border: 4px solid purple;
+    /*border: 4px solid purple;*/
     width: 50%;
     padding-left: 2%;
     display: flex;
