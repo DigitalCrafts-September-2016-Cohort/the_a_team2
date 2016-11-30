@@ -44,7 +44,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         defaults: {
             maxZoom: 20,
             zoomControl: false,
-            tileLayer: 'https://api.mapbox.com/styles/v1/jesslyn-landgren/civzjfle8002l2kr3xkakr5ls/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ',
+            tileLayer: 'https://api.mapbox.com/styles/v1/jesslyn-landgren/ciw4wyf68000c2jp64u1j4xzh/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ',
             tileLayerOptions: {maxZoom:20}
         },
         controls: {
@@ -103,7 +103,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             };
             L.geoJSON($scope.geoJSON, {
                 style: function(feature) {
-                    // return {color: 'rgb(94, 173, 117)'}
+                    return {color: 'rgb(94, 173, 117)'}
                     switch (feature.properties.poi_type) {
                         case 'station':   return {color: '#ffa100'};
                         case 'center':   return {color: "#0000ff"};
@@ -117,17 +117,16 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                         case 'restaurant':   return {color: "#0000ff"};
                     }
                 },
-                pointToLayer: function (feature, latlng) {
-                    return L.circleMarker(latlng, pointMarkerStyle);
-                },
-                onEachFeature: function(feature, layer){
-                    var label = L.marker(feature, {
-                      icon: L.divIcon({
+                pointToLayer: function (feature, latlng){
+                    myIcon = L.divIcon({
                         className: 'label',
                         html: feature.properties.name,
                         iconSize: [100, 40]
-                        })
                     });
+                    return L.marker(latlng, {icon: myIcon});
+                },
+                onEachFeature: function(feature, layer){
+                    return L.circleMarker([feature.coordinates], pointMarkerStyle);
                 }
             }).addTo(map);
         });
@@ -205,10 +204,37 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
         $scope.destination = point;
         AirportConnect.getRoute($scope.origin, $scope.destination).success(function(routeResult) {
-            $scope.point_route = routeResult.points;
+            $scope.route_points = routeResult.points;
             $scope.instructions = routeResult.instructions;
             $scope.point_route_check = routeResult.points;
+
+            var points = [];
+            for (var point in $scope.route_points) {
+                var geoJSON = {
+                    "type": "Feature",
+                        "properties": {
+                            "concourse": all_points[point].concourse,
+                            "name": all_points[point].name,
+                            "type": all_points[point].poi_type
+                        }, "geometry":{
+                            "type": "Point",
+                            "coordinates": [all_points[point].longitude, all_points[point].latitude]
+                        }
+                };
+                // console.log(all_points[point].poi_type);
+                $scope.geoJSON.push(geoJSON);
+            }
+            $scope.drawAllPoints();
         });
+
+        // Draws Route Path
+        $scope.drawRoute = function(){
+            leafletData.getMap('map').then(function(map) {
+                L.geoJSON($scope.geoJSON, {
+
+                }).addTo(map);
+            });
+        };
     };
 });
 

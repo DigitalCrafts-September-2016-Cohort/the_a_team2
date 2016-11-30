@@ -134,3 +134,7 @@ input:focus{
     width: 100%;
     background-color: #fff;
 }
+
+.label {
+    text-align: center;
+}
