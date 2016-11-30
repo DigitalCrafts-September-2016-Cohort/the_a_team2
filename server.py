@@ -213,7 +213,7 @@ g.add_vertex('287',{'285':terminal_distance})
 g.add_vertex('290',{'292':terminal_distance})
 g.add_vertex('288',{'290':terminal_distance})
 g.add_vertex('286',{'288':terminal_distance})
-
+g.add_vertex('292',{'294':terminal_distance})
 
 # origin = 'A32'
 # destination = 'C3'
