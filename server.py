@@ -6,21 +6,12 @@ import sys
 import json
 import csv
 
-# load_dotenv(find_dotenv())
-# tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
-app = Flask('Connect', static_url_path='')
 
-# csvfile = open('points.csv', 'r')
-# jsonfile = open('points.json', 'w')
-#
-# fieldnames = ('id','name','latitude','longitude','poi_type','concourse')
-# reader = csv.DictReader( csvfile, fieldnames)
-# for row in reader:
-#     json.dump(row, jsonfile)
-#     jsonfile.write('\n')
+app = Flask('Connect', static_url_path='')
 
 with open('points.json') as json_file:
     pointsJSON = json.load(json_file)
+
 
 def add2way_vertex(origin,destination,distance):
     g.add_vertex(str(origin),{str(destination):distance})
@@ -101,22 +92,15 @@ point_id = 2000
 for epoint in E_horizontal:
     for i in range(0,json_len):
         if epoint == pointsJSON[i]['name']:
-            # gate = pointsJSON[i]
-            # centerh = {}
-            # centerh['longitude'] = gate['longitude']
-            # centerh['latitude'] = "33.640631"
-            # centerh['name'] = epoint
-            # centerh['poi_type'] = "hcenter"
-            # centerh['concourse'] = "E"
-            # centerh['id'] = str(point_id)
-            # pointsJSON.append(centerh)
-
-            #   cen_h = {}
-            #   gat_h = {}
-            #   cen_h[centerh['name']] = 45
-            #   gat_h[pointsJSON[i]['name']] = 45
-            #   g.add_vertex(pointsJSON[i]['name'], cen_h)
-            #   g.add_vertex(centerh['name'], gat_h);
+            gate = pointsJSON[i]
+            centerh = {}
+            centerh['longitude'] = gate['longitude']
+            centerh['latitude'] = "33.640631"
+            centerh['name'] = epoint
+            centerh['poi_type'] = "hcenter"
+            centerh['concourse'] = "E"
+            centerh['id'] = str(point_id)
+            pointsJSON.append(centerh)
             add2way_vertex(str(point_id),pointsJSON[i]['id'],45)
         point_id += 1
 json_len = len(pointsJSON)
@@ -133,21 +117,21 @@ for concourse in concourses:
             bool1 = pointsJSON[i]['name'][1:] in E_horizontal
             bool2 = pointsJSON[i]['name'] in E_horizontal
             if (not bool1 and not bool2):
-            #     gate = pointsJSON[i]
-            #     center = {}
-            # # // Longitude of new point is the centerline longitude of current concourse
-            #     center['longitude'] = concourse['longitude']
-            # # // Latitude of new point is the same as the gate that we are connecting to concourse centerline
-            #     center['latitude'] = gate['latitude']
-            # # // Name of new point is the same as the gate name but with a double letter for the concourse (ex: gate A1 connects to concourse centerline at point AA1)
-            #     center['name'] = concourse['name']+gate['name']
-            #     center['poi_type'] = 'center'
-            #     center['concourse'] = gate['concourse']
-            #     center['id'] = str(point_id)
-            # # // Add new point to JSON points list
-            #     pointsJSON.append(center)
-            #     # cen_name = center['name']
-            #     # gat_name = gate['name']
+                gate = pointsJSON[i]
+                center = {}
+            # // Longitude of new point is the centerline longitude of current concourse
+                center['longitude'] = concourse['longitude']
+            # // Latitude of new point is the same as the gate that we are connecting to concourse centerline
+                center['latitude'] = gate['latitude']
+            # // Name of new point is the same as the gate name but with a double letter for the concourse (ex: gate A1 connects to concourse centerline at point AA1)
+                center['name'] = concourse['name']+ gate['name']
+                center['poi_type'] = 'center'
+                center['concourse'] = gate['concourse']
+                center['id'] = str(point_id)
+            # // Add new point to JSON points list
+                pointsJSON.append(center)
+                # cen_name = center['name']
+                # gat_name = gate['name']
             # cen = {}
             # gat = {}
             # cen[cen_name] =  46 #46 ft is half the approximate width of a concourse
@@ -155,7 +139,7 @@ for concourse in concourses:
             # # // Add vetices for new point (one in each direction)
             # g.add_vertex(gate['name'], cen)
             # g.add_vertex(center['name'], gat)
-                add2way_vertex(pointsJSON[i]['id'],str(point_id),46)
+            add2way_vertex(pointsJSON[i]['id'],str(point_id),46)
         point_id += 1
 # connect the center line points
 
@@ -211,9 +195,11 @@ g.add_vertex('291',{'289':terminal_distance})
 g.add_vertex('289',{'287':terminal_distance})
 g.add_vertex('287',{'285':terminal_distance})
 g.add_vertex('290',{'292':terminal_distance})
-g.add_vertex('288',{'290':terminal_distance})
 g.add_vertex('286',{'288':terminal_distance})
 g.add_vertex('292',{'294':terminal_distance})
+g.add_vertex('288',{'290':terminal_distance})
+g.add_vertex('285',{})
+# add2way_vertex('285','287',terminal_distance)
 
 # origin = 'A32'
 # destination = 'C3'
@@ -232,45 +218,45 @@ s_path_dict = {}
 @app.route('/shortest_path')
 def shortest_Path():
     origin = '17'
-    destination = '288'
+    destination = '120'
     route_dict = {}
     instructions = []
     points_only = g.shortest_path(origin,destination)
     points_only.append(origin)
     points_only.reverse()
     points = []
-    print points_only
+    # print points_only
     for i in range(0,len(points_only)):
         for point in pointsJSON:
             if(point['id'] == points_only[i]):
                 points.append({points_only[i]:{"latitude":point['latitude'],"longitude":point['longitude'],"poi_type":point['poi_type']}})
-
-    for i in range(0,len(points)-1):
-        for (key,v),(key1,v1) in zip(points[i].items(),points[i+1].items()):
-            if v['poi_type'] == "gate" or v1['poi_type'] == "gate" or v['poi_type'] == "center" or v1['poi_type'] == "center":
-                if ((float(v['latitude']) == float(v1['latitude'])) and (float(v['longitude']) < float(v1['longitude']))):
-                    instructions.append("Continue Forward East")
-                elif ((float(v['latitude']) == float(v1['latitude'])) and (float(v['longitude']) > float(v1['longitude']))):
-                    instructions.append("Continue Forward West")
-                elif ((float(v['longitude']) == float(v1['longitude'])) and (float(v['latitude']) < float(v1['latitude']))):
-                    instructions.append("Continue Forward North")
-                elif ((float(v['longitude']) == float(v1['longitude'])) and (float(v['latitude']) > float(v1['latitude']))):
-                    instructions.append("Continue Forward South")
-            if v['poi_type'] == "escalator" or v1['poi_type'] == "escalator":
-                if ((float(v['latitude']) == float(v1['latitude'])) and (float(v['longitude']) < float(v1['longitude']))):
-                    instructions.append("Continue Forward East, Go Down the Escalator ")
-                elif ((float(v['latitude']) == float(v1['latitude'])) and (float(v['longitude']) > float(v1['longitude']))):
-                    instructions.append("Continue Forward West, Go Down the Escalator ")
-
-            # if float(v2['latitude']) > float(v1['latitude']) and float(v['latitude']) == float(v1['latitude']) or float(v2['longitude']) > float(v1['longitude']) and float(v['longitude']) == float(v1['longitude']):
-            #     instructions.append("Make Right")
-            # elif float(v2['latitude']) < float(v1['latitude']) and float(v['latitude']) == float(v1['latitude']) or float(v2['longitude']) < float(v1['longitude']) and float(v['longitude']) == float(v1['longitude']):
-            #     instructions.append("Make left")
-            # else:
-            #     instructions.append("Continue Straight")
+    for i in range(0,len(points)-2):
+        v = points[i].values()[0]
+        v1 = points[i+1].values()[0]
+        v2 = points[i+2].values()[0]
+        if v['poi_type'] == "gate" or v1['poi_type'] == "gate" or v['poi_type'] == "center" or v1['poi_type'] == "center":
+            if ((float(v['latitude']) == float(v1['latitude'])) and (float(v['longitude']) < float(v1['longitude']))):
+                instructions.append("Continue Forward East")
+            elif ((float(v['latitude']) == float(v1['latitude'])) and (float(v['longitude']) > float(v1['longitude']))):
+                instructions.append("Continue Forward West")
+            elif ((float(v['longitude']) == float(v1['longitude'])) and (float(v['latitude']) < float(v1['latitude']))):
+                instructions.append("Continue Forward North")
+            elif ((float(v['longitude']) == float(v1['longitude'])) and (float(v['latitude']) > float(v1['latitude']))):
+                instructions.append("Continue Forward South")
+        if v1["poi_type"] == "escalator":
+            if "Go Down Escalator and get on the train" in instructions:
+                if v2["poi_type"] == "escalator":
+                    instructions.append("Stay on the train")
+                else:
+                    instructions.append("Get off the train and go up the Escalator")
+            else:
+                    instructions.append("Go Down Escalator and get on the train")
 
     print "instructions"
-    print instructions
+    for i in instructions:
+        print i
+    for j in points:
+        print j
     return jsonify(points)
 #route that returns all the points in the airport
 @app.route('/all_points')
@@ -329,6 +315,6 @@ def search():
                     temp_point['time'] = time
                     temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
                     search_points.append(temp_point)
-        print search_points
+        # print search_points
         return jsonify(search_points)
 app.run(debug=True)

@@ -283,15 +283,15 @@ id,name,latitude,longitude,poi_type,concourse
 282,Phillips seafood,33.6409365,-84.4291156,restaurant,D
 283,Marta,33.6407121,-84.4462272,station,T
 284,Hawk's Sports Bar,33.6436938,-84.4392094,restaurant,A
-285,TL,33.64082,-84.443284,escalator,T
-286,TR,33.640783,-84.442188,escalator,T
-287,AL,33.640774,-84.439348,escalator,A
-288,AR,33.640822,-84.438979,escalator,A
+285,TL,33.640807,-84.429089,escalator,T
+286,TR,33.640771,-84.429438,escalator,T
+287,AL,33.640765,-84.432846,escalator,A
+288,AR,33.640808,-84.432355,escalator,A
 289,BL,33.640769,-84.436078,escalator,B
 290,BR,33.640822,-84.435694,escalator,B
-291,CL,33.640765,-84.432846,escalator,C
-292,CR,33.640808,-84.432355,escalator,C
-293,DL,33.640771,-84.429438,escalator,D
-294,DR,33.640807,-84.429089,escalator,D
+291,CL,33.640822,-84.438979,escalator,C
+292,CR,33.640774,-84.439348,escalator,C
+293,DL,33.64082,-84.443284,escalator,D
+294,DR,33.640783,-84.442188,escalator,D
 295,ES,33.64077,-84.426633,escalator,E
 296,FS,33.640277,-84.420496,escalator,F
