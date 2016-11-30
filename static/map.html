@@ -1,37 +1,46 @@
 
-<div class="search-box">
-    <input class="search-input" ng-change= "search()" ng-model="query" type="text" name="search" placeholder="search">
+<div ng-show = "!navigating" class="search-box">
+    <input class="search-input" ng-change= "search()" ng-model="query" type="text" name="search" placeholder="Where to? (A30, Starbucks)">
 </div>
-<div class="search-results">
-    <!-- <li ng-repeat="result in results">{{result.name}}
-    </li> -->
-    <div class="search-result" ng-repeat="result in results">
-        <!-- <div class="icon" ng-switch="result.type">
+
+<!-- Hides search results upon click of "Go" -->
+<div ng-hide = "navigating" ng-if="show_results" class="search-results">
+    <div class="search-result" ng-repeat="result in results | orderBy: ['-s_index', '-time']: true | limitTo: 50 track by $index">
+        <div class="icon" ng-switch="result.poi_type">
             <i ng-switch-when="restaurant" class="fa fa-cutlery" aria-hidden="true"></i>
             <i ng-switch-when="gate" class="fa fa-plane" aria-hidden="true"></i>
-            <i ng-switch-when="restroom" class="fa fa-male" aria-hidden="true"></i>
+            <i ng-switch-when="toilet" class="fa fa-male" aria-hidden="true"></i>
             <i ng-switch-when="retail" class="fa fa-shopping-bag" aria-hidden="true"></i>
-            <i ng-switch-when="train" class="fa fa-subway" aria-hidden="true"></i>
+            <i ng-switch-when="station" class="fa fa-subway" aria-hidden="true"></i>
             <i ng-switch-when="baggage-claim" class="fa fa-suitcase" aria-hidden="true"></i>
-        </div> -->
-        <div class="icon">
-            <i class="fa fa-cutlery" aria-hidden="true"></i>
+            <i ng-switch-when="coffee" class="fa fa-coffee" aria-hidden="true"></i>
+            <i ng-switch-when="concourse" class="fa fa-plane" aria-hidden="true"></i>
+            <i ng-switch-when="fast_food" class="fa fa-cutlery" aria-hidden="true"></i>
         </div>
         <div class="result">
             <p class="result-name">{{result.name}}</p>
-            <p class="result-concourse">Concourse: {{result.concourse}}</p>
+            <p class="result-concourse">Concourse {{result.concourse}}</p>
         </div>
         <div class="time">
-            <p>({{result.time}})</p>
+            <p>({{result.time}} min)</p>
         </div>
-        <div class="go">
+        <div class="go" ng-click="startRoute(result)">
             <p>GO</p>
         </div>
     </div>
 </div>
-
-<div class="map_container">
+<!-- //Hidden header for displaying step by step directions -->
+<div ng-show="navigating" class="directions_container">
+    <h1>{{step_by_step}}</h1>
+</div>
+<!-- <button type="button" name="button" ng-click="getLocation()">Console Log Location</button> -->
+<div class="map-container">
 <leaflet id="map" lf-center="center" defaults="defaults" controls="controls" width="100%"></leaflet>
+</div>
+
+<!-- //Hidden footer for displaying time until destination -->
+<div ng-show ="navigating" class="footer">
+    <h1>{{time_left}} min</h1>
 </div>
 
 <script type="text/javascript">
@@ -39,10 +48,14 @@
         var searchheight = 0;
         searchheight = $('.search-box').height();
         $(".search-results").css('top', searchheight);
+        var width = 0;
+        windowWidth = $(window).width();
+        $(".search-results").css('max-width',windowWidth);
     });
     $(window).resize(function (){
         var searchheight = 0;
         searchheight = $('.search-box').height();
         $(".search-results").css('top', searchheight);
     });
+
 </script>
