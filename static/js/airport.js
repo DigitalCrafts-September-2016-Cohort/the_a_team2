@@ -15,7 +15,15 @@ app.factory('AirportConnect', function($http) {
         });
     };
     service.getRoute = function() {
-        var url = '/search/route';
+        var url = '/shortest_path';
+        return $http({
+            method: 'GET',
+            url: url,
+        });
+    };
+
+    service.getAllPoints = function() {
+        var url = '/all_points';
         return $http({
             method: 'GET',
             url: url,
@@ -26,17 +34,36 @@ app.factory('AirportConnect', function($http) {
 
 
 app.controller('NavController', function($scope, $state, AirportConnect, leafletData) {
+    $scope.all_points = [];
     $scope.navigating = false;
     $scope.time_left = 30;
     $scope.step_by_step = "Continue Straight";
 
-    $scope.search = function() {
-        AirportConnect.getSearchResults($scope.query).success(function(searchResults) {
-            $scope.results = searchResults;
-        }).error(function(){
-            console.log('no search results');
+    $scope.getAllPoints = function(){
+        AirportConnect.getAllPoints().success(function(all_points){
+            console.log('trying to get all points');
+            var points = [];
+            for (var point in all_points) {
+                console.log('looking at point points');
+                var geoJSON = {
+                    "type": "Feature",
+                        "properties": {
+                            "concourse": all_points[point].concourse,
+                            "name": all_points[point].name,
+                            "type": all_points[point].poi_type
+                        }, "geometry":{
+                            "type": "Point",
+                            "coordinates": [all_points[point].longitude, all_points[point].latitude]
+                        }
+                };
+                $scope.all_points.push(geoJSON);
+            }
         });
+    return $scope.all_points;
     };
+
+
+    // console.log($scope.new_points);
 
     angular.extend($scope, {
         center: {
@@ -62,8 +89,25 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                     }
                 })
             ]
+        },
+        paths: {
+            p1: {
+                color: '#1d983e',
+                weight: 5,
+                latlngs: $scope.latlngs
+            }
         }
     });
+
+    $scope.search = function() {
+        console.log($scope.query);
+        AirportConnect.getSearchResults($scope.query).success(function(searchResults) {
+            $scope.results = searchResults;
+        }).error(function(){
+            $scope.results = false;
+            console.log('no search results');
+        });
+    };
 
     $scope.startRoute = function (point) {
         //sets time footer ng-if boolean to true & hides search bar ng-if
@@ -82,7 +126,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 var latlngs = [];
                 for (var i=0; i<$scope.point_route_check; i++){
                     if (i === 0 || i == $scope.point_route_check.length-1){
-                        latlngs.push({lat: parseFloat($scope.point_route_check).lat,
+                        $scope.latlngs.push({lat: parseFloat($scope.point_route_check).lat,
                                       lng: parseFloat($scope.point_route_check).lng
                                   });
                     }
@@ -97,8 +141,6 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                     }
                 });
             }
-
-
             map.on('locationfound', function (e) {
                 console.log(e.latlng, e.accuracy);
                 $scope.origin.lat = e.latlng.lat;
@@ -131,38 +173,6 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             $scope.instructions = routeResult.instructions;
             $scope.point_route_check = routeResult.points;
         });
-
-
-        // function checkStep(i, points, lat, long){
-        //     if ()){
-        //         i++;
-        //     } else {
-        //         setTimeout(checkStep, 1000)
-        //         i++;
-        //     }
-        // }
-        //
-        // function whichStep(){
-        //     if (i, ){
-        //
-        //     } else {}
-        //         whichStep();
-        // }
-        //
-        // var i=0;
-        // while (i < points.length) {
-        //     i = whichStep();
-        // }
-
-
-
-
-
-        function checkStep(i, points, lat, lng){
-            if (((points[i].lat - lat) < 0.5) && ((points[i].lat - lat) < 0.5)){
-
-            }
-        }
     };
 });
 

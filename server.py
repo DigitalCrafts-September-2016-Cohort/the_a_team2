@@ -237,8 +237,24 @@ def search():
                     dist_sum = 0
                     for j in range(0,len(search_route)-1):
                         dist_sum += g.get_distance(search_route[j],search_route[j+1])
+                        time = int(dist_sum/4.5)
                     temp_point = pointsJSON[i]
-                    temp_point['dist_from_origin'] = dist_sum
+                    temp_point['time'] = time
+                    search_points.append(temp_point)
+        print search_points
+        return jsonify(search_points)
+    else:
+        for i in range(0,len(pointsJSON)):
+            if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] == "gate":
+                search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
+                if search_route:
+                    search_route.append(search_origin)
+                    dist_sum = 0
+                    for j in range(0,len(search_route)-1):
+                        dist_sum += g.get_distance(search_route[j],search_route[j+1])
+                        time = int(dist_sum/4.5)
+                    temp_point = pointsJSON[i]
+                    temp_point['time'] = time
                     search_points.append(temp_point)
         print search_points
         return jsonify(search_points)
