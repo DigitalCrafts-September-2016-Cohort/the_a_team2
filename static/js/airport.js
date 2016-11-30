@@ -79,7 +79,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                     "type": "Feature",
                         "properties": {
                             "concourse": all_points[point].concourse,
-                            "name": all_points[point].name,
+                            "name": all_points[point].id,
                             "type": all_points[point].poi_type
                         }, "geometry":{
                             "type": "Point",
