@@ -65,9 +65,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     });
 
     $scope.all_points = [];
-    $scope.navigating = false;
-    $scope.time_left = 30;
-    $scope.step_by_step = "Continue Straight";
+    $scope.navigating = true;
     $scope.geoJSON = [];
 
     // Creates GeoJSON for all points (network nodes)
@@ -181,6 +179,10 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 $scope.origin.lat = e.latlng.lat;
                 $scope.origin.lng = e.latlng.lng;
 
+
+                $scope.time_left = 30;
+                $scope.step_by_step = "Continue Straight";
+
                 if ($scope.point_route_check) {
                     if ($scope.point_route_check.length === 1){
                         if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
@@ -191,6 +193,8 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                     $scope.current_point = $scope.point_route_check[0];
                     $scope.next_point = $scope.point_route[1];
                     if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
+                        $scope.time_left = $scope.current_point.time
+                        $scope.step_by_step = $
                         $scope.point_route_check.splice(0,1);
                         console.log($scope.point_route_check);
                     }
@@ -206,6 +210,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         AirportConnect.getRoute($scope.origin, $scope.destination).success(function(routeResult) {
             $scope.route_points = routeResult.points;
             $scope.instructions = routeResult.instructions;
+            $scope.point_route_check = routeResult.points;
             $scope.point_route_check = routeResult.points;
 
             var points = [];
