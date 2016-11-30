@@ -66,8 +66,8 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
     $scope.all_points = [];
     $scope.navigating = false;
-    $scope.time_left = 30;
-    $scope.step_by_step = "Continue Straight";
+    // $scope.time_left = 30;
+    // $scope.step_by_step = "Continue Straight";
     $scope.geoJSON = [];
 
     // Creates GeoJSON for all points (network nodes)
@@ -135,8 +135,6 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     //Draws all the points in the network on the map every time page is loaded. (comment the next line to turn off)
     $scope.getAllPoints();
 
-
-
     $scope.search = function() {
         console.log($scope.query);
         AirportConnect.getSearchResults($scope.query).success(function(searchResults) {
@@ -158,6 +156,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         $scope.navigating = true;
         var tolerance = 0.000137;
         leafletData.getMap('map').then(function(map) {
+            map.invalidateSize(true);
             map.locate({
                 watch: true,
                 setView: true,
@@ -181,6 +180,10 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 $scope.origin.lat = e.latlng.lat;
                 $scope.origin.lng = e.latlng.lng;
 
+
+                $scope.time_left = 30;
+                $scope.step_by_step = "Continue Straight";
+
                 if ($scope.point_route_check) {
                     if ($scope.point_route_check.length === 1){
                         if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
@@ -190,12 +193,14 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                     }else if ($scope.point_route_check.length > 1){
                     $scope.current_point = $scope.point_route_check[0];
                     $scope.next_point = $scope.point_route[1];
-                    if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
-                        $scope.point_route_check.splice(0,1);
-                        console.log($scope.point_route_check);
+                        if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
+                            $scope.step_by_step = $scope.instructions_check[0];
+                            $scope.time_left = $scope.current_point.time;
+                            $scope.instructions.splice(0,1);
+                            $scope.point_route_check.splice(0,1);
+                            console.log($scope.point_route_check);
+                        }
                     }
-
-                }
                 } else {
 
                 }
@@ -207,34 +212,117 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             $scope.route_points = routeResult.points;
             $scope.instructions = routeResult.instructions;
             $scope.point_route_check = routeResult.points;
+            $scope.instructions_check = routeResult.instructions;
 
-            var points = [];
+            $scope.line_coord = [];
+            $scope.point_origin = [];
+            $scope.point_destination = [];
+            $scope.point_stations = [];
             for (var point in $scope.route_points) {
-                var geoJSON = {
-                    "type": "Feature",
-                        "properties": {
-                            "concourse": all_points[point].concourse,
-                            "name": all_points[point].name,
-                            "type": all_points[point].poi_type
-                        }, "geometry":{
-                            "type": "Point",
-                            "coordinates": [all_points[point].longitude, all_points[point].latitude]
-                        }
-                };
-                // console.log(all_points[point].poi_type);
-                $scope.geoJSON.push(geoJSON);
+                $scope.line_coord.push([$scope.route_points[point].longitude, $scope.route_points[point].latitude]);
+                if (point === 0){
+                    var originGeoJSON = {
+                        "type": "Feature",
+                            "properties": {
+                                "concourse": $scope.route_points[point].concourse,
+                                "name": $scope.route_points[point].name,
+                                "type": $scope.route_points[point].poi_type
+                            }, "geometry":{
+                                "type": "Point",
+                                "coordinates": [$scope.route_points[point].longitude, $scope.route_points[point].latitude]
+                            }
+                    };
+                    $scope.point_origin.push(originGeoJSON);
+                } else if (point === $scope.route_points.length) {
+                    var destGeoJSON = {
+                        "type": "Feature",
+                            "properties": {
+                                "concourse": $scope.route_points[point].concourse,
+                                "name": $scope.route_points[point].name,
+                                "type": $scope.route_points[point].poi_type
+                            }, "geometry":{
+                                "type": "Point",
+                                "coordinates": [$scope.route_points[point].longitude, $scope.route_points[point].latitude]
+                            }
+                    };
+                    $scope.point_destination.push(destGeoJSON);
+                } else if ($scope.route_points[point].poi_type === 'station') {
+                    var stationsGeoJSON = {
+                        "type": "Feature",
+                            "properties": {
+                                "concourse": $scope.route_points[point].concourse,
+                                "name": $scope.route_points[point].name,
+                                "type": $scope.route_points[point].poi_type
+                            }, "geometry":{
+                                "type": "Point",
+                                "coordinates": [$scope.route_points[point].longitude, $scope.route_points[point].latitude]
+                            }
+                    };
+                    $scope.point_stations.push(stationsGeoJSON);
+                }
             }
-            $scope.drawAllPoints();
+            $scope.line = {
+                "type": "Feature",
+                    "properties": {
+                    }, "geometry":{
+                        "type": "LineString",
+                        "coordinates": line_coord
+                    }
+            };
+            $scope.drawRoute();
         });
 
         // Draws Route Path
         $scope.drawRoute = function(){
             leafletData.getMap('map').then(function(map) {
-                L.geoJSON($scope.geoJSON, {
+                L.geoJSON($scope.originGeoJSON, {
+                    pointToLayer: function (feature, latlng){
+                        myIcon = L.divIcon({
+                            className: 'label',
+                            html: feature.properties.poi_type,
+                            iconSize: [100, 40]
+                        });
+                        return L.marker(latlng, {icon: myIcon});
+                    },
+                }).addTo(map);
 
+                L.geoJSON($scope.destGeoJSON, {
+                    pointToLayer: function (feature, latlng){
+                        myIcon = L.divIcon({
+                            className: 'label',
+                            html: feature.properties.poi_type,
+                            iconSize: [100, 40]
+                        });
+                        return L.marker(latlng, {icon: myIcon});
+                    },
+                }).addTo(map);
+
+                L.geoJSON($scope.stationsGeoJSON, {
+                    pointToLayer: function (feature, latlng){
+                        myIcon = L.divIcon({
+                            className: 'label',
+                            html: feature.properties.poi_type,
+                            iconSize: [100, 40]
+                        });
+                        return L.marker(latlng, {icon: myIcon});
+                    },
+                }).addTo(map);
+
+                L.geoJSON($scope.line, {
+                    style: lineStyle
                 }).addTo(map);
             });
         };
+    };
+
+    $scope.stopNav = function (){
+        $scope.navigating = false;
+        leafletData.getMap('map').then(function(map) {
+            map.eachLayer(function(layer){
+                map.removeLayer(layer);
+            });
+            L.tileLayer('https://api.mapbox.com/styles/v1/jesslyn-landgren/ciw4wyf68000c2jp64u1j4xzh/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ', {maxZoom:20}).addTo(map);
+        });
     };
 });
 
