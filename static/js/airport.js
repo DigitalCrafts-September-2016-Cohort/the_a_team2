@@ -65,7 +65,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     });
 
     $scope.all_points = [];
-    $scope.navigating = true;
+    $scope.navigating = false;
     // $scope.time_left = 30;
     // $scope.step_by_step = "Continue Straight";
     $scope.geoJSON = [];
@@ -156,6 +156,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         $scope.navigating = true;
         var tolerance = 0.000137;
         leafletData.getMap('map').then(function(map) {
+            map.invalidateSize(true);
             map.locate({
                 watch: true,
                 setView: true,
