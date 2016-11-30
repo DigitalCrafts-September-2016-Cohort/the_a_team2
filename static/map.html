@@ -31,7 +31,7 @@
 </div>
 <!-- //Hidden header for displaying step by step directions -->
 <div ng-show="navigating" class="directions_container">
-    <h1>{{step_by_step}}</h1>
+    <div>{{step_by_step}}</div>
 </div>
 <!-- <button type="button" name="button" ng-click="getLocation()">Console Log Location</button> -->
 <div class="map-container">
@@ -40,22 +40,32 @@
 
 <!-- //Hidden footer for displaying time until destination -->
 <div ng-show ="navigating" class="footer">
-    <h1>{{time_left}} min</h1>
+    <div>{{time_left}} min</div>
+    <button type="button" name="button" ng-click="stopNav()">Done</button>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function (){
-        var searchheight = 0;
-        searchheight = $('.search-box').height();
-        $(".search-results").css('top', searchheight);
-        var width = 0;
+        var searchHeight = 0;
+        searchHeight = $('.search-box').height();
+        var directionsHeight = 0;
+        directionsHeight = $('.directions_container').height();
+        var footerHeight = 0;
+        footerHeight = $('.footer').height();
+        var windowWidth = 0;
         windowWidth = $(window).width();
+        var windowHeight= 0;
+        windowHeight = $(window).height();
+
+        var mapHeight = windowHeight - searchHeight - directionsHeight - footerHeight;
+        $(".search-results").css('top', searchHeight);
         $(".search-results").css('max-width',windowWidth);
+        $(".map-container").css('height', windowHeight - searchHeight - directionsHeight - foot);
     });
     $(window).resize(function (){
-        var searchheight = 0;
-        searchheight = $('.search-box').height();
-        $(".search-results").css('top', searchheight);
+        var searchHeight = 0;
+        searchHeight = $('.search-box').height();
+        $(".search-results").css('top', searchHeight);
     });
 
 </script>
