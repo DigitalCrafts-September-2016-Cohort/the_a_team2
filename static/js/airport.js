@@ -171,10 +171,11 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             map.locate({
                 watch: true,
                 setView: false,
-                timeout: 8000,
+                timeout: 1000,
                 maximumAge: 20000,
                 enableHighAccuracy: true
             });
+
 
             if ($scope.point_route_check) {
                 var latlngs = [];
@@ -216,6 +217,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
                 }
             });
+            map.fitBounds([$scope.origin.lat, $scope.origin.lng])
         });
 
         $scope.destination = point;
@@ -227,6 +229,8 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     		"poi_type": "gate",
     		"concourse": "A"
     	};
+
+
         AirportConnect.getRoute($scope.origin, $scope.destination).success(function(routeResult) {
             console.log('Route Result', routeResult);
             $scope.route_points = routeResult.points;

@@ -236,7 +236,7 @@ def shortest_Path():
     for i in range(0,len(points_only)):
         for point in pointsJSON:
             if(point['id'] == points_only[i]):
-                points.append({points_only[i]:{"latitude":point['latitude'],"longitude":point['longitude'],"poi_type":point['poi_type']}})
+                points.append({points_only[i]:{"latitude":point['latitude'],"longitude":point['longitude'],"poi_type":point['poi_type'],"concourse": point['concourse'],"name":point['name']}})
     for i in range(0,len(points)-2):
         v = points[i].values()[0]
         v1 = points[i+1].values()[0]
