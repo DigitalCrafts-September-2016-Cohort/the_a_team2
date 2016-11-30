@@ -4,8 +4,8 @@
 </div>
 
 <!-- Hides search results upon click of "Go" -->
-<div ng-hide = "navigating" class="search-results">
-    <div class="search-result" ng-repeat="result in results">
+<div ng-hide = "navigating" ng-if="show_results" class="search-results">
+    <div class="search-result" ng-repeat="result in results | orderBy: ['-s_index', '-time']: true | limitTo: 50 track by $index">
         <div class="icon" ng-switch="result.poi_type">
             <i ng-switch-when="restaurant" class="fa fa-cutlery" aria-hidden="true"></i>
             <i ng-switch-when="gate" class="fa fa-plane" aria-hidden="true"></i>

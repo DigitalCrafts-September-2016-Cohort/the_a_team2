@@ -34,36 +34,6 @@ app.factory('AirportConnect', function($http) {
 
 
 app.controller('NavController', function($scope, $state, AirportConnect, leafletData) {
-    $scope.all_points = [];
-    $scope.navigating = false;
-    $scope.time_left = 30;
-    $scope.step_by_step = "Continue Straight";
-
-    $scope.getAllPoints = function(){
-        AirportConnect.getAllPoints().success(function(all_points){
-            console.log('trying to get all points');
-            var points = [];
-            for (var point in all_points) {
-                console.log('looking at point points');
-                var geoJSON = {
-                    "type": "Feature",
-                        "properties": {
-                            "concourse": all_points[point].concourse,
-                            "name": all_points[point].name,
-                            "type": all_points[point].poi_type
-                        }, "geometry":{
-                            "type": "Point",
-                            "coordinates": [all_points[point].longitude, all_points[point].latitude]
-                        }
-                };
-                $scope.all_points.push(geoJSON);
-            }
-        });
-    return $scope.all_points;
-    };
-
-
-    // console.log($scope.new_points);
 
     angular.extend($scope, {
         center: {
@@ -72,8 +42,10 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             zoom: 16
         },
         defaults: {
+            maxZoom: 20,
             zoomControl: false,
-            tileLayer: 'https://api.mapbox.com/styles/v1/jesslyn-landgren/civzjfle8002l2kr3xkakr5ls/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ'
+            tileLayer: 'https://api.mapbox.com/styles/v1/jesslyn-landgren/civzjfle8002l2kr3xkakr5ls/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ',
+            tileLayerOptions: {maxZoom:20}
         },
         controls: {
             custom: [
@@ -89,22 +61,95 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                     }
                 })
             ]
-        },
-        paths: {
-            p1: {
-                color: '#1d983e',
-                weight: 5,
-                latlngs: $scope.latlngs
-            }
         }
     });
+
+    $scope.all_points = [];
+    $scope.navigating = false;
+    $scope.time_left = 30;
+    $scope.step_by_step = "Continue Straight";
+    $scope.geoJSON = [];
+
+    // Creates GeoJSON for all points (network nodes)
+    $scope.getAllPoints = function(){
+        AirportConnect.getAllPoints().success(function(all_points){
+            var points = [];
+            for (var point in all_points) {
+                var geoJSON = {
+                    "type": "Feature",
+                        "properties": {
+                            "concourse": all_points[point].concourse,
+                            "name": all_points[point].name,
+                            "type": all_points[point].poi_type
+                        }, "geometry":{
+                            "type": "Point",
+                            "coordinates": [all_points[point].longitude, all_points[point].latitude]
+                        }
+                };
+                // console.log(all_points[point].poi_type);
+                $scope.geoJSON.push(geoJSON);
+            }
+            $scope.drawAllPoints();
+        });
+    };
+
+    // Displays all points using their GeoJSON data
+    $scope.drawAllPoints = function(){
+        leafletData.getMap('map').then(function(map) {
+            var pointMarkerStyle = {
+                radius: 3,
+                opacity: 1,
+                fillOpacity: 1
+            };
+            L.geoJSON($scope.geoJSON, {
+                style: function(feature) {
+                    // return {color: 'rgb(94, 173, 117)'}
+                    switch (feature.properties.poi_type) {
+                        case 'station':   return {color: '#ffa100'};
+                        case 'center':   return {color: "#0000ff"};
+                        case 'hcenter':   return {color: "#0000ff"};
+                        case 'gate': return {color: "#ff0000"};
+                        case 'center':   return {color: "#0000ff"};
+                        case 'concourse':   return {color: "#0000ff"};
+                        case 'toilet':   return {color: "#0000ff"};
+                        case 'coffee':   return {color: "#0000ff"};
+                        case 'fast_food':   return {color: "#0000ff"};
+                        case 'restaurant':   return {color: "#0000ff"};
+                    }
+                },
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, pointMarkerStyle);
+                },
+                onEachFeature: function(feature, layer){
+                    var label = L.marker(feature, {
+                      icon: L.divIcon({
+                        className: 'label',
+                        html: feature.properties.name,
+                        iconSize: [100, 40]
+                        })
+                    });
+                }
+            }).addTo(map);
+        });
+    };
+
+    //Draws all the points in the network on the map every time page is loaded. (comment the next line to turn off)
+    $scope.getAllPoints();
+
+
 
     $scope.search = function() {
         console.log($scope.query);
         AirportConnect.getSearchResults($scope.query).success(function(searchResults) {
             $scope.results = searchResults;
+            if ($scope.results.length > 0){
+                $scope.show_results = true;
+            } else {
+                $scope.show_results = false;
+            }
+
         }).error(function(){
-            $scope.results = false;
+            $scope.show_results= false;
             console.log('no search results');
         });
     };
@@ -131,15 +176,6 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                                   });
                     }
                 }
-                angular.extend($scope, {
-                    paths: {
-                        p1: {
-                            color: '#1d983e',
-                            weight: 5,
-                            latlngs: latlngs
-                        }
-                    }
-                });
             }
             map.on('locationfound', function (e) {
                 console.log(e.latlng, e.accuracy);
