@@ -14,11 +14,15 @@ app.factory('AirportConnect', function($http) {
             }
         });
     };
-    service.getRoute = function() {
+    service.getRoute = function(origin, destination) {
         var url = '/shortest_path';
         return $http({
             method: 'GET',
             url: url,
+            params: {
+                origin: origin.id,
+                destination: destination.id
+            }
         });
     };
 
@@ -44,7 +48,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         defaults: {
             maxZoom: 20,
             zoomControl: false,
-            tileLayer: 'https://api.mapbox.com/styles/v1/jesslyn-landgren/ciw4wyf68000c2jp64u1j4xzh/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ',
+            tileLayer: 'https://api.mapbox.com/styles/v1/jesslyn-landgren/civzjfle8002l2kr3xkakr5ls/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ',
             tileLayerOptions: {maxZoom:20}
         },
         controls: {
@@ -89,7 +93,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 // console.log(all_points[point].poi_type);
                 $scope.geoJSON.push(geoJSON);
             }
-            $scope.drawAllPoints();
+            // $scope.drawAllPoints();
         });
     };
 
@@ -103,7 +107,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             };
             L.geoJSON($scope.geoJSON, {
                 style: function(feature) {
-                    return {color: 'rgb(94, 173, 117)'}
+                    return {color: '#5fad75'}
                     switch (feature.properties.poi_type) {
                         case 'station':   return {color: '#ffa100'};
                         case 'center':   return {color: "#0000ff"};
@@ -118,16 +122,23 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                     }
                 },
                 pointToLayer: function (feature, latlng){
-                    myIcon = L.divIcon({
-                        className: 'label',
-                        html: feature.properties.name,
-                        iconSize: [100, 40]
-                    });
-                    return L.marker(latlng, {icon: myIcon});
-                },
-                onEachFeature: function(feature, layer){
-                    return L.circleMarker([feature.coordinates], pointMarkerStyle);
+                    console.log('Origin GeoJSON coord', latlng);
+                    return L.circleMarker(latlng, pointMarkerStyle);
+                    // myIcon = L.divIcon({
+                    //     className: 'label',
+                    //     html: feature.properties.name,
+                    //     iconSize: [100, 40]
+                    // });
+                    // pointToLayer: function (feature, latlng) {
+                    //     console.log('Origin GeoJSON coord', latlng);
+                    //     return L.circleMarker(latlng, geojsonMarkerOptions);
+                    // }
+                    // return L.marker(latlng, {icon: myIcon});
                 }
+                // ,
+                // onEachFeature: function(feature, layer){
+                //     return L.circleMarker([feature.coordinates], pointMarkerStyle);
+                // }
             }).addTo(map);
         });
     };
@@ -159,7 +170,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             map.invalidateSize(true);
             map.locate({
                 watch: true,
-                setView: true,
+                setView: false,
                 timeout: 8000,
                 maximumAge: 20000,
                 enableHighAccuracy: true
@@ -192,11 +203,11 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                         }
                     }else if ($scope.point_route_check.length > 1){
                     $scope.current_point = $scope.point_route_check[0];
-                    $scope.next_point = $scope.point_route[1];
+                    $scope.next_point = $scope.point_route_check[1];
                         if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
                             $scope.step_by_step = $scope.instructions_check[0];
                             $scope.time_left = $scope.current_point.time;
-                            $scope.instructions.splice(0,1);
+                            $scope.instructions_check.splice(0,1);
                             $scope.point_route_check.splice(0,1);
                             console.log($scope.point_route_check);
                         }
@@ -208,65 +219,66 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         });
 
         $scope.destination = point;
+        $scope.origin = {
+    		"id": "2",
+    		"name": "A2",
+    		"latitude": "33.637749",
+    		"longitude": "-84.4393355",
+    		"poi_type": "gate",
+    		"concourse": "A"
+    	};
         AirportConnect.getRoute($scope.origin, $scope.destination).success(function(routeResult) {
+            console.log('Route Result', routeResult);
             $scope.route_points = routeResult.points;
             $scope.instructions = routeResult.instructions;
+            // console.log($scope.route_points);
+            // console.log($scope.instructions);
+
+            // Only use these variables for checking current position along route (on locationfound)
             $scope.point_route_check = routeResult.points;
             $scope.instructions_check = routeResult.instructions;
 
             $scope.line_coord = [];
-            $scope.point_origin = [];
-            $scope.point_destination = [];
-            $scope.point_stations = [];
+            $scope.originGeoJSON = [];
+            $scope.destGeoJSON = [];
+            $scope.stationsGeoJSON = [];
+            var last = ($scope.route_points.length-1).toString();
             for (var point in $scope.route_points) {
-                $scope.line_coord.push([$scope.route_points[point].longitude, $scope.route_points[point].latitude]);
-                if (point === 0){
-                    var originGeoJSON = {
+                for (var test in $scope.route_points[point]){
+                    var current_node = $scope.route_points[point][test];
+                    var tempGeoJSON = {
                         "type": "Feature",
                             "properties": {
-                                "concourse": $scope.route_points[point].concourse,
-                                "name": $scope.route_points[point].name,
-                                "type": $scope.route_points[point].poi_type
+                                // "concourse": $scope.route_points[point].concourse,
+                                // "name": $scope.route_points[point].name,
+                                "type": current_node.poi_type
                             }, "geometry":{
                                 "type": "Point",
-                                "coordinates": [$scope.route_points[point].longitude, $scope.route_points[point].latitude]
+                                "coordinates": [current_node.longitude, current_node.latitude]
                             }
                     };
-                    $scope.point_origin.push(originGeoJSON);
-                } else if (point === $scope.route_points.length) {
-                    var destGeoJSON = {
-                        "type": "Feature",
-                            "properties": {
-                                "concourse": $scope.route_points[point].concourse,
-                                "name": $scope.route_points[point].name,
-                                "type": $scope.route_points[point].poi_type
-                            }, "geometry":{
-                                "type": "Point",
-                                "coordinates": [$scope.route_points[point].longitude, $scope.route_points[point].latitude]
-                            }
-                    };
-                    $scope.point_destination.push(destGeoJSON);
-                } else if ($scope.route_points[point].poi_type === 'station') {
-                    var stationsGeoJSON = {
-                        "type": "Feature",
-                            "properties": {
-                                "concourse": $scope.route_points[point].concourse,
-                                "name": $scope.route_points[point].name,
-                                "type": $scope.route_points[point].poi_type
-                            }, "geometry":{
-                                "type": "Point",
-                                "coordinates": [$scope.route_points[point].longitude, $scope.route_points[point].latitude]
-                            }
-                    };
-                    $scope.point_stations.push(stationsGeoJSON);
+                    $scope.line_coord.push([current_node.longitude, current_node.latitude]);
+                    console.log($scope.line_coord);
+                    if (point === '0'){
+                        console.log("got origin");
+                        $scope.originGeoJSON.push(tempGeoJSON);
+                    } else if (point === last) {
+                        console.log("got dest");
+                        $scope.destGeoJSON.push(tempGeoJSON);
+                    } else if (current_node.poi_type === 'escalator'){
+                        console.log("got train station");
+                        $scope.stationsGeoJSON.push(tempGeoJSON);
+                    }
+                    break;
                 }
+
             }
             $scope.line = {
                 "type": "Feature",
                     "properties": {
                     }, "geometry":{
                         "type": "LineString",
-                        "coordinates": line_coord
+                        "coordinates": $scope.line_coord
                     }
             };
             $scope.drawRoute();
@@ -275,38 +287,60 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         // Draws Route Path
         $scope.drawRoute = function(){
             leafletData.getMap('map').then(function(map) {
+
+                var originStyle = {
+                    radius: 5,
+                    fillColor: "#5fad75",
+                    color: "#5fad75",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 1
+                };
+
+                var destinationStyle = {
+                    radius: 5,
+                    fillColor: "#d63d3d",
+                    color: "#d63d3d",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 1
+                };
+
+                var stationStyle = {
+                    radius: 5,
+                    fillColor: "#2e66d2",
+                    color: "#2e66d2",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 1
+                };
+
                 L.geoJSON($scope.originGeoJSON, {
-                    pointToLayer: function (feature, latlng){
-                        myIcon = L.divIcon({
-                            className: 'label',
-                            html: feature.properties.poi_type,
-                            iconSize: [100, 40]
-                        });
-                        return L.marker(latlng, {icon: myIcon});
-                    },
+                    pointToLayer: function (feature, latlng) {
+                        console.log('Plotting origin');
+                        return L.circleMarker(latlng, originStyle);
+                    }
                 }).addTo(map);
 
                 L.geoJSON($scope.destGeoJSON, {
-                    pointToLayer: function (feature, latlng){
-                        myIcon = L.divIcon({
-                            className: 'label',
-                            html: feature.properties.poi_type,
-                            iconSize: [100, 40]
-                        });
-                        return L.marker(latlng, {icon: myIcon});
-                    },
+                    pointToLayer: function (feature, latlng) {
+                        console.log('Plotting destination');
+                        return L.circleMarker(latlng, destinationStyle);
+                    }
                 }).addTo(map);
 
                 L.geoJSON($scope.stationsGeoJSON, {
-                    pointToLayer: function (feature, latlng){
-                        myIcon = L.divIcon({
-                            className: 'label',
-                            html: feature.properties.poi_type,
-                            iconSize: [100, 40]
-                        });
-                        return L.marker(latlng, {icon: myIcon});
-                    },
+                    pointToLayer: function (feature, latlng) {
+                        console.log('Plotting train station');
+                        return L.circleMarker(latlng, stationStyle);
+                    }
                 }).addTo(map);
+
+                var lineStyle = {
+                    "color": "#ff7800",
+                    "weight": 5,
+                    "opacity": 0.65
+                };
 
                 L.geoJSON($scope.line, {
                     style: lineStyle

@@ -31,6 +31,11 @@ class Graph:
            self.vertices[name] = edges
 
     def get_distance(self,origin,destination):
+        # print self.vertices
+        print 'Origin', origin
+        print 'Origin Vertices', self.vertices[origin]
+        print 'Destination', destination
+        print 'Destination Vertices', self.vertices[destination]
         return self.vertices[origin][destination]
 
     def shortest_path(self, start, finish):
@@ -217,8 +222,10 @@ s_path_dict = {}
 
 @app.route('/shortest_path')
 def shortest_Path():
-    origin = '17'
-    destination = '120'
+    # origin = '2'
+    # destination = '221'
+    origin = request.args.get('origin')
+    destination = request.args.get('destination')
     route_dict = {}
     instructions = []
     points_only = g.shortest_path(origin,destination)
@@ -255,9 +262,15 @@ def shortest_Path():
     print "instructions"
     for i in instructions:
         print i
+    print "instructions length",len(instructions)
     for j in points:
         print j
-    return jsonify(points)
+    print "point length",len(points)
+
+    route_final = {'points': points,
+                   'instructions': instructions
+                    }
+    return jsonify(route_final)
 #route that returns all the points in the airport
 @app.route('/all_points')
 def all_points():
@@ -267,33 +280,19 @@ def all_points():
 @app.route('/search')
 def search():
     search = request.args.get('query').lower()
-    # print search
+    print search
     search_origin = '2'
     search_points = []
     if len(search)>2:
         for i in range(0,len(pointsJSON)):
+            print 'ID: ' + pointsJSON[i]['id']
             if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] != "center" and pointsJSON[i]['poi_type'] != "hcenter":
                 search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
                 if search_route:
                     search_route.append(search_origin)
-                    # Logic for making a has Table
-# <<<<<<< HEAD
-#
-#                     temp_point = pointsJSON[i]
-#                     if path_key in s_path_dict:
-#                         temp_point['dist_from_origin'] = s_path_dict[path_key]
-#                     else:
-#                         dist_sum = 0
-#                         for j in range(0,len(search_route)-1):
-#                             dist_sum += g.get_distance(search_route[j],search_route[j+1])
-#                         s_path_dict[path_key] = dist_sum
-#                         temp_point['dist_from_origin'] = dist_sum
-#         print search_points
-#         print s_path_dict
-# =======
                     dist_sum = 0
                     for j in range(0,len(search_route)-1):
-                        dist_sum += g.get_distance(search_route[j],search_route[j+1])
+                        dist_sum += g.get_distance(search_route[j+1],search_route[j])
                         time = int(dist_sum/270.)
                     temp_point = pointsJSON[i]
                     temp_point['time'] = time
@@ -301,7 +300,7 @@ def search():
                     search_points.append(temp_point)
         print search_points
         return jsonify(search_points)
-    elif len(search) > 0 and len(search) < 3:
+    elif len(search) > 0:
         for i in range(0,len(pointsJSON)):
             if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] == "gate":
                 search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
@@ -309,12 +308,12 @@ def search():
                     search_route.append(search_origin)
                     dist_sum = 0
                     for j in range(0,len(search_route)-1):
-                        dist_sum += g.get_distance(search_route[j],search_route[j+1])
+                        dist_sum += g.get_distance(search_route[j+1],search_route[j])
                         time = int(dist_sum/270)
                     temp_point = pointsJSON[i]
                     temp_point['time'] = time
                     temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
                     search_points.append(temp_point)
-        # print search_points
+        print search_points
         return jsonify(search_points)
 app.run(debug=True)
