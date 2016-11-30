@@ -66,8 +66,8 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
     $scope.all_points = [];
     $scope.navigating = true;
-    $scope.time_left = 30;
-    $scope.step_by_step = "Continue Straight";
+    // $scope.time_left = 30;
+    // $scope.step_by_step = "Continue Straight";
     $scope.geoJSON = [];
 
     // Creates GeoJSON for all points (network nodes)
@@ -135,8 +135,6 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     //Draws all the points in the network on the map every time page is loaded. (comment the next line to turn off)
     $scope.getAllPoints();
 
-
-
     $scope.search = function() {
         console.log($scope.query);
         AirportConnect.getSearchResults($scope.query).success(function(searchResults) {
@@ -191,10 +189,12 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                     $scope.current_point = $scope.point_route_check[0];
                     $scope.next_point = $scope.point_route[1];
                         if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
+                            $scope.step_by_step = $scope.instructions_check[0];
+                            $scope.time_left = $scope.current_point.time;
+                            $scope.instructions.splice(0,1);
                             $scope.point_route_check.splice(0,1);
                             console.log($scope.point_route_check);
                         }
-
                     }
                 } else {
 
@@ -207,6 +207,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             $scope.route_points = routeResult.points;
             $scope.instructions = routeResult.instructions;
             $scope.point_route_check = routeResult.points;
+            $scope.instructions_check = routeResult.instructions;
 
             $scope.line_coord = [];
             $scope.point_origin = [];
