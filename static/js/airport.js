@@ -77,6 +77,28 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 maximumAge: 20000,
                 enableHighAccuracy: true
             });
+
+            if ($scope.point_route_check) {
+                var latlngs = [];
+                for (var i=0; i<$scope.point_route_check; i++){
+                    if (i === 0 || i == $scope.point_route_check.length-1){
+                        latlngs.push({lat: parseFloat($scope.point_route_check).lat,
+                                      lng: parseFloat($scope.point_route_check).lng
+                                  });
+                    }
+                }
+                angular.extend($scope, {
+                    paths: {
+                        p1: {
+                            color: '#1d983e',
+                            weight: 5,
+                            latlngs: latlngs
+                        }
+                    }
+                });
+            }
+
+
             map.on('locationfound', function (e) {
                 console.log(e.latlng, e.accuracy);
                 $scope.origin.lat = e.latlng.lat;
@@ -100,8 +122,6 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 } else {
 
                 }
-
-
             });
         });
 
