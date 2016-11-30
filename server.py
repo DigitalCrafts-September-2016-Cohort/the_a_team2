@@ -315,7 +315,7 @@ def search():
                     search_points.append(temp_point)
         print search_points
         return jsonify(search_points)
-    elif len(search) > 0:
+    elif len(search) > 0 and len(search) < 3:
         for i in range(0,len(pointsJSON)):
             if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] == "gate":
                 search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
@@ -330,6 +330,5 @@ def search():
                     temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
                     search_points.append(temp_point)
         print search_points
->>>>>>> master
         return jsonify(search_points)
 app.run(debug=True)

@@ -288,7 +288,7 @@ id,name,latitude,longitude,poi_type,concourse
 287,AL,33.640774,-84.439348,escalator,A
 288,AR,33.640822,-84.438979,escalator,A
 289,BL,33.640769,-84.436078,escalator,B
-290,BR,33.640822,-84.436078,escalator,B
+290,BR,33.640822,-84.435694,escalator,B
 291,CL,33.640765,-84.432846,escalator,C
 292,CR,33.640808,-84.432355,escalator,C
 293,DL,33.640771,-84.429438,escalator,D
