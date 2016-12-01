@@ -2273,10 +2273,18 @@
 	},
 	{
 		"id": "285",
-		"name": "TL",
+		"name": "Baggage Claim",
 		"latitude": "33.64082",
 		"longitude": "-84.443284",
-		"poi_type": "Baggage Claim",
+		"poi_type": "escalator",
+		"concourse": "T"
+	},
+	{
+		"id": "297",
+		"name": "Baggage Claim T",
+		"latitude": "33.64082",
+		"longitude": "-84.443314",
+		"poi_type": "train",
 		"concourse": "T"
 	},
 	{
@@ -2288,11 +2296,27 @@
 		"concourse": "T"
 	},
 	{
+		"id": "298",
+		"name": "TRT",
+		"latitude": "33.640783",
+		"longitude": "-84.442158",
+		"poi_type": "train",
+		"concourse": "T"
+	},
+	{
 		"id": "287",
 		"name": "AL",
 		"latitude": "33.640774",
 		"longitude": "-84.439348",
 		"poi_type": "escalator",
+		"concourse": "A"
+	},
+	{
+		"id": "299",
+		"name": "ALT",
+		"latitude": "33.640774",
+		"longitude": "-84.439378",
+		"poi_type": "train",
 		"concourse": "A"
 	},
 	{
@@ -2304,11 +2328,27 @@
 		"concourse": "A"
 	},
 	{
+		"id": "300",
+		"name": "ART",
+		"latitude": "33.640822",
+		"longitude": "-84.438949",
+		"poi_type": "train",
+		"concourse": "A"
+	},
+	{
 		"id": "289",
 		"name": "BL",
 		"latitude": "33.640769",
 		"longitude": "-84.436078",
 		"poi_type": "escalator",
+		"concourse": "B"
+	},
+	{
+		"id": "301",
+		"name": "BLT",
+		"latitude": "33.640769",
+		"longitude": "-84.436117",
+		"poi_type": "train",
 		"concourse": "B"
 	},
 	{
@@ -2320,11 +2360,27 @@
 		"concourse": "B"
 	},
 	{
+		"id": "302",
+		"name": "BRT",
+		"latitude": "33.640822",
+		"longitude": "-84.435664",
+		"poi_type": "train",
+		"concourse": "B"
+	},
+	{
 		"id": "291",
 		"name": "CL",
 		"latitude": "33.640765",
 		"longitude": "-84.432846",
 		"poi_type": "escalator",
+		"concourse": "C"
+	},
+	{
+		"id": "303",
+		"name": "CLT",
+		"latitude": "33.640765",
+		"longitude": "-84.432876",
+		"poi_type": "train",
 		"concourse": "C"
 	},
 	{
@@ -2336,11 +2392,28 @@
 		"concourse": "C"
 	},
 	{
+		"id": "304",
+		"name": "CRT",
+		"latitude": "33.640808",
+		"longitude": "-84.432325",
+		"poi_type": "train",
+		"concourse": "C"
+	},
+
+	{
 		"id": "293",
 		"name": "DL",
 		"latitude": "33.640771",
 		"longitude": "-84.429438",
 		"poi_type": "escalator",
+		"concourse": "D"
+	},
+	{
+		"id": "305",
+		"name": "DLT",
+		"latitude": "33.640771",
+		"longitude": "-84.429468",
+		"poi_type": "train",
 		"concourse": "D"
 	},
 	{
@@ -2352,6 +2425,14 @@
 		"concourse": "D"
 	},
 	{
+		"id": "306",
+		"name": "DRT",
+		"latitude": "33.640807",
+		"longitude": "-84.429059",
+		"poi_type": "train",
+		"concourse": "D"
+	},
+	{
 		"id": "295",
 		"name": "ES",
 		"latitude": "33.64077",
@@ -2360,11 +2441,27 @@
 		"concourse": "E"
 	},
 	{
+		"id": "307",
+		"name": "EST",
+		"latitude": "33.64077",
+		"longitude": "-84.426663",
+		"poi_type": "train",
+		"concourse": "E"
+	},
+	{
 		"id": "296",
 		"name": "FS",
 		"latitude": "33.640277",
 		"longitude": "-84.420496",
 		"poi_type": "escalator",
+		"concourse": "F"
+	},
+	{
+		"id": "308",
+		"name": "FST",
+		"latitude": "33.640277",
+		"longitude": "-84.420526",
+		"poi_type": "train",
 		"concourse": "F"
 	}
 ]

@@ -12,155 +12,10 @@ app = Flask('Connect', static_url_path='')
 with open('points.json') as json_file:
     pointsJSON = json.load(json_file)
 
-# initial_pointsJSON = pointsJSON
-
-initial_pointsJSON = [
-	{
-		"id": "1",
-		"name": "A1",
-		"latitude": "33.6375916",
-		"longitude": "-84.439033",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "2",
-		"name": "A2",
-		"latitude": "33.637749",
-		"longitude": "-84.4393355",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "3",
-		"name": "A3",
-		"latitude": "33.6379332",
-		"longitude": "-84.4390335",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "4",
-		"name": "A4",
-		"latitude": "33.6382532",
-		"longitude": "-84.4393433",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "5",
-		"name": "A5",
-		"latitude": "33.6382586",
-		"longitude": "-84.4390341",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "6",
-		"name": "A6",
-		"latitude": "33.6386307",
-		"longitude": "-84.4393492",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "7",
-		"name": "A7",
-		"latitude": "33.6385894",
-		"longitude": "-84.4390346",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "8",
-		"name": "A8",
-		"latitude": "33.638845",
-		"longitude": "-84.43932",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "9",
-		"name": "A9",
-		"latitude": "33.638969",
-		"longitude": "-84.4390352",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "10",
-		"name": "A10",
-		"latitude": "33.6392544",
-		"longitude": "-84.4393589",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "11",
-		"name": "A11",
-		"latitude": "33.639495",
-		"longitude": "-84.439036",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "12",
-		"name": "A12",
-		"latitude": "33.6397045",
-		"longitude": "-84.4393659",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "13",
-		"name": "A13",
-		"latitude": "33.639763",
-		"longitude": "-84.439032",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "14",
-		"name": "A14",
-		"latitude": "33.639968",
-		"longitude": "-84.439327",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "15",
-		"name": "A15",
-		"latitude": "33.6400969",
-		"longitude": "-84.4390369",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "16",
-		"name": "A16",
-		"latitude": "33.6403064",
-		"longitude": "-84.4393752",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "17",
-		"name": "A17",
-		"latitude": "33.6404385",
-		"longitude": "-84.4390374",
-		"poi_type": "gate",
-		"concourse": "A"
-	},
-	{
-		"id": "18",
-		"name": "A18",
-		"latitude": "33.6406961",
-		"longitude": "-84.4393386",
-		"poi_type": "gate",
-		"concourse": "A"
-	}
-]
-l =  len(initial_pointsJSON)
+# with open('points.json') as ts:
+#     tk = json.load(ts)
+#
+# initial_pointsJSON = tk
 
 def add2way_vertex(origin,destination,distance):
     g.add_vertex(str(origin),{str(destination):distance})
@@ -180,6 +35,11 @@ class Graph:
            self.vertices[name] = edges
 
     def get_distance(self,origin,destination):
+        # print self.vertices
+        # print 'Origin', origin
+        # print 'Origin Vertices', self.vertices[origin]
+        # print 'Destination', destination
+        # print 'Destination Vertices', self.vertices[destination]
         return self.vertices[origin][destination]
 
     def shortest_path(self, start, finish):
@@ -225,7 +85,7 @@ class Graph:
 # if __name__ == '__main__':
 g = Graph()
 
-print "initial  ",initial_pointsJSON[0]["id"]
+# print "initial  ",initial_pointsJSON[0]["id"]
 
 
 
@@ -270,19 +130,20 @@ for concourse in concourses:
             bool1 = pointsJSON[i]['name'][1:] in E_horizontal
             bool2 = pointsJSON[i]['name'] in E_horizontal
             if (not bool1 and not bool2):
-                gate = pointsJSON[i]
-                center = {}
-            # // Longitude of new point is the centerline longitude of current concourse
-                center['longitude'] = concourse['longitude']
-            # // Latitude of new point is the same as the gate that we are connecting to concourse centerline
-                center['latitude'] = gate['latitude']
-            # // Name of new point is the same as the gate name but with a double letter for the concourse (ex: gate A1 connects to concourse centerline at point AA1)
-                center['name'] = concourse['name']+ gate['name']
-                center['poi_type'] = 'center'
-                center['concourse'] = gate['concourse']
-                center['id'] = str(point_id)
-            # // Add new point to JSON points list
-                pointsJSON.append(center)
+                if (not pointsJSON[i]['poi_type'] == 'train'): # excluding the train terminal gates
+                    gate = pointsJSON[i]
+                    center = {}
+                # // Longitude of new point is the centerline longitude of current concourse
+                    center['longitude'] = concourse['longitude']
+                # // Latitude of new point is the same as the gate that we are connecting to concourse centerline
+                    center['latitude'] = gate['latitude']
+                # // Name of new point is the same as the gate name but with a double letter for the concourse (ex: gate A1 connects to concourse centerline at point AA1)
+                    center['name'] = concourse['name']+ gate['name']
+                    center['poi_type'] = 'center'
+                    center['concourse'] = gate['concourse']
+                    center['id'] = str(point_id)
+                # // Add new point to JSON points list
+                    pointsJSON.append(center)
                 # cen_name = center['name']
                 # gat_name = gate['name']
             # cen = {}
@@ -312,9 +173,9 @@ for concourse in concourses:
     #// For each JSON point
     for i in range(0,json_len):
         #// If JSON point is in current concourse:
+        # All the other
         if(pointsJSON[i]['concourse'] == concourse['name']):
             concoursePoints.append(pointsJSON[i])
-
     #// Sorting points for current concourse by latitude
     pointsSorted = sorted(concoursePoints,key=lambda k:k['latitude'])
 
@@ -325,33 +186,84 @@ for concourse in concourses:
             midpoint_arr.append(point)
 
     #// For each center line point
-
     for i in range(0,len(midpoint_arr)-1):
         first = {}
         second = {}
         #// Getting latitude distance between points and converting to distance for edge definition
         dist = (float(midpoint_arr[i+1]['latitude']) - float(midpoint_arr[i]['latitude'])) * 363917.7912
-        #// Setting edge for point i and point i+1
-        # first[midpoint_arr[i]['name']] = dist
-        # second[midpoint_arr[i+1]['name']] = dist
-        # #// Adding vertices with edges from above
-        # g.add_vertex(midpoint_arr[i]['name'],second)
-        # g.add_vertex(midpoint_arr[i+1]['name'],first)
         add2way_vertex(midpoint_arr[i]['id'],midpoint_arr[i+1]['id'],dist)
-terminal_distance = 120
+
+# If the midpoint belongs to horizontal gates in E terminal, connect the horizontal line
+#---------------------------------- This is the code to connect the horizontal line in E terminal
+concoursePointsEH =[]
+pointsSortedEH = []
+for i in range(0,json_len):
+    if(pointsJSON[i]['latitude'] == '33.640631'):
+        concoursePointsEH.append(pointsJSON[i])
+#sort the arry of points by
+pointsSortedEH = sorted(concoursePointsEH,key=lambda k:k['longitude'])
+
+for t in range(0,len(pointsSortedEH)-1):
+    dist1 = abs(float(pointsSortedEH[t+1]['longitude']) - float(pointsSortedEH[t]['longitude'])) * 363917.7912
+    add2way_vertex(pointsSortedEH[t]['id'],pointsSortedEH[t+1]['id'],dist1)
+
+#----------------------------------------
+terminal_distance = 100
+escalator_train_d = 5
+
+
+
+#adding a two way vertex to connect E_horizontal with E Vertical line in the center.
+add2way_vertex('2170','65',terminal_distance)
 
 add2way_vertex('294','295',terminal_distance)
 add2way_vertex('296','295',terminal_distance)
-g.add_vertex('295',{'293':terminal_distance})
-g.add_vertex('293',{'291':terminal_distance})
-g.add_vertex('291',{'289':terminal_distance})
-g.add_vertex('289',{'287':terminal_distance})
-g.add_vertex('287',{'285':terminal_distance})
-g.add_vertex('290',{'292':terminal_distance})
-g.add_vertex('286',{'288':terminal_distance})
-g.add_vertex('292',{'294':terminal_distance})
-g.add_vertex('288',{'290':terminal_distance})
+
+# Terminal vertexes
+g.add_vertex('297',{'285':escalator_train_d})
+g.add_vertex('286',{'298':escalator_train_d})
+
+#f & e stations
+g.add_vertex('306',{'307':escalator_train_d})
+g.add_vertex('307',{'308':escalator_train_d})
+
+add2way_vertex('287','299',escalator_train_d)
+add2way_vertex('288','300',escalator_train_d)
+add2way_vertex('289','301',escalator_train_d)
+add2way_vertex('290','302',escalator_train_d)
+add2way_vertex('291','303',escalator_train_d)
+add2way_vertex('292','304',escalator_train_d)
+add2way_vertex('293','305',escalator_train_d)
+add2way_vertex('294','306',escalator_train_d)
+add2way_vertex('295','307',escalator_train_d)
+add2way_vertex('296','308',escalator_train_d)
+
+# Vertices for baggage claim and t terminal
+g.add_vertex('299',{'298':terminal_distance})
+g.add_vertex('298',{'297':terminal_distance})
+g.add_vertex('301',{'299':terminal_distance})
+
+# g.add_vertex('303',{'301':terminal_distance})
+# g.add_vertex('305',{'303':terminal_distance})
+# g.add_vertex('307',{'305':terminal_distance})
+# g.add_vertex('298',{'300':terminal_distance})
+# g.add_vertex('300',{'302':terminal_distance})
+# g.add_vertex('302',{'304':terminal_distance})
+# g.add_vertex('304',{'306':terminal_distance})
+
+add2way_vertex('300','301',terminal_distance)
+add2way_vertex('302','303',terminal_distance)
+add2way_vertex('304','305',terminal_distance)
+
+add2way_vertex('299','300',50)
+add2way_vertex('301','302',50)
+add2way_vertex('303','304',50)
+add2way_vertex('305','306',50)
+
+
 g.add_vertex('285',{})
+
+
 # add2way_vertex('285','287',terminal_distance)
 
 # origin = 'A32'
@@ -365,18 +277,22 @@ g.add_vertex('285',{})
 #all shortest paths
 s_path_dict = {}
 def all_s_paths(poi):
+    l = len(poi)
     for i in range(0,l):
         print i
-        for j in range(1,l-1):
-            temp_arr = g.shortest_path(poi[i]['id'],poi[j]['id'])
-            if (temp_arr):
-                temp_arr.reverse()
-                dist_sum = 0
-                for k in range(0,len(temp_arr)-1):
-                    dist_sum += g.get_distance(temp_arr[k],temp_arr[k+1])
-                s_path_dict[str(poi[i]['id'])+"-"+str(poi[j]['id'])+"-dist"] = dist_sum
-                s_path_dict[str(poi[i]['id'])+"-"+str(poi[j]['id'])+"-route"] = temp_arr
-# --------------------
+        for j in range(1,l):
+            if i == j:
+                pass
+            else:
+                temp_arr = g.shortest_path(poi[i]['id'],poi[j]['id'])
+                if (temp_arr):
+                    temp_arr.reverse()
+                    dist_sum = 0
+                    for k in range(0,len(temp_arr)-1):
+                        dist_sum += g.get_distance(temp_arr[k],temp_arr[k+1])
+                    s_path_dict[str(poi[i]['id'])+"-"+str(poi[j]['id'])+"-dist"] = dist_sum
+                    s_path_dict[str(poi[i]['id'])+"-"+str(poi[j]['id'])+"-route"] = temp_arr
+    # --------------------
 # all_s_paths(initial_pointsJSON)
 # with open('all_s_paths.json', 'w') as f:
 #     json.dump(s_path_dict, f)
@@ -390,32 +306,36 @@ def home():
 # route that returns the shortest_path array
 
 
-
-
-
 @app.route('/shortest_path')
 def shortest_Path():
-    origin = '2'
-    destination = '231'
+
+    # origin = '2'
+    # destination = '221'
+    origin = request.args.get('origin')
+    destination = request.args.get('destination')
+    print g.get_distance('5288','5290')
     route_dict = {}
     instructions = []
     points_only = g.shortest_path(origin,destination)
     points_only.append(origin)
     points_only.reverse()
+    print points_only
     points = []
 
+    #distance to destination as we move along the path
     d_sum=0
     dist_to_dest = []
     for j in range(0,len(points_only)-1):
         d_sum += g.get_distance(points_only[j],points_only[j+1])
         dist_to_dest.append(d_sum)
     dist_to_dest.reverse()
+
     # print points_only
     for i in range(0,len(points_only)):
         for point in pointsJSON:
             if(point['id'] == points_only[i]):
                 points.append({points_only[i]:{"latitude":point['latitude'],"longitude":point['longitude'],"poi_type":point['poi_type'],"concourse": point['concourse'],"name":point['name']}})
-    
+
     for i in range(0,len(points)-2):
         v = points[i].values()[0]
         v1 = points[i+1].values()[0]
@@ -429,20 +349,43 @@ def shortest_Path():
                 instructions.append("Continue Forward North")
             elif ((float(v['longitude']) == float(v1['longitude'])) and (float(v['latitude']) > float(v1['latitude']))):
                 instructions.append("Continue Forward South")
+
+        # if v1["poi_type"] == "escalator":
+        #     if "Go Down Escalator and get on the train" in instructions:
+        #         if v2["poi_type"] == "escalator":
+        #             instructions.append("Stay on the train")
+        #         else:
+        #             instructions.append("Get off the train and go up the Escalator")
+        #     else:
+        #         instructions.append("Go Down Escalator and get on the train")
+
         if v1["poi_type"] == "escalator":
-            if "Go Down Escalator and get on the train" in instructions:
-                if v2["poi_type"] == "escalator":
-                    instructions.append("Stay on the train")
-                else:
-                    instructions.append("Get off the train and go up the Escalator")
+            if "Go down the escalator" in instructions:
+                instructions.append("Go up the escalator")
             else:
-                    instructions.append("Go Down Escalator and get on the train")
+                instructions.append("Go down the escalator")
 
-    # print "instructions"
-    # for i in instructions:
-    #     print i
+        if v1["poi_type"] == "train":
+            if "Get on the train" in instructions:
+                if v2["poi_type"] == "escalator":
+                    instructions.append("Get off the train")
+                else:
+                    instructions.append("Stay on the train")
+            else:
+                instructions.append("Get on the train")
 
-    return jsonify(points)
+    for k in instructions:
+        print k
+
+
+    # print "point length",len(points)
+
+    route_final = {'points': points,
+                   'instructions': instructions,
+                   'dist_to_dest': dist_to_dest
+                    }
+    return jsonify(route_final)
+
 #route that returns all the points in the airport
 @app.route('/all_points')
 def all_points():
@@ -457,51 +400,40 @@ def search():
     search_points = []
     if len(search)>0:
         for i in range(0,len(pointsJSON)):
+            # print 'ID: ' + pointsJSON[i]['id']
             if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] != "center" and pointsJSON[i]['poi_type'] != "hcenter":
                 search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
                 if search_route:
                     search_route.append(search_origin)
-                    # Logic for making a has Table
-# <<<<<<< HEAD
-#
-#                     temp_point = pointsJSON[i]
-#                     if path_key in s_path_dict:
-#                         temp_point['dist_from_origin'] = s_path_dict[path_key]
-#                     else:
-#                         dist_sum = 0
-#                         for j in range(0,len(search_route)-1):
-#                             dist_sum += g.get_distance(search_route[j],search_route[j+1])
-#                         s_path_dict[path_key] = dist_sum
-#                         temp_point['dist_from_origin'] = dist_sum
-#         print search_points
-#         print s_path_dict
-# =======
                     dist_sum = 0
                     for j in range(0,len(search_route)-1):
-                        dist_sum += g.get_distance(search_route[j],search_route[j+1])
+                        dist_sum += g.get_distance(search_route[j+1],search_route[j])
                         time = int(dist_sum/270.)
                     temp_point = pointsJSON[i]
                     temp_point['time'] = time
                     temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
                     search_points.append(temp_point)
-        print search_points
+        # print search_points
         return jsonify(search_points)
-    # elif len(search) > 0 and len(search) < 3:
+
+    # if len(search) > 0:
     #     for i in range(0,len(pointsJSON)):
     #         if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] == "gate":
-    #             print pointsJSON[i]['id']
     #             search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
     #             if search_route:
     #                 search_route.append(search_origin)
     #                 dist_sum = 0
     #                 for j in range(0,len(search_route)-1):
-    #                     dist_sum += g.get_distance(search_route[j],search_route[j+1])
+    #                     dist_sum += g.get_distance(search_route[j+1],search_route[j])
     #                     time = int(dist_sum/270)
     #                 temp_point = pointsJSON[i]
     #                 temp_point['time'] = time
     #                 temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
     #                 search_points.append(temp_point)
-        # print search_points
-        return jsonify(search_points)
+    #     print search_points
+
+# for point in pointsJSON:
+#     if point['poi_type'] == 'train':
+#         print point
+
 app.run(debug=True)
-print g.vertices['290']
