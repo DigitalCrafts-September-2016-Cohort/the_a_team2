@@ -43,12 +43,12 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         center: {
             lat: 33.640952,
             lng: -84.433220,
-            zoom: 16
+            zoom: 14
         },
         defaults: {
             maxZoom: 20,
             zoomControl: false,
-            tileLayer: 'https://api.mapbox.com/styles/v1/jesslyn-landgren/civzjfle8002l2kr3xkakr5ls/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ',
+            tileLayer: 'https://api.mapbox.com/styles/v1/jesslyn-landgren/ciw6blbhw001u2kmgu04klrja/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ',
             tileLayerOptions: {maxZoom:20}
         },
         controls: {
@@ -90,7 +90,6 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                             "coordinates": [all_points[point].longitude, all_points[point].latitude]
                         }
                 };
-                // console.log(all_points[point].poi_type);
                 $scope.geoJSON.push(geoJSON);
             }
             // $scope.drawAllPoints();
@@ -107,7 +106,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             };
             L.geoJSON($scope.geoJSON, {
                 style: function(feature) {
-                    return {color: '#5fad75'}
+                    return {color: '#5fad75'};
                     switch (feature.properties.poi_type) {
                         case 'station':   return {color: '#ffa100'};
                         case 'center':   return {color: "#0000ff"};
@@ -217,7 +216,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
                 }
             });
-            map.fitBounds([$scope.origin.lat, $scope.origin.lng])
+
         });
 
         $scope.destination = point;
@@ -230,13 +229,9 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     		"concourse": "A"
     	};
 
-
         AirportConnect.getRoute($scope.origin, $scope.destination).success(function(routeResult) {
-            console.log('Route Result', routeResult);
             $scope.route_points = routeResult.points;
             $scope.instructions = routeResult.instructions;
-            // console.log($scope.route_points);
-            // console.log($scope.instructions);
 
             // Only use these variables for checking current position along route (on locationfound)
             $scope.point_route_check = routeResult.points;
@@ -262,15 +257,19 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                             }
                     };
                     $scope.line_coord.push([current_node.longitude, current_node.latitude]);
-                    console.log($scope.line_coord);
+                    // console.log($scope.line_coord);
                     if (point === '0'){
-                        console.log("got origin");
+                        // console.log("got origin");
                         $scope.originGeoJSON.push(tempGeoJSON);
+                        $scope.origin_lat = parseFloat(current_node.latitude);
+                        $scope.origin_lng = parseFloat(current_node.longitude);
                     } else if (point === last) {
-                        console.log("got dest");
+                        // console.log("got dest");
                         $scope.destGeoJSON.push(tempGeoJSON);
+                        $scope.destination_lat = parseFloat(current_node.latitude);
+                        $scope.destination_lng = parseFloat(current_node.longitude);
                     } else if (current_node.poi_type === 'escalator'){
-                        console.log("got train station");
+                        // console.log("got train station");
                         $scope.stationsGeoJSON.push(tempGeoJSON);
                     }
                     break;
@@ -285,6 +284,9 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                         "coordinates": $scope.line_coord
                     }
             };
+            leafletData.getMap('map').then(function(map) {
+                map.fitBounds(L.latLngBounds([$scope.origin_lat, $scope.origin_lng], [$scope.destination_lat, $scope.destination_lng]));
+            });
             $scope.drawRoute();
         });
 
@@ -315,33 +317,33 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                     fillColor: "#2e66d2",
                     color: "#2e66d2",
                     weight: 1,
-                    opacity: 1,
-                    fillOpacity: 1
+                    opacity: 0,
+                    fillOpacity: 0
                 };
 
                 L.geoJSON($scope.originGeoJSON, {
                     pointToLayer: function (feature, latlng) {
-                        console.log('Plotting origin');
+                        // console.log('Plotting origin');
                         return L.circleMarker(latlng, originStyle);
                     }
                 }).addTo(map);
 
                 L.geoJSON($scope.destGeoJSON, {
                     pointToLayer: function (feature, latlng) {
-                        console.log('Plotting destination');
+                        // console.log('Plotting destination');
                         return L.circleMarker(latlng, destinationStyle);
                     }
                 }).addTo(map);
 
                 L.geoJSON($scope.stationsGeoJSON, {
                     pointToLayer: function (feature, latlng) {
-                        console.log('Plotting train station');
+                        // console.log('Plotting train station');
                         return L.circleMarker(latlng, stationStyle);
                     }
                 }).addTo(map);
 
                 var lineStyle = {
-                    "color": "#ff7800",
+                    "color": "#0085ff",
                     "weight": 5,
                     "opacity": 0.65
                 };
@@ -359,7 +361,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             map.eachLayer(function(layer){
                 map.removeLayer(layer);
             });
-            L.tileLayer('https://api.mapbox.com/styles/v1/jesslyn-landgren/ciw4wyf68000c2jp64u1j4xzh/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ', {maxZoom:20}).addTo(map);
+            L.tileLayer('https://api.mapbox.com/styles/v1/jesslyn-landgren/ciw6blbhw001u2kmgu04klrja/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ', {maxZoom:20}).addTo(map);
         });
     };
 });
