@@ -164,6 +164,13 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     $scope.startRoute = function (point) {
         //sets time footer ng-if boolean to true & hides search bar ng-if
         $scope.navigating = true;
+        $scope.show_steps = false;
+
+        $scope.showSteps = function(){
+            console.log('Show Steps');
+            $scope.show_steps = !$scope.show_steps;
+        };
+
         var tolerance = 0.000137;
         leafletData.getMap('map').then(function(map) {
             map.invalidateSize(true);
@@ -193,7 +200,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
 
                 $scope.time_left = 30;
-                $scope.step_by_step = "Continue Straight";
+                $scope.step_by_step = $scope.steps[0];
 
                 if ($scope.point_route_check) {
                     if ($scope.point_route_check.length === 1){
@@ -232,6 +239,22 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         AirportConnect.getRoute($scope.origin, $scope.destination).success(function(routeResult) {
             $scope.route_points = routeResult.points;
             $scope.instructions = routeResult.instructions;
+            console.log($scope.instructions);
+
+            // Get steps (eliminates instructions for points where instruction does not change)
+            var current_step = '';
+            var next_step = '';
+            $scope.steps = [$scope.instructions[0]];
+            for (var i=0; i<$scope.instructions.length-1; i++){
+                current_step = $scope.instructions[i];
+                next_step = $scope.instructions[i+1];
+                console.log('Current:', current_step);
+                console.log('Next:', current_step);
+                if (next_step !== current_step) {
+                    $scope.steps.push(next_step);
+                }
+            }
+            console.log($scope.steps);
 
             // Only use these variables for checking current position along route (on locationfound)
             $scope.point_route_check = routeResult.points;
@@ -363,6 +386,9 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             });
             L.tileLayer('https://api.mapbox.com/styles/v1/jesslyn-landgren/ciw6blbhw001u2kmgu04klrja/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamVzc2x5bi1sYW5kZ3JlbiIsImEiOiJ4VUxXQ1BZIn0.6tb-5bu-J-kVGvAbTn6MQQ', {maxZoom:20}).addTo(map);
         });
+        $scope.query = '';
+        $scope.results = false;
+        $scope.show_results = false;
     };
 });
 

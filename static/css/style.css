@@ -19,7 +19,7 @@ input:focus{
 .map-container {
     /*border: 4px solid orange;*/
     width: 100%;
-    height: 90%;
+    height: 77%;
 }
 
 #map {
@@ -29,11 +29,24 @@ input:focus{
     height: 100%;
 }
 
-.search-box {
+.logoDiv {
+    /*border: 4px solid orange;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px 0 15px;
+    width: 25%;
+}
+
+.logo {
+    /*border: 4px solid blue;*/
+}
+
+.top-box {
     /*border: 4px solid green;*/
     box-shadow: 0px 2px 1px #b6b6b6;
     width: 100%;
-    height: 10%;
+    height: 12%;
     display: flex;
     z-index: 1000;
 }
@@ -41,14 +54,14 @@ input:focus{
 .search-input {
     /*border: 4px solid red;*/
     height: 100%;
-    width: 100%;
+    width: 75%;
     padding-left: 20px;
     font-size: 1.2em;
     font-family: 'Open Sans', sans-serif;
+    color: #ef473a;
 }
 
 .search-results {
-    /*border-top: 1px solid #c3c3c3;*/
     /*border: 4px solid red;*/
     background: #e7e7e7;
     position: absolute;
@@ -128,21 +141,81 @@ input:focus{
     align-items: center;
 }
 
-.directions_container {
+.stepDiv {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    color: #ef473a;
+    font-size: 1.2em;
+    font-weight: bold;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.dot {
     /*border: 4px solid blue;*/
-    height: 10%;
-    font-size: 1.3em;
+    width: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.step {
+    /*border: 4px solid pink;*/
+    font-size: 1.2em;
+    width: 90%;
+    padding: 5px 0 5px 0;
+}
+
 .footer {
-    border: 4px solid yellow;
+    /*border: 4px solid yellow;*/
     bottom: 0;
     width: 100%;
+    height: 9%;
     background-color: #fff;
+}
+
+.footer-content {
+    /*border: 4px solid purple;*/
     display: flex;
+    height: 100%;
+    font-size: 1.8em;
+}
+
+.homefooter {
+    font-size: 1em;
+    background: #ef473a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.time-nav {
+    /*border: 4px solid orange;*/
+    width: 50%;
+    color: #ef473a;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.away {
+    font-size: 1em;
+}
+
+.cancel {
+    /*border: 4px solid blue;*/
+    width: 50%;
+    background: #ef473a;
+    color: white;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .label {

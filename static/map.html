@@ -1,10 +1,13 @@
 
-<div ng-show = "!navigating" class="search-box">
+<div ng-show = "!navigating" class="top-box">
+    <div class="logoDiv">
+        <img class="logo" src="img/logo.jpg" alt="">
+    </div>
     <input class="search-input" ng-change= "search()" ng-model="query" type="text" name="search" placeholder="Where to? (A30, Starbucks)">
 </div>
 
 <!-- Hides search results upon click of "Go" -->
-<div ng-hide = "navigating" ng-if="show_results" class="search-results">
+<div ng-hide="navigating" ng-if="show_results" class="search-results">
     <div class="search-result" ng-repeat="result in results | orderBy: ['-s_index', '-time']: true | limitTo: 5 track by $index">
         <div class="icon" ng-switch="result.poi_type">
             <i ng-switch-when="restaurant" class="fa fa-cutlery" aria-hidden="true"></i>
@@ -30,19 +33,41 @@
     </div>
 </div>
 <!-- //Hidden header for displaying step by step directions -->
-<div ng-show="navigating" class="directions_container">
-    <div>{{step_by_step}}</div>
+<div ng-show="navigating" class="top-box">
+    <div class="logoDiv">
+        <img class="logo" src="img/logo.jpg" alt="">
+    </div>
+    <div class="stepDiv">{{step_by_step}}</div>
+    <div class="logoDiv">
+        <i class="fa fa-angle-double-down" style="font-size: 2em; color: lightgray;" aria-hidden="true" ng-click="showSteps()"></i>
+    </div>
 </div>
-<!-- <button type="button" name="button" ng-click="getLocation()">Console Log Location</button> -->
+
+<div ng-show="navigating" ng-if="show_steps" class="search-results">
+    <div class="search-result" ng-repeat="step in steps track by $index">
+        <div class="dot">
+            <i ng-show="" class="fa fa-hand-o-right" aria-hidden="true"></i>
+            <i ng-hide="" style="font-size: .6em;" class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="step">
+                 {{step}}
+        </div>
+    </div>
+</div>
+
+
 <div class="map-container">
-<leaflet id="map" lf-center="center" defaults="defaults" controls="controls" width="100%"></leaflet>
+    <leaflet id="map" lf-center="center" defaults="defaults" controls="controls" width="100%"></leaflet>
 </div>
 
 <!-- //Hidden footer for displaying time until destination -->
-<div ng-show ="navigating" class="footer">
-    <div class="footer-content">
-        <div>{{time_left}} min</div>
-        <button type="button" name="button" ng-click="stopNav()">Done</button>
+<div class="footer">
+    <div ng-show="navigating" class="footer-content">
+        <div class="time-nav">23 min </div>
+        <div ng-click="stopNav()" class="cancel">Go Back</div>
+    </div>
+    <div ng-hide="navigating" class="footer-content">
+        <div class="homefooter">Welcome to ATL!</div>
     </div>
 </div>
 
