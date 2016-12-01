@@ -1,11 +1,45 @@
+<div class="splashDiv" ng-show="home">
+    <div class="bigLogo">
+        <img src="img/white_logo.png" alt="">
+    </div>
+    <div class="welcome">
+        Welcome to ATL-Hartsfield Jackson!
+    </div>
+    <div id="weather">
 
-<div ng-show = "!navigating" class="search-box">
-    <input class="search-input" ng-change= "search()" ng-model="query" type="text" name="search" placeholder="Where to? (A30, Starbucks)">
+    </div>
+    <div class="beta">
+        <p>pssst! This app is in beta</p>
+        <div class="welcomeButtons">
+            <div class="demoButton">
+                <a href="#">View Demo</a>
+            </div>
+            <div ng-click="useApp()" class="appButton">
+                Continue to App
+            </div>
+        </div>
+    </div>
+
+    <div class="app-banner">
+        <p>Get the app:</p>
+        <div class="app-icons">
+            <a class="left" href="http://youtube.com"><i class="fa fa-apple" aria-hidden="true"></i></a>
+            <a href="http://google.com"><i class="fa fa-android" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</div>
+
+
+<div ng-show = "!navigating" class="top-box">
+    <div class="logoDiv">
+        <!-- <img class="logo" src="img/red_logo.png" alt=""> -->
+    </div>
+    <input class="search-input" ng-change= "search()" ng-model="query" type="text" name="search" placeholder="Where to?  (A30, Starbucks)">
 </div>
 
 <!-- Hides search results upon click of "Go" -->
-<div ng-hide = "navigating" ng-if="show_results" class="search-results">
-    <div class="search-result" ng-repeat="result in results | orderBy: ['-s_index', '-time']: true | limitTo: 5 track by $index">
+<div ng-hide="navigating" ng-if="show_results" class="search-results">
+    <div class="search-result" ng-repeat="result in results | orderBy: ['-s_index', '-time']: true | limitTo: 15 track by $index">
         <div class="icon" ng-switch="result.poi_type">
             <i ng-switch-when="restaurant" class="fa fa-cutlery" aria-hidden="true"></i>
             <i ng-switch-when="gate" class="fa fa-plane" aria-hidden="true"></i>
@@ -30,21 +64,56 @@
     </div>
 </div>
 <!-- //Hidden header for displaying step by step directions -->
-<div ng-show="navigating" class="directions_container">
-    <div>{{step_by_step}}</div>
+<div ng-show="navigating" class="top-box">
+    <div class="logoDiv">
+        <img class="logo" src="img/logo.jpg" alt="">
+    </div>
+    <div class="stepDiv">{{step_by_step}}</div>
+    <div class="logoDiv">
+        <i ng-if="!show_steps" class="fa fa-angle-double-down" style="font-size: 2em; color: lightgray;" aria-hidden="true" ng-click="showSteps()"></i>
+        <i ng-if="show_steps" class="fa fa-angle-double-up" style="font-size: 2em; color: lightgray;" aria-hidden="true" ng-click="showSteps()"></i>
+    </div>
 </div>
-<!-- <button type="button" name="button" ng-click="getLocation()">Console Log Location</button> -->
+
+<div ng-show="navigating" ng-if="show_steps" class="search-results">
+    <div class="search-result" ng-repeat="step in steps track by $index">
+        <div class="dot">
+            <i ng-show="" class="fa fa-hand-o-right" aria-hidden="true"></i>
+            <i ng-hide="" style="font-size: .6em;" class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="step">
+                 {{step}}
+        </div>
+    </div>
+</div>
+
+
 <div class="map-container">
-<leaflet id="map" lf-center="center" defaults="defaults" controls="controls" width="100%"></leaflet>
+    <leaflet id="map" lf-center="center" defaults="defaults" controls="controls" width="100%"></leaflet>
 </div>
 
 <!-- //Hidden footer for displaying time until destination -->
-<div ng-show ="navigating" class="footer">
-    <div class="footer-content">
-        <div>{{time_left}} min</div>
-        <button type="button" name="button" ng-click="stopNav()">Done</button>
+<div class="footer">
+    <div ng-show="navigating" class="footer-content">
+        <div class="time-nav">23 min </div>
+        <div ng-click="stopNav()" class="cancel">Exit</div>
+    </div>
+    <div ng-hide="navigating" class="footer-content">
+        <div class="homefooter">Welcome to ATL!</div>
     </div>
 </div>
+
+<div class="arrivedDiv" ng-show="arrived">
+    <div class="arrivedMessage">
+        <p class="you">You have arrived</p>
+        <p class="enjoy">Enjoy your trip!</p>
+    </div>
+    <div ng-click="stopNav()" class="arrivedButton">
+        Continue
+    </div>
+</div>
+
+
 
 <script type="text/javascript">
     $(document).ready(function (){
@@ -86,4 +155,24 @@
         setTimeout(function(){ map.invalidateSize(true)}, 400);
     });
 
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.simpleWeather({
+            zipcode: '30320',
+            unit: 'f',
+            success: function(weather) {
+                html = '<h2>'+weather.city+', '+weather.region+'</h2>';
+                html += '<img style="float:left;" width="125px" src="images/weather/'+weather.code+'.png">';
+                html += '<p>'+weather.temp+'&deg; '+weather.units.temp+'<br /><span>'+weather.currently+'</span></p>';
+                html += '<a href="'+weather.link+'">View Forecast &raquo;</a>';
+
+                $("#weather").html(html);
+            },
+            error: function(error) {
+                $("#weather").html("<p>"+error+"</p>");
+            }
+            });
+    })
 </script>

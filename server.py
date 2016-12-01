@@ -7,15 +7,22 @@ import json
 import csv
 
 
-app = Flask('Connect', static_url_path='')
+# load_dotenv(find_dotenv())
+base_dir = os.path.dirname(os.path.abspath(__file__))
+static_dir = os.path.join(base_dir, 'static')
+app = Flask('Connect', static_url_path='', static_folder=static_dir)
+# app = Flask('Connect', template_folder=tmp_dir)
 
-with open('points.json') as json_file:
-    pointsJSON = json.load(json_file)
 
 # with open('points.json') as ts:
 #     tk = json.load(ts)
 #
 # initial_pointsJSON = tk
+
+with open(base_dir + '/points.json') as json_file:
+   pointsJSON = json.load(json_file)
+# app = Flask('Connect', static_url_path='')
+
 
 def add2way_vertex(origin,destination,distance):
     g.add_vertex(str(origin),{str(destination):distance})
@@ -395,8 +402,10 @@ def all_points():
 @app.route('/search')
 def search():
     search = request.args.get('query').lower()
+
     # print search
     search_origin = '2'
+
     search_points = []
     if len(search)>0:
         for i in range(0,len(pointsJSON)):
