@@ -7,7 +7,9 @@ import json
 import csv
 
 
-app = Flask('Connect', static_url_path='')
+static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
+app = Flask('Connect', static_url_path='', static_folder=static_dir)
+# app = Flask('Connect', static_url_path='')
 
 with open('points.json') as json_file:
     pointsJSON = json.load(json_file)
@@ -281,7 +283,7 @@ def all_points():
 def search():
     search = request.args.get('query').lower()
     print search
-    search_origin = '2'
+    search_origin = '221'
     search_points = []
     if len(search)>2:
         for i in range(0,len(pointsJSON)):

@@ -19,7 +19,7 @@ input:focus{
 .map-container {
     /*border: 4px solid orange;*/
     width: 100%;
-    height: 77%;
+    height: 79%;
 }
 
 #map {
@@ -146,7 +146,7 @@ input:focus{
     display: flex;
     align-items: center;
     color: #ef473a;
-    font-size: 1.2em;
+    font-size: 1.4em;
     font-weight: bold;
     justify-content: center;
     flex-wrap: wrap;
@@ -219,5 +219,110 @@ input:focus{
 }
 
 .label {
+    text-align: center;
+}
+
+.geolocate {
+    color: #ef473a;
+}
+
+.arrivedDiv {
+    background: #ef473a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 30%;
+    width: 60%;
+    left: 13%;
+    top: 30%;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px lightgray;
+    z-index: 9999999999;
+    padding: 30px 30px 30px 30px;
+}
+
+.arrivedMessage {
+    /*border: 4px solid orange;*/
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.you {
+    font-size: 1.8em;
+}
+
+.enjoy {
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+.emph {
+    font-style: italic;
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.arrivedButton {
+    color: white;
+    background: #ef473;
+    text-transform: uppercase;
+    border: 2px solid white;
+    border-radius: 2px;
+    padding: 10px 20px 10px 20px;
+}
+
+.emph {
+    font-style: italic;
+}
+
+.splashDiv {
+    background: #ef473a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px lightgray;
+    z-index: 9999999999;
+}
+
+.welcomeButtons {
+    display: flex;
+    color: white;
+    border: 2px solid white;
+    border-radius: 2px;
+}
+
+.welcomeButtons a,
+.welcomeButtons a:hover,
+.welcomeButtons a:focus,
+.welcomeButtons a:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.demoButton {
+    text-transform: uppercase;
+    color: white;
+    padding: 10px 10px;
+}
+
+.appButton {
+    text-transform: uppercase;
+    background-color: white;
+    color: #ef473a;
+    padding: 10px 10px;
+}
+
+.welcome {
+    font-size: 2.3em;
     text-align: center;
 }

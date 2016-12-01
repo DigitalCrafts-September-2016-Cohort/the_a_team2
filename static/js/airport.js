@@ -39,6 +39,12 @@ app.factory('AirportConnect', function($http) {
 
 app.controller('NavController', function($scope, $state, AirportConnect, leafletData) {
 
+    $scope.home= true;
+
+    $scope.useApp = function (){
+        $scope.home = false;
+    };
+
     angular.extend($scope, {
         center: {
             lat: 33.640952,
@@ -59,10 +65,11 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                         outOfView: 'setView'
                     },
                     drawCircle: false,
-                    icon: 'fa fa-location-arrow',
+                    icon: 'fa fa-crosshairs geolocate',
                     locateOptions: {
                         watch: false
-                    }
+                    },
+                    position: 'bottomright'
                 })
             ]
         }
@@ -165,6 +172,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         //sets time footer ng-if boolean to true & hides search bar ng-if
         $scope.navigating = true;
         $scope.show_steps = false;
+        $scope.arrived = false;
 
         $scope.showSteps = function(){
             console.log('Show Steps');
@@ -205,6 +213,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 if ($scope.point_route_check) {
                     if ($scope.point_route_check.length === 1){
                         if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
+                            $scope.arrived = true;
                             console.log("You have arrived!");
                             console.log("End of route check");
                         }
@@ -242,16 +251,31 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             console.log($scope.instructions);
 
             // Get steps (eliminates instructions for points where instruction does not change)
+            var previous_step = '';
             var current_step = '';
-            var next_step = '';
-            $scope.steps = [$scope.instructions[0]];
-            for (var i=0; i<$scope.instructions.length-1; i++){
-                current_step = $scope.instructions[i];
-                next_step = $scope.instructions[i+1];
-                console.log('Current:', current_step);
-                console.log('Next:', current_step);
-                if (next_step !== current_step) {
-                    $scope.steps.push(next_step);
+            $scope.steps = [];
+            for (var i=0; i<$scope.instructions.length; i++){
+                console.log(i);
+                if (i===0){
+                    console.log('first step');
+                    $scope.steps.push($scope.instructions[i]);
+                } else if (i < $scope.instructions.length-1){
+                    console.log('checking steps');
+                    previous_step = $scope.instructions[i-1];
+                    current_step = $scope.instructions[i];
+                    console.log('Previous:', previous_step);
+                    console.log('Current:', current_step);
+
+                    if (current_step !== previous_step) {
+                        console.log("new step");
+                        $scope.steps.push(current_step);
+                    }
+                } else {
+                    previous_step = $scope.instructions[i-1];
+                    current_step = $scope.instructions[i];
+                    console.log('Previous:', previous_step);
+                    console.log('Current:', current_step);
+                    $scope.steps.push($scope.instructions[i]);
                 }
             }
             console.log($scope.steps);
@@ -389,6 +413,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         $scope.query = '';
         $scope.results = false;
         $scope.show_results = false;
+        $scope.arrived = false;
     };
 });
 

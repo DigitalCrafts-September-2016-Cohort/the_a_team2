@@ -1,14 +1,31 @@
+<div class="splashDiv" ng-show="home">
+    <div class="welcome">
+        Welcome to ATL-Hartsfield Jackson!
+    </div>
+    <div class="beta">
+        This app is in beta
+    </div>
+    <div class="welcomeButtons">
+        <div class="demoButton">
+            <a href="#">View Demo</a>
+        </div>
+        <div ng-click="useApp()" class="appButton">
+            Continue to App
+        </div>
+    </div>
+</div>
+
 
 <div ng-show = "!navigating" class="top-box">
     <div class="logoDiv">
         <img class="logo" src="img/logo.jpg" alt="">
     </div>
-    <input class="search-input" ng-change= "search()" ng-model="query" type="text" name="search" placeholder="Where to? (A30, Starbucks)">
+    <input class="search-input" ng-change= "search()" ng-model="query" type="text" name="search" placeholder="Where to?  (A30, Starbucks)">
 </div>
 
 <!-- Hides search results upon click of "Go" -->
 <div ng-hide="navigating" ng-if="show_results" class="search-results">
-    <div class="search-result" ng-repeat="result in results | orderBy: ['-s_index', '-time']: true | limitTo: 5 track by $index">
+    <div class="search-result" ng-repeat="result in results | orderBy: ['-s_index', '-time']: true | limitTo: 15 track by $index">
         <div class="icon" ng-switch="result.poi_type">
             <i ng-switch-when="restaurant" class="fa fa-cutlery" aria-hidden="true"></i>
             <i ng-switch-when="gate" class="fa fa-plane" aria-hidden="true"></i>
@@ -39,7 +56,8 @@
     </div>
     <div class="stepDiv">{{step_by_step}}</div>
     <div class="logoDiv">
-        <i class="fa fa-angle-double-down" style="font-size: 2em; color: lightgray;" aria-hidden="true" ng-click="showSteps()"></i>
+        <i ng-if="!show_steps" class="fa fa-angle-double-down" style="font-size: 2em; color: lightgray;" aria-hidden="true" ng-click="showSteps()"></i>
+        <i ng-if="show_steps" class="fa fa-angle-double-up" style="font-size: 2em; color: lightgray;" aria-hidden="true" ng-click="showSteps()"></i>
     </div>
 </div>
 
@@ -64,12 +82,24 @@
 <div class="footer">
     <div ng-show="navigating" class="footer-content">
         <div class="time-nav">23 min </div>
-        <div ng-click="stopNav()" class="cancel">Go Back</div>
+        <div ng-click="stopNav()" class="cancel">Exit</div>
     </div>
     <div ng-hide="navigating" class="footer-content">
         <div class="homefooter">Welcome to ATL!</div>
     </div>
 </div>
+
+<div class="arrivedDiv" ng-show="arrived">
+    <div class="arrivedMessage">
+        <p class="you">You have arrived</p>
+        <p class="enjoy">Enjoy your trip!</p>
+    </div>
+    <div ng-click="stopNav()" class="arrivedButton">
+        Continue
+    </div>
+</div>
+
+
 
 <script type="text/javascript">
     $(document).ready(function (){
