@@ -8,18 +8,24 @@ import csv
 
 
 # load_dotenv(find_dotenv())
-base_dir = os.path.dirname(os.path.abspath(__file__))
-static_dir = os.path.join(base_dir, 'static')
-app = Flask('Connect', static_url_path='', static_folder=static_dir)
+# base_dir = os.path.dirname(os.path.abspath(__file__))
+# static_dir = os.path.join(base_dir, 'static')
+# app = Flask('Connect', static_url_path='', static_folder=static_dir)
 # app = Flask('Connect', template_folder=tmp_dir)
 
+# tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),'templates')
+static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)),'static')
+app = Flask('Connect',static_url_path='',static_folder=static_folder)
 
 # with open('points.json') as ts:
 #     tk = json.load(ts)
 #
 # initial_pointsJSON = tk
 
-with open(base_dir + '/points.json') as json_file:
+# with open(base_dir + '/points.json') as json_file:
+#    pointsJSON = json.load(json_file)
+
+with open('points.json') as json_file:
    pointsJSON = json.load(json_file)
 # app = Flask('Connect', static_url_path='')
 
@@ -221,7 +227,7 @@ escalator_train_d = 5
 
 
 #adding a two way vertex to connect E_horizontal with E Vertical line in the center.
-add2way_vertex('2170','65',terminal_distance)
+add2way_vertex('2170','6518',terminal_distance)
 
 add2way_vertex('294','295',terminal_distance)
 add2way_vertex('296','295',terminal_distance)
@@ -410,7 +416,7 @@ def search():
     if len(search)>0:
         for i in range(0,len(pointsJSON)):
             # print 'ID: ' + pointsJSON[i]['id']
-            if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] != "center" and pointsJSON[i]['poi_type'] != "hcenter":
+            if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] != "center" and pointsJSON[i]['poi_type'] != "hcenter" and pointsJSON[i]['poi_type'] != "train" and pointsJSON[i]['poi_type'] != "escalator":
                 search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
                 if search_route:
                     search_route.append(search_origin)
