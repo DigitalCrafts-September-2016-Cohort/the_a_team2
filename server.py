@@ -12,6 +12,155 @@ app = Flask('Connect', static_url_path='')
 with open('points.json') as json_file:
     pointsJSON = json.load(json_file)
 
+# initial_pointsJSON = pointsJSON
+
+initial_pointsJSON = [
+	{
+		"id": "1",
+		"name": "A1",
+		"latitude": "33.6375916",
+		"longitude": "-84.439033",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "2",
+		"name": "A2",
+		"latitude": "33.637749",
+		"longitude": "-84.4393355",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "3",
+		"name": "A3",
+		"latitude": "33.6379332",
+		"longitude": "-84.4390335",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "4",
+		"name": "A4",
+		"latitude": "33.6382532",
+		"longitude": "-84.4393433",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "5",
+		"name": "A5",
+		"latitude": "33.6382586",
+		"longitude": "-84.4390341",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "6",
+		"name": "A6",
+		"latitude": "33.6386307",
+		"longitude": "-84.4393492",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "7",
+		"name": "A7",
+		"latitude": "33.6385894",
+		"longitude": "-84.4390346",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "8",
+		"name": "A8",
+		"latitude": "33.638845",
+		"longitude": "-84.43932",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "9",
+		"name": "A9",
+		"latitude": "33.638969",
+		"longitude": "-84.4390352",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "10",
+		"name": "A10",
+		"latitude": "33.6392544",
+		"longitude": "-84.4393589",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "11",
+		"name": "A11",
+		"latitude": "33.639495",
+		"longitude": "-84.439036",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "12",
+		"name": "A12",
+		"latitude": "33.6397045",
+		"longitude": "-84.4393659",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "13",
+		"name": "A13",
+		"latitude": "33.639763",
+		"longitude": "-84.439032",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "14",
+		"name": "A14",
+		"latitude": "33.639968",
+		"longitude": "-84.439327",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "15",
+		"name": "A15",
+		"latitude": "33.6400969",
+		"longitude": "-84.4390369",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "16",
+		"name": "A16",
+		"latitude": "33.6403064",
+		"longitude": "-84.4393752",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "17",
+		"name": "A17",
+		"latitude": "33.6404385",
+		"longitude": "-84.4390374",
+		"poi_type": "gate",
+		"concourse": "A"
+	},
+	{
+		"id": "18",
+		"name": "A18",
+		"latitude": "33.6406961",
+		"longitude": "-84.4393386",
+		"poi_type": "gate",
+		"concourse": "A"
+	}
+]
+l =  len(initial_pointsJSON)
 
 def add2way_vertex(origin,destination,distance):
     g.add_vertex(str(origin),{str(destination):distance})
@@ -75,6 +224,10 @@ class Graph:
 
 # if __name__ == '__main__':
 g = Graph()
+
+print "initial  ",initial_pointsJSON[0]["id"]
+
+
 
 
 concourses = [{'name':'A', 'longitude':'-84.439175'},
@@ -206,30 +359,63 @@ g.add_vertex('285',{})
 # shor_test_path = g.shortest_path(origin,destination);
 # shor_test_path.append(origin);
 
-# print g
+#---------------
+
+#------------------
+#all shortest paths
+s_path_dict = {}
+def all_s_paths(poi):
+    for i in range(0,l):
+        print i
+        for j in range(1,l-1):
+            temp_arr = g.shortest_path(poi[i]['id'],poi[j]['id'])
+            if (temp_arr):
+                temp_arr.reverse()
+                dist_sum = 0
+                for k in range(0,len(temp_arr)-1):
+                    dist_sum += g.get_distance(temp_arr[k],temp_arr[k+1])
+                s_path_dict[str(poi[i]['id'])+"-"+str(poi[j]['id'])+"-dist"] = dist_sum
+                s_path_dict[str(poi[i]['id'])+"-"+str(poi[j]['id'])+"-route"] = temp_arr
+# --------------------
+# all_s_paths(initial_pointsJSON)
+# with open('all_s_paths.json', 'w') as f:
+#     json.dump(s_path_dict, f)
+# -----------------------
+
 
 @app.route('/')
 def home():
     return app.send_static_file('index.html')
 
 # route that returns the shortest_path array
-s_path_dict = {}
+
+
+
+
 
 @app.route('/shortest_path')
 def shortest_Path():
-    origin = '17'
-    destination = '120'
+    origin = '2'
+    destination = '231'
     route_dict = {}
     instructions = []
     points_only = g.shortest_path(origin,destination)
     points_only.append(origin)
     points_only.reverse()
     points = []
+
+    d_sum=0
+    dist_to_dest = []
+    for j in range(0,len(points_only)-1):
+        d_sum += g.get_distance(points_only[j],points_only[j+1])
+        dist_to_dest.append(d_sum)
+    dist_to_dest.reverse()
     # print points_only
     for i in range(0,len(points_only)):
         for point in pointsJSON:
             if(point['id'] == points_only[i]):
-                points.append({points_only[i]:{"latitude":point['latitude'],"longitude":point['longitude'],"poi_type":point['poi_type']}})
+                points.append({points_only[i]:{"latitude":point['latitude'],"longitude":point['longitude'],"poi_type":point['poi_type'],"concourse": point['concourse'],"name":point['name']}})
+    
     for i in range(0,len(points)-2):
         v = points[i].values()[0]
         v1 = points[i+1].values()[0]
@@ -252,11 +438,10 @@ def shortest_Path():
             else:
                     instructions.append("Go Down Escalator and get on the train")
 
-    print "instructions"
-    for i in instructions:
-        print i
-    for j in points:
-        print j
+    # print "instructions"
+    # for i in instructions:
+    #     print i
+
     return jsonify(points)
 #route that returns all the points in the airport
 @app.route('/all_points')
@@ -270,7 +455,7 @@ def search():
     # print search
     search_origin = '2'
     search_points = []
-    if len(search)>2:
+    if len(search)>0:
         for i in range(0,len(pointsJSON)):
             if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] != "center" and pointsJSON[i]['poi_type'] != "hcenter":
                 search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
@@ -301,20 +486,22 @@ def search():
                     search_points.append(temp_point)
         print search_points
         return jsonify(search_points)
-    elif len(search) > 0 and len(search) < 3:
-        for i in range(0,len(pointsJSON)):
-            if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] == "gate":
-                search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
-                if search_route:
-                    search_route.append(search_origin)
-                    dist_sum = 0
-                    for j in range(0,len(search_route)-1):
-                        dist_sum += g.get_distance(search_route[j],search_route[j+1])
-                        time = int(dist_sum/270)
-                    temp_point = pointsJSON[i]
-                    temp_point['time'] = time
-                    temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
-                    search_points.append(temp_point)
+    # elif len(search) > 0 and len(search) < 3:
+    #     for i in range(0,len(pointsJSON)):
+    #         if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] == "gate":
+    #             print pointsJSON[i]['id']
+    #             search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
+    #             if search_route:
+    #                 search_route.append(search_origin)
+    #                 dist_sum = 0
+    #                 for j in range(0,len(search_route)-1):
+    #                     dist_sum += g.get_distance(search_route[j],search_route[j+1])
+    #                     time = int(dist_sum/270)
+    #                 temp_point = pointsJSON[i]
+    #                 temp_point['time'] = time
+    #                 temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
+    #                 search_points.append(temp_point)
         # print search_points
         return jsonify(search_points)
 app.run(debug=True)
+print g.vertices['290']
