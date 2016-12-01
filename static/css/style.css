@@ -284,7 +284,6 @@ input:focus{
     color: white;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
     position: absolute;
     height: 100%;
@@ -323,6 +322,44 @@ input:focus{
 }
 
 .welcome {
+    border: 4px solid blue;
     font-size: 2.3em;
     text-align: center;
+}
+
+.beta {
+    border: 4px solid purple;
+    text-align: center;
+}
+
+.bigLogo {
+    border: 4px solid yellow;
+}
+
+.bigLogo img{
+    width: 175px;
+    height: auto;
+}
+
+.app-banner {
+    text-align: center;
+}
+
+.app-icons a,
+.app-icons a:hover,
+.app-icons a:focus,
+.app-icons a:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.app-icons {
+    border: 4px solid green;
+    display: flex;
+    justify-content: center;
+    font-size: 1.5em;
+}
+
+.left {
+    margin-right: 20px;
 }

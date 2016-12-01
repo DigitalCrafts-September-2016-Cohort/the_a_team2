@@ -7,13 +7,15 @@ import json
 import csv
 
 
-static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
+# load_dotenv(find_dotenv())
+base_dir = os.path.dirname(os.path.abspath(__file__))
+static_dir = os.path.join(base_dir, 'static')
 app = Flask('Connect', static_url_path='', static_folder=static_dir)
+# app = Flask('Connect', template_folder=tmp_dir)
+
+with open(base_dir + '/points.json') as json_file:
+   pointsJSON = json.load(json_file)
 # app = Flask('Connect', static_url_path='')
-
-with open('points.json') as json_file:
-    pointsJSON = json.load(json_file)
-
 
 def add2way_vertex(origin,destination,distance):
     g.add_vertex(str(origin),{str(destination):distance})
