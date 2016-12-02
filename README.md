@@ -213,7 +213,7 @@ map.on('locationfound', function (e) {
 ![Navigation View](static/img/screenshots/nav_view_chipotle.png)
 ![Navigation - Origin](static/img/screenshots/nav_view_origin.png)
 ![Navigation - Destination](static/img/screenshots/nav_view_destination.png)
-![Ionic Emulation Example (Android and Iphone)](static/img/screenshots/ionic_ss.png)
+![Ionic Emulation Example (Android and Iphone)](static/img/ionic_ss.png)
 <!-- ![iPhone6](static/img/iphone6.png)
 ![iPad](static/img/ipad.png)
 ![Android](static/img/android.png) -->
