@@ -37,7 +37,7 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 
 * [Keyur Patel](https://github.com/ekeyur/)  
 **Primary team role:** Back-end Soldier<br />
-**Contributions:** Built a custom, responsive layout from scratch with focus on clean, robust design. Implemented functionality via the back end, utilizing Djikstra's algorith, returning data from the JSON file for use in front end functionality. <br />
+**Contributions:** Created the api's needed from python backend for shortest path between two nodes. Modified the original algorithm to accomodate the adding of vertices and return of the route. Built a custom, responsive layout from scratch with focus on clean, robust design. Implemented functionality via the back end, utilizing Djikstra's algorith, returning data from the JSON file for use in front end functionality. <br />
 **Key code portions:** Most of the Python code (server.py) and data (points.JSON).
 
 * [Jason Campbell](https://github.com/mtnzorro/)  
@@ -109,11 +109,7 @@ We planned our stretch goals in advance of reaching MVP and portions of the team
 
 3.  **Challenge:**  Implementing user-friendly dynamic search.  When a user types in a search query, we need to return a list of destinations that match their entered query, but also show and sort the returned results by the distance from the user's current location.  The method to search goes through all network node names and calculates a shortest path via Dijkstra's algorithm.  Our search is dynamic, so it is called (and results displayed) after every character is typed.  For very short search strings, a large number of results are returned and there is a significant lag in displaying them.  
 
-    **Solution:** To counteract this we handle queries of different lengths differently. Initially we only performed a search if they query was greater than 3 characters, but because we don't have a functionality for multiple node aliases (the user has to type exactly the gate number), we need to support 2 character searches because all gate names are 2-3 characters. We solved this by only searching gates if the query is less than 3 characters and then searching all place nodes if the query is 3 characters or greater.
-
-4. **Challenge:**
-
-   **Solution:**  
+    **Solution:** To counteract this we handle queries of different lengths differently. Initially we only performed a search if they query was greater than 3 characters, but because we don't have a functionality for multiple node aliases (the user has to type exactly the gate number), we need to support 2 character searches because all gate names are 2-3 characters. We solved this by only searching gates if the query is less than 3 characters and then searching all place nodes if the query is 3 characters or greater. To further accomodate this problem, we implemented MEMOIZATION: i.e. created a dictionary and appended all the routes searched stored the dictionary in a file. This allowed the path to be calculated only once and look it up in the dictionary the next time same route is searched.
 
 
 ##Code Snippets
@@ -204,6 +200,69 @@ map.on('locationfound', function (e) {
     }
 });
 ```
+Code in python for generating vertical centerline path. for all the terminals.
+```
+# Code for creating vertical center points for path
+json_len = len(pointsJSON)
+point_id = 5000
+for concourse in concourses:
+    # // For each initial JSON point (from OpenStreetMap)
+    for i in range (0, json_len):
+        # // Only look at points (gates) in the current concourse
+            # // Create new JSON point that connects JSON point (gate) to concourse centerline
+        if pointsJSON[i]['concourse'] == concourse['name']:
+            bool1 = pointsJSON[i]['name'][1:] in E_horizontal
+            bool2 = pointsJSON[i]['name'] in E_horizontal
+            if (not bool1 and not bool2):
+                if (not pointsJSON[i]['poi_type'] == 'train'): # excluding the train terminal gates
+                    gate = pointsJSON[i]
+                    center = {}
+                # // Longitude of new point is the centerline longitude of current concourse
+                    center['longitude'] = concourse['longitude']
+                # // Latitude of new point is the same as the gate that we are connecting to concourse centerline
+                    center['latitude'] = gate['latitude']
+                # // Name of new point is the same as the gate name but with a double letter for the concourse (ex: gate A1 connects to concourse centerline at point AA1)
+                    center['name'] = concourse['name']+ gate['name']
+                    center['poi_type'] = 'center'
+                    center['concourse'] = gate['concourse']
+                    center['id'] = str(point_id)
+                # // Add new point to JSON points list
+                    pointsJSON.append(center)
+            add2way_vertex(pointsJSON[i]['id'],str(point_id),46)
+        point_id += 1
+
+```
+Code for generating the directions along the path.  
+```
+    for i in range(0,len(points)-2):
+        v = points[i].values()[0]
+        v1 = points[i+1].values()[0]
+        v2 = points[i+2].values()[0]
+        if v['poi_type'] == "gate" or v1['poi_type'] == "gate" or v['poi_type'] == "center" or v1['poi_type'] == "center":
+            if ((float(v['latitude']) == float(v1['latitude'])) and (float(v['longitude']) < float(v1['longitude']))):
+                instructions.append("Continue Forward East")
+            elif ((float(v['latitude']) == float(v1['latitude'])) and (float(v['longitude']) > float(v1['longitude']))):
+                instructions.append("Continue Forward West")
+            elif ((float(v['longitude']) == float(v1['longitude'])) and (float(v['latitude']) < float(v1['latitude']))):
+                instructions.append("Continue Forward North")
+            elif ((float(v['longitude']) == float(v1['longitude'])) and (float(v['latitude']) > float(v1['latitude']))):
+                instructions.append("Continue Forward South")
+
+        if v1["poi_type"] == "escalator":
+            if "Go down the escalator" in instructions:
+                instructions.append("Go up the escalator")
+            else:
+                instructions.append("Go down the escalator")
+
+        if v1["poi_type"] == "train":
+            if "Get on the train" in instructions:
+                if v2["poi_type"] == "escalator":
+                    instructions.append("Get off the train")
+                else:
+                    instructions.append("Stay on the train")
+            else:
+                instructions.append("Get on the train")
+```
 
 ## AirNav Screenshots:
 ![Homepage](static/img/screenshots/splash_page.png)
@@ -213,7 +272,6 @@ map.on('locationfound', function (e) {
 ![Navigation View](static/img/screenshots/nav_view_chipotle.png)
 ![Navigation - Origin](static/img/screenshots/nav_view_origin.png)
 ![Navigation - Destination](static/img/screenshots/nav_view_destination.png)
-![Ionic Emulation Example (Android and Iphone)](static/img/ionic_ss.png)
 <!-- ![iPhone6](static/img/iphone6.png)
 ![iPad](static/img/ipad.png)
 ![Android](static/img/android.png) -->
@@ -230,8 +288,6 @@ Please click on a Concourse to view Hartsfield-Jackson Atlanta Airport Terminal 
 * [Concourse T](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-T.pdf)
 * [Domestic Terminal](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/DomesticTerminal.pdf)
 
-
-********
 
 #Contribute to AirNav:
 
