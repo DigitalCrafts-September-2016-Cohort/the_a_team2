@@ -20,14 +20,14 @@ the way, as well as locate their baggage and ground transportation.
 * Turn-by-turn directions, map view as well as list view
 * User-generated location with map points
 * List of all points of interest along route to gate destination
-* Deploy as a web app as well as on Ionic
+* Deploy as a web app as well as native app for Iphone and Android using the Ionic framework
 
 ##Github Link:
 [AirNav](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2.git)
 
 ##Team Members & Roles:
 **Click on each member's name to see their GitHub profile**
-All team members are students in the [Digital Crafts](https://digitalcrafts.com) September 2016 cohort. This project was initially completed as the second project for that curriculum and utilized the SCRUM development process and philosophy.  Paired and mob programming were the focus in the initial and final stages, while mid- and late-stage work was primarily completed through individual but coordinated and co-located programming.
+All team members are students in the [Digital Crafts](https://digitalcrafts.com) September 2016 cohort. This project was initially completed as the second project for that curriculum and utilized the SCRUM agile development methodology.  Paired and mob programming were the focus in the initial and final stages, while mid- and late-stage work was primarily completed through individual but coordinated and co-located programming.
 
 ####The A Team
 * [Jesslyn Landgren](https://github.com/jesslynlandgren/)  
@@ -37,12 +37,12 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 
 * [Keyur Patel](https://github.com/ekeyur/)  
 **Primary team role:** Back-end Soldier<br />
-**Contributions:** Built a custom, responsive layout from scratch with focus on clean, robust design. Wrote and refactored HTML/CSS with an emphasis on simplicity, clarity, and flexibility.  Made sure that we were pulling the right information from the database in the right places.<br />
-**Key code portions:** Most of the JavaScript code (server.py) and HTML documents
+**Contributions:** Built a custom, responsive layout from scratch with focus on clean, robust design. Implemented functionality via the back end, utilizing Djikstra's algorith, returning data from the JSON file for use in front end functionality. <br />
+**Key code portions:** Most of the Python code (server.py) and data (points.JSON).
 
 * [Jason Campbell](https://github.com/mtnzorro/)  
-**Primary team role:** Ionic Trooper, styling<br />
-**Contributions:** Site design and implementation. Just making sure the manipulation and display of the data in the database was working well with the design concept. Regularly studied all code throughout project.<br />
+**Primary team role:** Ionic Trooper, AngularJS, Front End functionality, Front end styling, Deployment<br />
+**Contributions:** Developed the Ionic version of the app in conjuction with the main site build.  Additionally, helped to build the functionality of front end of the web app, utilizing AngularJS, along with initial decisions of the front end structure.  Handled deployment of the web app to AWS. <br />
 **Key code portions:** All of the ionic code
 
 * [Trista McCleary](https://github.com/mccleary/)  
@@ -51,53 +51,43 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 **Key code portions:** UI/UX mock-ups, shell HTML, README file
 
 ##What we used:
-**Languages:**  
-* Python (including the following modules)
-  * heapq
-  * jSON
-  * os,io
-  * dotenv
-  * csv
+**Languages:** 
+* Python 
+* JavaScript
 * HTML5
 * CSS
-* JavaScript
+
+**Frameworks:** 
 * AngularJS
+* Flask
 * Ionic
 
-**Frameworks:**  
-* Flask
-* Bootstrap
+**API's**
 * Mapbox
 * Leaflet
 
 **Other:**  
-* Icons from the Font Awesome
-* API
+* Font Awesome
 * Sketch
 * InVision
-* Dijkstra's algorithm
+* Bootstrap
 
 
 ##MVP (Minimum Viable Product):
-This was the first GeoMapping and Ionic project for all team members. One challenge we faced was a blurring the line between our MVP and stretch goals due to a desire to make efficient use of our time, what functionalities were required and which were desired from a users standpoint. Deploy first, Code later method.
 
-**Initial MVP**
 * Point-to-point navigation
-* Creating Network
-* Query route
-* Show routes in terms of time
+* Suggestive search for all points of interest
 * Display gate-to-gate route on a map
 * Turn-by-turn directions, list view
 * Search for destinations, suggestive search
-* Auto-detect user location and follow
-* Points of Interest along the route (restaurants, shopping, restrooms)
+* Update and display the remaining time until reaching the destination
+* Auto-detect user location and follow along with the navigation route
+* Points of Interest along the route (restaurants, shopping, coffee, restrooms)
 
 We started incorporating stretch goals about two days before the project deadline (as soon as we knew that we would be able to reach MVP ahead of the deadline), but before our MVP was officially deployed.
 
 **Stretch Goals**
-* Site responsiveness
 * Shortest path between nodes in the graph
-* Suggestive search
 * Search box with drop-down for sub-categories(food, shop, baggage)
 * Style map points
 * App functionality in Ionic
@@ -108,12 +98,11 @@ We started incorporating stretch goals about two days before the project deadlin
 
 1.  **Challenge:** Dijkstra's algorithm  
 
-    **Solution:** Still trying to fully wrap our heads around this one. We continually went through the code, watched youtube explanations and walked through the code line-by-line as if in Python Tutor.  
+    **Solution:** We continually went through the code, watched youtube explanations and walked through the code line-by-line as if in Python Tutor.  
 
 2.  **Challenge:** Ionic Implementation
 
-    **Solution:** Enlisted guidance from Matthew Brimmer, Teaching Assistant for our cohort, with previous Ionic experience.
-    <!-- Ionic is the only mobile app stack that enables web developers apps for all major app stores and the mobile web with a single code base. Ionic Framework offers the best web and native app components for building highly interactive native and progressive web apps with Angular. -->
+    **Solution:**  Knowing that the webapp would only make sense in mobile form, we wanted to make a strong push to build a native option for Iphone/Android, and Ionic was a logical choice, being that it utilizes Angular for development.  Jason spent the weekend before the project researching and learning Ionic, and the team determined early on that pushing for the Ionic build would be worth the added time and effort.  Through trial and error, and help of a Digital Crafts alum, we were able to build an Ionic version of the webapp alonside the main build. 
 
 3.  **Challenge:** Shortest route results
 
@@ -157,7 +146,7 @@ Please click on a Concourse to view Hartsfield-Jackson Atlanta Airport Terminal 
 
 ## 3 Desired Contributions We would like to see :
 1. App reviews from users traveling through Atlanta Airport
-2. Restaurant suggestions for user, based on food preference/allergies
+2. En route restaurant suggestions for user, sorted by user selected options (healthy, allergy sensitive, etc)
 3. Restaurant reviews, Yelp style
 
 
