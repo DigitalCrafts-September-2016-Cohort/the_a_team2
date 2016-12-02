@@ -289,7 +289,6 @@ Please click on a Concourse to view Hartsfield-Jackson Atlanta Airport Terminal 
 * [Concourse F](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/airport_maps/Concourse-F.pdf)
 * [Concourse T](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/airport_maps/Concourse-T.pdf)
 * [Domestic Terminal](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/airport_maps/DomesticTerminal.pdf)
-* [Example](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/airport_maps/Concourse-T.pdf)
 
 
 #Contribute to AirNav:
