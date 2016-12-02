@@ -102,6 +102,7 @@ We planned our stretch goals in advance of reaching MVP and portions of the team
 1.  **Challenge:** Ionic Implementation
 
     **Solution:**  Knowing that the webapp would only make sense in mobile form, we wanted to make a strong push to build a native option for iPhone/Android, and Ionic was a logical choice, being that it utilizes Angular for development.  Jason spent the weekend before the project researching and learning Ionic, and the team determined early on that pushing for the Ionic build would be worth the added time and effort.  Through trial and error, and help of a Digital Crafts alum, we were able to build an Ionic version of the webapp alongside the main build.
+[Ionic repo:] https://github.com/DigitalCrafts-September-2016-Cohort/airport_connect_ionic
 
 2.  **Challenge:** Understanding Dijkstra's algorithm such that we were able to   effectively implement it into the back end for purposes of calculating the shortest route between the origin and given destination.  
 
