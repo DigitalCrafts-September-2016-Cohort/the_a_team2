@@ -1,5 +1,8 @@
-# The "A" Team
-<img src="static/img/airnav_logo.png" alt="Logo" width="150px"/>
+# The "A" Team - AirNav
+<img src="static/img/red_logo.png" alt="Logo" width="150px"/>
+######
+[Live Project](http://http://52.40.91.213/#/home)   |  [Overview](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#overview)   |   [Team](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#team-members--roles)   |   [What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#what-we-used)   |   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#mvp-minimum-viable-product)   |   [Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#challenges--solutions)   |   [Code](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#code-snippets)   | [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airnav-screenshots)   |
+[Airport Terminal Maps](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airport-terminal-maps)   |   [Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#contribute-to-airnav)
 
 
 ## Overview:
@@ -17,13 +20,14 @@ the way, as well as locate their baggage and ground transportation.
 * Turn-by-turn directions, map view as well as list view
 * User-generated location with map points
 * List of all points of interest along route to gate destination
+* Deploy as a web app as well as native app for Iphone and Android using the Ionic framework
 
 ##Github Link:
 [AirNav](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2.git)
 
 ##Team Members & Roles:
 **Click on each member's name to see their GitHub profile**
-All team members are students in the [Digital Crafts](https://digitalcrafts.com) September 2016 cohort. This project was initially completed as the second project for that curriculum and utilized the SCRUM development process and philosophy.  Paired and mob programming were the focus in the initial and final stages, while mid- and late-stage work was primarily completed through individual but coordinated and co-located programming.
+All team members are students in the [Digital Crafts](https://digitalcrafts.com) September 2016 cohort. This project was initially completed as the second project for that curriculum and utilized the SCRUM agile development methodology.  Paired and mob programming were the focus in the initial and final stages, while mid- and late-stage work was primarily completed through individual but coordinated and co-located programming.
 
 ####The A Team
 * [Jesslyn Landgren](https://github.com/jesslynlandgren/)  
@@ -33,13 +37,13 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 
 * [Keyur Patel](https://github.com/ekeyur/)  
 **Primary team role:** Back-end Soldier<br />
-**Contributions:** Built a custom, responsive layout from scratch with focus on clean, robust design. Wrote and refactored HTML/CSS with an emphasis on simplicity, clarity, and flexibility.  Made sure that we were pulling the right information from the database in the right places.<br />
-**Key code portions:** Most of the JavaScript code (server.py) and HTML documents
+**Contributions:** Built a custom, responsive layout from scratch with focus on clean, robust design. Implemented functionality via the back end, utilizing Djikstra's algorith, returning data from the JSON file for use in front end functionality. <br />
+**Key code portions:** Most of the Python code (server.py) and data (points.JSON).
 
 * [Jason Campbell](https://github.com/mtnzorro/)  
-**Primary team role:** Ionic Trooper, styling<br />
-**Contributions:** Site design and implementation. Just making sure the manipulation and display of the data in the database was working well with the design concept. Regularly studied all code throughout project.<br />
-**Key code portions:** All of the ionic code
+**Primary team role:** Ionic Trooper, AngularJS, Front End functionality, Front end styling, Deployment<br />
+**Contributions:** Developed the Ionic version of the app in conjuction with the main site build.  Additionally, helped to build the functionality of front end of the web app, utilizing AngularJS, along with initial decisions of the front end structure.  Handled deployment of the web app to AWS. <br />
+**Key code portions:** All of the Ionic build.  Front end AngularJs contributions to the main JS file.
 
 * [Trista McCleary](https://github.com/mccleary/)  
 **Primary team role:** UI/UX chief, prototype, styling<br />
@@ -47,53 +51,43 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 **Key code portions:** UI/UX mock-ups, shell HTML, README file
 
 ##What we used:
-**Languages:**  
-* Python (including the following modules)
-  * heapq
-  * jSON
-  * os,io
-  * dotenv
-  * csv
+**Languages:** 
+* Python 
+* JavaScript
 * HTML5
 * CSS
-* JavaScript
+
+**Frameworks:** 
 * AngularJS
+* Flask
 * Ionic
 
-**Frameworks:**  
-* Flask
-* Bootstrap
+**API's**
 * Mapbox
 * Leaflet
 
 **Other:**  
-* Icons from the Font Awesome
-* API
+* Font Awesome
 * Sketch
 * InVision
-* Dijkstra's algorithm
+* Bootstrap
 
 
 ##MVP (Minimum Viable Product):
-This was the first GeoMapping and Ionic project for all team members. One challenge we faced was a blurring the line between our MVP and stretch goals due to a desire to make efficient use of our time, what functionalities were required and which were desired from a users standpoint. Deploy first, Code later method.
 
-**Initial MVP**
 * Point-to-point navigation
-* Creating Network
-* Query route
-* Show routes in terms of time
+* Suggestive search for all points of interest
 * Display gate-to-gate route on a map
 * Turn-by-turn directions, list view
 * Search for destinations, suggestive search
-* Auto-detect user location and follow
-* Points of Interest along the route (restaurants, shopping, restrooms)
+* Update and display the remaining time until reaching the destination
+* Auto-detect user location and follow along with the navigation route
+* Points of Interest along the route (restaurants, shopping, coffee, restrooms)
 
 We started incorporating stretch goals about two days before the project deadline (as soon as we knew that we would be able to reach MVP ahead of the deadline), but before our MVP was officially deployed.
 
 **Stretch Goals**
-* Site responsiveness
 * Shortest path between nodes in the graph
-* Suggestive search
 * Search box with drop-down for sub-categories(food, shop, baggage)
 * Style map points
 * App functionality in Ionic
@@ -102,25 +96,28 @@ We started incorporating stretch goals about two days before the project deadlin
 ## Challenges & Solutions:
 **Some of the biggest challenges we faced with this project build included:**
 
-1.  **Challenge:** Dijkstra's algorithm  
+1.  **Challenge:** 
 
-    **Solution:** Still trying to full wrap our heads around this one  
+    **Solution:**   
 
 2.  **Challenge:** Ionic Implementation
 
-    **Solution:** Enlisted guidance from Matthew Brimmer, Teaching Assistant for our cohort, with previous Ionic experience
+    **Solution:**  Knowing that the webapp would only make sense in mobile form, we wanted to make a strong push to build a native option for Iphone/Android, and Ionic was a logical choice, being that it utilizes Angular for development.  Jason spent the weekend before the project researching and learning Ionic, and the team determined early on that pushing for the Ionic build would be worth the added time and effort.  Through trial and error, and help of a Digital Crafts alum, we were able to build an Ionic version of the webapp alonside the main build. 
 
-3.  **Challenge:** Shortest route results
+3.  **Challenge:** Understanding Dijkstra's algorithm such that we were able to effectively implement it into the back end for purposes of calculating the shortest route between the origin and given destination.  
 
-    **Solution:** Dijkstra's algorithm
+    **Solution:** Thorough study of the algorithm, through materials (articles, videos) and group meetings walking through concepts including the heap sort, the alogrithm itself, along with sample code examples of others who'd succesfully implemented the algorithm.  Coupled with a couple of hours worth of white boarding, and meticulous walk throughs, we were able to successfully implement the algorithm programatically.
 
-4. **Challenge:** Suggested stopping points along route to intended endpoint
+4. **Challenge:** 
+       **Solution:**  
 
 
 ##Code Snippets
 
+<!-- Insert code here -->
 
-## View AirNav Screenshots Here:
+
+## AirNav Screenshots:
 ![Homepage](static/img/Homepage.png)
 ![Search](static/img/search.png)
 ![Search Results](static/img/search_results.png)
@@ -128,29 +125,38 @@ We started incorporating stretch goals about two days before the project deadlin
 ![Map View](static/img/map_view.png)
 ![Directions List View](static/img/list_view.png)
 ![iPhone6](static/img/iphone6.png)
-![iPhone6 without Menu](static/img/iphone6_nomenu.png)
 ![iPad](static/img/ipad.png)
-![Andriod](static/img/andriod.png)
+![Android](static/img/android.png)
+
 
 ## Airport Terminal Maps:
-![Concourse A](static/img/concourse_a.png)
-![Concourse B](static/img/concourse_b.png)
-![Concourse C](static/img/concourse_c.png)
-![Concourse D](static/img/concourse_d.png)
-![Concourse E](static/img/concourse_e.png)
-![Concourse F](static/img/concourse_f.png)
-![Concourse T](static/img/concourse_t.png)
-![Domestic Terminal](static/img/domestic_terminal.png)
+Please click on a Concourse to view Hartsfield-Jackson Atlanta Airport Terminal maps:
+* [Concourse A](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-A.pdf)
+* [Concourse B](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-B.pdf)
+* [Concourse C](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-C.pdf)
+* [Concourse D](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-D.pdf)
+* [Concourse E](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-E.pdf)
+* [Concourse F](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-F.pdf)
+* [Concourse T](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-T.pdf)
+* [Domestic Terminal](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/DomesticTerminal.pdf)
 
 
-URL:
+********
 
+#Contribute to AirNav:
 
 ## 3 Desired Contributions We would like to see :
-1. App review from users traveling through Atlanta Airport
-2. Restaurant suggestions for user, based on food preference/allergies
-3. Restaurant review, Yelp style
+1. App reviews from users traveling through Atlanta Airport (Bugs, issues, suggestions, praise)
+2. En route restaurant suggestions for user, sorted by user selected options (healthy, allergy sensitive, etc)
+3. Restaurant reviews, Yelp style
 
+
+##Contributing
+1. Fork it
+2. Create a new feature branch (named after your intended feature): `git checkout -b new-feature-name`
+3. Commit your changes: `git commit -am 'Added the feature!'`
+4. Push to your feature branch: `git push origin new-feature-name`
+5. Submit a pull request!
 
 
 ##Project History
