@@ -111,23 +111,23 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 console.log(e.latlng, e.accuracy);
                 // $scope.getOriginNode(e.latlng.lat, e.latlng.lng);
                 $scope.origin = {
-                    "id": "207",
-            		"name": "T8",
-            		"latitude": "33.6402011",
-            		"longitude": "-84.4423441",
+                    "id": "42",
+            		"name": "B8",
+            		"latitude": "33.638719",
+            		"longitude": "-84.436027",
             		"poi_type": "gate",
-            		"concourse": "T"
+            		"concourse": "B"
                 };
             });
             //If the user location is NOT found
             map.on('locationerror', function(e) {
                 $scope.origin = {
-                    "id": "207",
-            		"name": "T8",
-            		"latitude": "33.6402011",
-            		"longitude": "-84.4423441",
+                    "id": "42",
+            		"name": "B8",
+            		"latitude": "33.638719",
+            		"longitude": "-84.436027",
             		"poi_type": "gate",
-            		"concourse": "T"
+            		"concourse": "B"
                 };
             });
         });
@@ -217,23 +217,23 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 console.log(e.latlng, e.accuracy);
                 // $scope.getOriginNode(e.latlng.lat, e.latlng.lng);
                 $scope.origin = {
-                    "id": "207",
-            		"name": "T8",
-            		"latitude": "33.6402011",
-            		"longitude": "-84.4423441",
+                    "id": "42",
+            		"name": "B8",
+            		"latitude": "33.638719",
+            		"longitude": "-84.436027",
             		"poi_type": "gate",
-            		"concourse": "T"
+            		"concourse": "B"
                 };
             });
             //If the user location is NOT found
             map.on('locationerror', function(e) {
                 $scope.origin = {
-                    "id": "207",
-            		"name": "T8",
-            		"latitude": "33.6402011",
-            		"longitude": "-84.4423441",
+                    "id": "42",
+            		"name": "B8",
+            		"latitude": "33.638719",
+            		"longitude": "-84.436027",
             		"poi_type": "gate",
-            		"concourse": "T"
+            		"concourse": "B"
                 };
             });
         });

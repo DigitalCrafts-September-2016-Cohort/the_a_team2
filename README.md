@@ -32,7 +32,7 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 ####The A Team
 * [Jesslyn Landgren](https://github.com/jesslynlandgren/)  
 **Primary team role:** Front-end Gladiator/Back-end backup, styling<br />
-**Contributions:**  Provided initial project concept. Built a custom, responsive layout from scratch with focus on clean, robust design. Helped Keyur build out initial front-end and back-end, then assisted with troubleshooting throughout project. Led team in continuously evaluating user-interface and user-experience of site, including semantics and critique of supported functionalities. Led the charge on all things visual/client-facing. Organized site navigation.<br />
+**Contributions:**  Provided initial project concept. Built a custom layout from scratch with focus on flat design. Split initial algorithm and logic for creating basic custom network graph with Keyur, then assisted with troubleshooting the implementation throughout the project.  Led team in planning the functionality, user-interface, and evaluating it through the project.<br />
 **Key code portions:** Most of the HTML, CSS and JavaScript.
 
 * [Keyur Patel](https://github.com/ekeyur/)  
@@ -99,26 +99,67 @@ We planned our stretch goals in advance of reaching MVP and portions of the team
 ## Challenges & Solutions:
 **Some of the biggest challenges we faced with this project build included:**
 
-1.  **Challenge:**
+1.  **Challenge:** Ionic Implementation
 
-    **Solution:**   
+    **Solution:**  Knowing that the webapp would only make sense in mobile form, we wanted to make a strong push to build a native option for iPhone/Android, and Ionic was a logical choice, being that it utilizes Angular for development.  Jason spent the weekend before the project researching and learning Ionic, and the team determined early on that pushing for the Ionic build would be worth the added time and effort.  Through trial and error, and help of a Digital Crafts alum, we were able to build an Ionic version of the webapp alongside the main build.
 
-2.  **Challenge:** Ionic Implementation
+2.  **Challenge:** Understanding Dijkstra's algorithm such that we were able to   effectively implement it into the back end for purposes of calculating the shortest route between the origin and given destination.  
 
-    **Solution:**  Knowing that the webapp would only make sense in mobile form, we wanted to make a strong push to build a native option for Iphone/Android, and Ionic was a logical choice, being that it utilizes Angular for development.  Jason spent the weekend before the project researching and learning Ionic, and the team determined early on that pushing for the Ionic build would be worth the added time and effort.  Through trial and error, and help of a Digital Crafts alum, we were able to build an Ionic version of the webapp alonside the main build.
+    **Solution:** Thorough study of the algorithm, through materials (articles, videos) and group meetings walking through concepts including the heap sort, the algorithm itself, along with sample code examples of others who'd successfully implemented the algorithm.  Coupled with a couple of hours worth of white boarding, and meticulous walk throughs, we were able to successfully implement the algorithm programatically.
 
-3.  **Challenge:** Understanding Dijkstra's algorithm such that we were able to effectively implement it into the back end for purposes of calculating the shortest route between the origin and given destination.  
+3.  **Challenge:**  Implementing user-friendly dynamic search.  When a user types in a search query, we need to return a list of destinations that match their entered query, but also show and sort the returned results by the distance from the user's current location.  The method to search goes through all network node names and calculates a shortest path via Dijkstra's algorithm.  Our search is dynamic, so it is called (and results displayed) after every character is typed.  For very short search strings, a large number of results are returned and there is a significant lag in displaying them.  
 
-    **Solution:** Thorough study of the algorithm, through materials (articles, videos) and group meetings walking through concepts including the heap sort, the alogrithm itself, along with sample code examples of others who'd succesfully implemented the algorithm.  Coupled with a couple of hours worth of white boarding, and meticulous walk throughs, we were able to successfully implement the algorithm programatically.
+    **Solution:** To counteract this we handle queries of different lengths differently. Initially we only performed a search if they query was greater than 3 characters, but because we don't have a functionality for multiple node aliases (the user has to type exactly the gate number), we need to support 2 character searches because all gate names are 2-3 characters. We solved this by only searching gates if the query is less than 3 characters and then searching all place nodes if the query is 3 characters or greater.
 
 4. **Challenge:**
-       **Solution:**  
+
+   **Solution:**  
 
 
 ##Code Snippets
 
 <!-- Insert code here -->
+We created a front-end service to access the API we built on the back-end.  We have two main methods, one for searching for a destination node, and one for retrieving the shortest path from origin and destination to be shown in the navigation view.  (The all points method was for debugging purposes)
 
+```JavaScript
+//App Service for accessing the API
+app.factory('AirportConnect', function($http) {
+    var service = {};
+    //Searches for nodes based on a query
+    service.getSearchResults = function(query, origin) {
+        var url = '/search';
+        return $http({
+            method: 'GET',
+            url: url,
+            params: {
+                query: query,
+                origin_id: origin.id
+            }
+        });
+    };
+    //Returns route object (array of nodes and array of instructions) given origin and destination
+    service.getRoute = function(origin, destination) {
+        var url = '/shortest_path';
+        return $http({
+            method: 'GET',
+            url: url,
+            params: {
+                origin: origin.id,
+                destination: destination.id
+            }
+        });
+    };
+    //Gets all points in graph (ONLY USED FOR DEBUGGING)
+    service.getAllPoints = function() {
+        var url = '/all_points';
+        return $http({
+            method: 'GET',
+            url: url,
+        });
+    };
+    return service;
+});
+```
 
 ## AirNav Screenshots:
 ![Homepage](static/img/screenshots/splash_page.png)
