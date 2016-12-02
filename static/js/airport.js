@@ -152,7 +152,27 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     //Draws all the points in the network on the map every time page is loaded. (comment the next line to turn off)
     $scope.getAllPoints();
 
+    $scope.getOrigin = function (){
+
+    };
+
     $scope.search = function() {
+
+        leafletData.getMap('map').then(function(map) {
+            map.locate({
+                watch: true,
+                setView: false,
+                timeout: 1000,
+                maximumAge: 20000,
+                enableHighAccuracy: true
+            });
+
+            map.on('locationfound', function (e) {
+                console.log(e.latlng, e.accuracy);
+                $scope.getOrigin();
+            });
+        });
+
         console.log($scope.query);
         AirportConnect.getSearchResults($scope.query).success(function(searchResults) {
             $scope.results = searchResults;
@@ -205,7 +225,6 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 console.log(e.latlng, e.accuracy);
                 $scope.origin.lat = e.latlng.lat;
                 $scope.origin.lng = e.latlng.lng;
-
 
                 $scope.time_left = 30;
                 $scope.step_by_step = $scope.steps[0];
