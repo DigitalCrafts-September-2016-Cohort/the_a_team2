@@ -241,6 +241,8 @@ g.add_vertex('286',{'298':escalator_train_d})
 g.add_vertex('306',{'307':escalator_train_d})
 g.add_vertex('307',{'308':escalator_train_d})
 
+add2way_vertex('286','298',escalator_train_d)
+add2way_vertex('300','301',escalator_train_d)
 add2way_vertex('287','299',escalator_train_d)
 add2way_vertex('288','300',escalator_train_d)
 add2way_vertex('289','301',escalator_train_d)
@@ -251,20 +253,10 @@ add2way_vertex('293','305',escalator_train_d)
 add2way_vertex('294','306',escalator_train_d)
 add2way_vertex('295','307',escalator_train_d)
 add2way_vertex('296','308',escalator_train_d)
-add2way_vertex('298','299',terminal_distance)
 # Vertices for baggage claim and t terminal
-# g.add_vertex('299',{'298':terminal_distance})
 g.add_vertex('298',{'297':terminal_distance})
-g.add_vertex('301',{'299':terminal_distance})
 
-# g.add_vertex('303',{'301':terminal_distance})
-# g.add_vertex('305',{'303':terminal_distance})
-# g.add_vertex('307',{'305':terminal_distance})
-# g.add_vertex('298',{'300':terminal_distance})
-# g.add_vertex('300',{'302':terminal_distance})
-# g.add_vertex('302',{'304':terminal_distance})
-# g.add_vertex('304',{'306':terminal_distance})
-
+add2way_vertex('298','299',terminal_distance)
 add2way_vertex('300','301',terminal_distance)
 add2way_vertex('302','303',terminal_distance)
 add2way_vertex('304','305',terminal_distance)
@@ -276,7 +268,6 @@ add2way_vertex('305','306',50)
 
 
 g.add_vertex('285',{})
-
 
 # add2way_vertex('285','287',terminal_distance)
 
