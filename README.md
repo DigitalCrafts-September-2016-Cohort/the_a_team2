@@ -43,7 +43,7 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 * [Jason Campbell](https://github.com/mtnzorro/)  
 **Primary team role:** Ionic Trooper, AngularJS, Front End functionality, Front end styling, Deployment<br />
 **Contributions:** Developed the Ionic version of the app in conjuction with the main site build.  Additionally, helped to build the functionality of front end of the web app, utilizing AngularJS, along with initial decisions of the front end structure.  Handled deployment of the web app to AWS. <br />
-**Key code portions:** All of the ionic code
+**Key code portions:** All of the Ionic build.  Front end AngularJs contributions to the main JS file.
 
 * [Trista McCleary](https://github.com/mccleary/)  
 **Primary team role:** UI/UX chief, prototype, styling<br />
@@ -96,19 +96,20 @@ We started incorporating stretch goals about two days before the project deadlin
 ## Challenges & Solutions:
 **Some of the biggest challenges we faced with this project build included:**
 
-1.  **Challenge:** Dijkstra's algorithm  
+1.  **Challenge:** 
 
-    **Solution:** We continually went through the code, watched youtube explanations and walked through the code line-by-line as if in Python Tutor.  
+    **Solution:**   
 
 2.  **Challenge:** Ionic Implementation
 
     **Solution:**  Knowing that the webapp would only make sense in mobile form, we wanted to make a strong push to build a native option for Iphone/Android, and Ionic was a logical choice, being that it utilizes Angular for development.  Jason spent the weekend before the project researching and learning Ionic, and the team determined early on that pushing for the Ionic build would be worth the added time and effort.  Through trial and error, and help of a Digital Crafts alum, we were able to build an Ionic version of the webapp alonside the main build. 
 
-3.  **Challenge:** Shortest route results
+3.  **Challenge:** Understanding Dijkstra's algorithm such that we were able to effectively implement it into the back end for purposes of calculating the shortest route between the origin and given destination.  
 
-    **Solution:** Dijkstra's algorithm
+    **Solution:** Thorough study of the algorithm, through materials (articles, videos) and group meetings walking through concepts including the heap sort, the alogrithm itself, along with sample code examples of others who'd succesfully implemented the algorithm.  Coupled with a couple of hours worth of white boarding, and meticulous walk throughs, we were able to successfully implement the algorithm programatically.
 
-4. **Challenge:** Suggested stopping points along route to intended endpoint
+4. **Challenge:** 
+       **Solution:**  
 
 
 ##Code Snippets
@@ -145,7 +146,7 @@ Please click on a Concourse to view Hartsfield-Jackson Atlanta Airport Terminal 
 #Contribute to AirNav:
 
 ## 3 Desired Contributions We would like to see :
-1. App reviews from users traveling through Atlanta Airport
+1. App reviews from users traveling through Atlanta Airport (Bugs, issues, suggestions, praise)
 2. En route restaurant suggestions for user, sorted by user selected options (healthy, allergy sensitive, etc)
 3. Restaurant reviews, Yelp style
 
