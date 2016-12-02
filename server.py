@@ -103,7 +103,8 @@ g = Graph()
 
 
 
-concourses = [{'name':'A', 'longitude':'-84.439175'},
+concourses = [{'name':'T', 'longitude':'-84.442447'},
+              {'name':'A', 'longitude':'-84.439175'},
               {'name':'B', 'longitude':'-84.435897'},
               {'name':'C', 'longitude':'-84.432600'},
               {'name':'D', 'longitude':'-84.429307'},
@@ -227,7 +228,7 @@ escalator_train_d = 5
 
 
 #adding a two way vertex to connect E_horizontal with E Vertical line in the center.
-add2way_vertex('2170','6518',terminal_distance)
+add2way_vertex('2170','6795',terminal_distance)
 
 add2way_vertex('294','295',terminal_distance)
 add2way_vertex('296','295',terminal_distance)
@@ -250,9 +251,9 @@ add2way_vertex('293','305',escalator_train_d)
 add2way_vertex('294','306',escalator_train_d)
 add2way_vertex('295','307',escalator_train_d)
 add2way_vertex('296','308',escalator_train_d)
-
+add2way_vertex('298','299',terminal_distance)
 # Vertices for baggage claim and t terminal
-g.add_vertex('299',{'298':terminal_distance})
+# g.add_vertex('299',{'298':terminal_distance})
 g.add_vertex('298',{'297':terminal_distance})
 g.add_vertex('301',{'299':terminal_distance})
 
@@ -326,7 +327,7 @@ def shortest_Path():
     # destination = '221'
     origin = request.args.get('origin')
     destination = request.args.get('destination')
-    print g.get_distance('5288','5290')
+    # print g.get_distance('5288','5290')
     route_dict = {}
     instructions = []
     points_only = g.shortest_path(origin,destination)
@@ -387,8 +388,8 @@ def shortest_Path():
             else:
                 instructions.append("Get on the train")
 
-    for k in instructions:
-        print k
+    # for k in instructions:
+        # print k
 
 
     # print "point length",len(points)
@@ -408,41 +409,47 @@ def all_points():
 @app.route('/search')
 def search():
     search = request.args.get('query').lower()
-    print search
-    search_origin = '221'
+    search_origin = request.args.get('origin_id')
+    # print search
+    # print request.args.get('origin_id')
+    # search_origin = '221'
     search_points = []
-    if len(search)>2:
+    if len(search) > 2:
         for i in range(0,len(pointsJSON)):
-            print 'ID: ' + pointsJSON[i]['id']
-            if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] != "center" and pointsJSON[i]['poi_type'] != "hcenter":
+           # print 'ID: ' + pointsJSON[i]['id']
+            if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] != "center" and pointsJSON[i]['poi_type'] != "hcenter" and pointsJSON[i]['poi_type'] != "train" and pointsJSON[i]['poi_type'] != "escalator":
                 search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
+                # print search_route
                 if search_route:
                     search_route.append(search_origin)
                     dist_sum = 0
                     for j in range(0,len(search_route)-1):
                         dist_sum += g.get_distance(search_route[j+1],search_route[j])
-                        time = int(dist_sum/270.)
+                    time = round(dist_sum/270,2)
+                    # print dist_sum
                     temp_point = pointsJSON[i]
                     temp_point['time'] = time
                     temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
                     search_points.append(temp_point)
-        print search_points
+        # print search_points
         return jsonify(search_points)
     elif len(search) > 0 and len(search) < 3:
         for i in range(0,len(pointsJSON)):
+           # print 'ID: ' + pointsJSON[i]['id']
             if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] == "gate":
                 search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
+                # print search_route
                 if search_route:
                     search_route.append(search_origin)
                     dist_sum = 0
                     for j in range(0,len(search_route)-1):
                         dist_sum += g.get_distance(search_route[j+1],search_route[j])
-                        time = int(dist_sum/270)
+                    time = round(dist_sum/270,2)
+                    # print dist_sum
                     temp_point = pointsJSON[i]
                     temp_point['time'] = time
                     temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
                     search_points.append(temp_point)
-        print search_points
+        # print search_points
         return jsonify(search_points)
-
 app.run()

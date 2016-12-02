@@ -1896,54 +1896,6 @@
 		"concourse": "D"
 	},
 	{
-		"id": "238",
-		"name": "Burger King",
-		"latitude": "33.6408239",
-		"longitude": "-84.4446026",
-		"poi_type": "fast_food",
-		"concourse": "E"
-	},
-	{
-		"id": "239",
-		"name": "Teriyaki Experience",
-		"latitude": "33.6407514",
-		"longitude": "-84.4445959",
-		"poi_type": "fast_food",
-		"concourse": "E"
-	},
-	{
-		"id": "240",
-		"name": "Popeye's",
-		"latitude": "33.6406566",
-		"longitude": "-84.4445892",
-		"poi_type": "fast_food",
-		"concourse": "E"
-	},
-	{
-		"id": "241",
-		"name": "IHOP",
-		"latitude": "33.6407291",
-		"longitude": "-84.4450245",
-		"poi_type": "restaurant",
-		"concourse": "E"
-	},
-	{
-		"id": "242",
-		"name": "TGI Friday's",
-		"latitude": "33.6409911",
-		"longitude": "-84.4450378",
-		"poi_type": "restaurant",
-		"concourse": "E"
-	},
-	{
-		"id": "243",
-		"name": "Starbucks",
-		"latitude": "33.6409075",
-		"longitude": "-84.4443883",
-		"poi_type": "coffee",
-		"concourse": "E"
-	},
-	{
 		"id": "244",
 		"name": "Popeye's",
 		"latitude": "33.6399581",
