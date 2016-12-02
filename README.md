@@ -135,21 +135,20 @@ We started incorporating stretch goals about two days before the project deadlin
 ![Map View](static/img/map_view.png)
 ![Directions List View](static/img/list_view.png)
 ![iPhone6](static/img/iphone6.png)
-![iPhone6 without Menu](static/img/iphone6_nomenu.png)
 ![iPad](static/img/ipad.png)
 ![Android](static/img/android.png)
 
 
 ## Airport Terminal Maps:
 Please click on a Concourse to view Hartsfield-Jackson Atlanta Airport Terminal maps:
-![Concourse A](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-A.pdf)
-![Concourse B](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-B.pdf)
-![Concourse C](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-C.pdf)
-![Concourse D](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-D.pdf)
-![Concourse E](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-E.pdf)
-![Concourse F](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-F.pdf)
-![Concourse T](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-T.pdf)
-![Domestic Terminal](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/DomesticTerminal.pdf)
+[Concourse A](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-A.pdf)
+[Concourse B](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-B.pdf)
+[Concourse C](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-C.pdf)
+[Concourse D](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-D.pdf)
+[Concourse E](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-E.pdf)
+[Concourse F](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-F.pdf)
+[Concourse T](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-T.pdf)
+[Domestic Terminal](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/DomesticTerminal.pdf)
 
 
 ********
