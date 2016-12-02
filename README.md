@@ -16,11 +16,11 @@ navigate their way from terminal to terminal, find restaurants or shopping along
 the way, as well as locate their baggage and ground transportation.
 
 
-**Our conceptual goals for the site:**
-* Turn-by-turn directions, map view as well as list view
-* User-generated location with map points
+**Concept:**
+* Turn-by-turn directions, each step updated in map view as well as full list view
+* Use automated geolocation to get user location and origins
 * List of all points of interest along route to gate destination
-* Deploy as a web app as well as native app for Iphone and Android using the Ionic framework
+* Deploy as a web app AND a mobile app for both iPhone and Android using the Ionic framework
 
 ##Github Link:
 [AirNav](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2.git)
@@ -51,64 +51,67 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 **Key code portions:** UI/UX mock-ups, shell HTML, README file
 
 ##What we used:
-**Languages:** 
-* Python 
+**Languages:**
+* Python
 * JavaScript
 * HTML5
 * CSS
 
-**Frameworks:** 
+**Frameworks:**
 * AngularJS
 * Flask
 * Ionic
 
 **API's**
 * Mapbox
-* Leaflet
+  * Custom Map Style built from Mapbox-Streets-v7
+* Leaflet (Leaflet Angular Directive)
+  * [Leaflet Locate Control Plugin](https://github.com/domoritz/leaflet-locatecontrol)
 
 **Other:**  
 * Font Awesome
 * Sketch
 * InVision
-* Bootstrap
+* [Open Street Map](http://www.openstreetmap.org/)
+* [simpleWeather.js](http://simpleweatherjs.com/)
 
 
 ##MVP (Minimum Viable Product):
 
 * Point-to-point navigation
-* Suggestive search for all points of interest
+* Search for destination
+* As-You-Type search suggestions for all points of interest
+* Returned route is shortest path
 * Display gate-to-gate route on a map
 * Turn-by-turn directions, list view
-* Search for destinations, suggestive search
 * Update and display the remaining time until reaching the destination
 * Auto-detect user location and follow along with the navigation route
 * Points of Interest along the route (restaurants, shopping, coffee, restrooms)
 
-We started incorporating stretch goals about two days before the project deadline (as soon as we knew that we would be able to reach MVP ahead of the deadline), but before our MVP was officially deployed.
+We planned our stretch goals in advance of reaching MVP and portions of the team began work on them about 2 days before the project deadline.
 
 **Stretch Goals**
-* Shortest path between nodes in the graph
 * Search box with drop-down for sub-categories(food, shop, baggage)
 * Style map points
 * App functionality in Ionic
-* Actual Airport walk-thru
+* Field testing of geolocation features
 
 ## Challenges & Solutions:
 **Some of the biggest challenges we faced with this project build included:**
 
-1.  **Challenge:** 
+1.  **Challenge:**
 
     **Solution:**   
 
 2.  **Challenge:** Ionic Implementation
 
-    **Solution:**  Knowing that the webapp would only make sense in mobile form, we wanted to make a strong push to build a native option for Iphone/Android, and Ionic was a logical choice, being that it utilizes Angular for development.  Jason spent the weekend before the project researching and learning Ionic, and the team determined early on that pushing for the Ionic build would be worth the added time and effort.  Through trial and error, and help of a Digital Crafts alum, we were able to build an Ionic version of the webapp alonside the main build. 
+    **Solution:**  Knowing that the webapp would only make sense in mobile form, we wanted to make a strong push to build a native option for Iphone/Android, and Ionic was a logical choice, being that it utilizes Angular for development.  Jason spent the weekend before the project researching and learning Ionic, and the team determined early on that pushing for the Ionic build would be worth the added time and effort.  Through trial and error, and help of a Digital Crafts alum, we were able to build an Ionic version of the webapp alonside the main build.
 
 3.  **Challenge:** Understanding Dijkstra's algorithm such that we were able to effectively implement it into the back end for purposes of calculating the shortest route between the origin and given destination.  
 
     **Solution:** Thorough study of the algorithm, through materials (articles, videos) and group meetings walking through concepts including the heap sort, the alogrithm itself, along with sample code examples of others who'd succesfully implemented the algorithm.  Coupled with a couple of hours worth of white boarding, and meticulous walk throughs, we were able to successfully implement the algorithm programatically.
 
-4. **Challenge:** 
+4. **Challenge:**
        **Solution:**  
 
 
