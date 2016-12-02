@@ -121,15 +121,16 @@ We planned our stretch goals in advance of reaching MVP and portions of the team
 
 
 ## AirNav Screenshots:
-![Homepage](static/img/Homepage.png)
-![Search](static/img/search.png)
-![Search Results](static/img/search_results.png)
-![Gate location](static/img/gate_location.png)
-![Map View](static/img/map_view.png)
-![Directions List View](static/img/list_view.png)
-![iPhone6](static/img/iphone6.png)
+![Homepage](static/img/screenshots/splash_page.png)
+![Search for Destination](static/img/screenshots/search_view.png)
+![Search Result 1](static/img/screenshots/search_result_chipotle.png)
+![Search Result 2](static/img/screenshots/search_result_D1.png)
+![Navigation View](static/img/screenshots/nav_view_chipotle.png)
+![Navigation - Origin](static/img/screenshots/nav_view_origin.png)
+![Navigation - Destination](static/img/screenshots/nav_view_destination.png)
+<!-- ![iPhone6](static/img/iphone6.png)
 ![iPad](static/img/ipad.png)
-![Android](static/img/android.png)
+![Android](static/img/android.png) -->
 
 
 ## Airport Terminal Maps:
