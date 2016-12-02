@@ -39,12 +39,13 @@ app.factory('AirportConnect', function($http) {
 
 app.controller('NavController', function($scope, $state, AirportConnect, leafletData) {
 
+    //Display splash screen on app load
     $scope.home= true;
 
-    $scope.useApp = function (){
-        $scope.home = false;
-    };
+    //Navigation view elements are hidden by default
+    $scope.navigating = false;
 
+    //Initialize Leaflet Map with Geolocation control
     angular.extend($scope, {
         center: {
             lat: 33.640952,
@@ -75,10 +76,41 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         }
     });
 
+    //
+    $scope.useApp = function (){
+        $scope.home = false;
+        $scope.getOrigin();
+    };
+
+    //Get the geolocation of the user and set to origin for later API calls
+    $scope.getOrigin = function (){
+        leafletData.getMap('map').then(function(map) {
+
+            //Try to get user location
+            map.locate({
+                watch: false,
+                setView: false,
+                timeout: 1000,
+                maximumAge: 20000,
+                enableHighAccuracy: true
+            });
+
+            //If the user location is found
+            map.on('locationfound', function (e) {
+                console.log(e.latlng, e.accuracy);
+                $scope.getOriginNode();
+            });
+
+            //If the user location is not found
+            map.on('locationerror', function(e) {
+                //something
+            });
+        });
+    };
+
+
     $scope.all_points = [];
-    $scope.navigating = false;
-    // $scope.time_left = 30;
-    // $scope.step_by_step = "Continue Straight";
+
     $scope.geoJSON = [];
 
     // Creates GeoJSON for all points (network nodes)
@@ -151,10 +183,6 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
     //Draws all the points in the network on the map every time page is loaded. (comment the next line to turn off)
     $scope.getAllPoints();
-
-    $scope.getOrigin = function (){
-
-    };
 
     $scope.search = function() {
 

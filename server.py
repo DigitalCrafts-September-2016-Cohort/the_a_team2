@@ -8,7 +8,7 @@ import csv
 
 
 # load_dotenv(find_dotenv())
-# base_dir = os.path.dirname(os.path.abspath(__file__))
+base_dir = os.path.dirname(os.path.abspath(__file__))
 # static_dir = os.path.join(base_dir, 'static')
 # app = Flask('Connect', static_url_path='', static_folder=static_dir)
 # app = Flask('Connect', template_folder=tmp_dir)
@@ -22,11 +22,11 @@ app = Flask('Connect',static_url_path='',static_folder=static_folder)
 #
 # initial_pointsJSON = tk
 
-# with open(base_dir + '/points.json') as json_file:
-#    pointsJSON = json.load(json_file)
-
-with open('points.json') as json_file:
+with open(base_dir + '/points.json') as json_file:
    pointsJSON = json.load(json_file)
+
+# with open('points.json') as json_file:
+#    pointsJSON = json.load(json_file)
 # app = Flask('Connect', static_url_path='')
 
 
@@ -408,15 +408,13 @@ def all_points():
 @app.route('/search')
 def search():
     search = request.args.get('query').lower()
-
-    # print search
-    search_origin = '2'
-
+    print search
+    search_origin = '221'
     search_points = []
-    if len(search)>0:
+    if len(search)>2:
         for i in range(0,len(pointsJSON)):
-            # print 'ID: ' + pointsJSON[i]['id']
-            if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] != "center" and pointsJSON[i]['poi_type'] != "hcenter" and pointsJSON[i]['poi_type'] != "train" and pointsJSON[i]['poi_type'] != "escalator":
+            print 'ID: ' + pointsJSON[i]['id']
+            if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] != "center" and pointsJSON[i]['poi_type'] != "hcenter":
                 search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
                 if search_route:
                     search_route.append(search_origin)
@@ -428,27 +426,23 @@ def search():
                     temp_point['time'] = time
                     temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
                     search_points.append(temp_point)
-        # print search_points
+        print search_points
+        return jsonify(search_points)
+    elif len(search) > 0 and len(search) < 3:
+        for i in range(0,len(pointsJSON)):
+            if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] == "gate":
+                search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
+                if search_route:
+                    search_route.append(search_origin)
+                    dist_sum = 0
+                    for j in range(0,len(search_route)-1):
+                        dist_sum += g.get_distance(search_route[j+1],search_route[j])
+                        time = int(dist_sum/270)
+                    temp_point = pointsJSON[i]
+                    temp_point['time'] = time
+                    temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
+                    search_points.append(temp_point)
+        print search_points
         return jsonify(search_points)
 
-    # if len(search) > 0:
-    #     for i in range(0,len(pointsJSON)):
-    #         if search in pointsJSON[i]['name'].lower() and pointsJSON[i]['poi_type'] == "gate":
-    #             search_route = g.shortest_path(search_origin,pointsJSON[i]['id'])
-    #             if search_route:
-    #                 search_route.append(search_origin)
-    #                 dist_sum = 0
-    #                 for j in range(0,len(search_route)-1):
-    #                     dist_sum += g.get_distance(search_route[j+1],search_route[j])
-    #                     time = int(dist_sum/270)
-    #                 temp_point = pointsJSON[i]
-    #                 temp_point['time'] = time
-    #                 temp_point['s_index'] = pointsJSON[i]['name'].lower().index(search)
-    #                 search_points.append(temp_point)
-    #     print search_points
-
-# for point in pointsJSON:
-#     if point['poi_type'] == 'train':
-#         print point
-
-app.run(debug=True)
+app.run()
