@@ -140,14 +140,14 @@ We started incorporating stretch goals about two days before the project deadlin
 
 
 ## Airport Terminal Maps:
-![Concourse A](static/img/airport_terminal_maps/concourse_a.pdf)
-![Concourse B](static/img/concourse_b.png)
-![Concourse C](static/img/concourse_c.png)
-![Concourse D](static/img/concourse_d.png)
-![Concourse E](static/img/concourse_e.png)
-![Concourse F](static/img/concourse_f.png)
-![Concourse T](static/img/concourse_t.png)
-![Domestic Terminal](static/img/domestic_terminal.png)
+![Concourse A](static/img/concourse-a.pdf)
+![Concourse B](static/img/concourse-b.pdf)
+![Concourse C](static/img/concourse-c.pdf)
+![Concourse D](static/img/concourse-d.pdf)
+![Concourse E](static/img/concourse-e.pdf)
+![Concourse F](static/img/concourse-f.pdf)
+![Concourse T](static/img/concourse-t.png)
+![Domestic Terminal](static/img/domesticterminal.pdf)
 
 
 URL: http://52.40.91.213/#/home
