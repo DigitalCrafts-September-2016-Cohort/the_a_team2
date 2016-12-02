@@ -141,14 +141,15 @@ We started incorporating stretch goals about two days before the project deadlin
 
 
 ## Airport Terminal Maps:
-![Concourse A](static/img/Concourse-A.pdf)
-![Concourse B](static/img/Concourse-B.pdf)
-![Concourse C](static/img/Concourse-C.pdf)
-![Concourse D](static/img/Concourse-D.pdf)
-![Concourse E](static/img/Concourse-E.pdf)
-![Concourse F](static/img/Concourse-F.pdf)
-![Concourse T](static/img/Concourse-T.pdf)
-![Domestic Terminal](static/img/DomesticTerminal.pdf)
+Please click on a Concourse to view Hartsfield-Jackson Atlanta Airport Terminal maps:
+![Concourse A](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-A.pdf)
+![Concourse B](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-B.pdf)
+![Concourse C](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-C.pdf)
+![Concourse D](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-D.pdf)
+![Concourse E](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-E.pdf)
+![Concourse F](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-F.pdf)
+![Concourse T](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/Concourse-T.pdf)
+![Domestic Terminal](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/DomesticTerminal.pdf)
 
 
 ********
