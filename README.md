@@ -1,7 +1,8 @@
 # The "A" Team - AirNav
 <img src="static/img/red_logo.png" alt="Logo" width="150px"/>
 ######
-[Live Project](http://http://52.40.91.213/#/home)   |  [Overview](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#overview)   |   [Team](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#team-members--roles)   |   [What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#what-we-used)   |   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#mvp-minimum-viable-product)   |   [Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#challenges--solutions)   |   [Code](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#code-snippets)   | [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airnav-screenshots)   |  [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airport-terminal-maps)   |[Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#contribute-to-airnav)
+[Live Project](http://http://52.40.91.213/#/home)   |  [Overview](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#overview)   |   [Team](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#team-members--roles)   |   [What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#what-we-used)   |   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#mvp-minimum-viable-product)   |   [Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#challenges--solutions)   |   [Code](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#code-snippets)   | [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airnav-screenshots)   |
+[Airport Terminal Maps](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airport-terminal-maps)   |   [Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#contribute-to-airnav)
 
 
 ## Overview:
@@ -126,7 +127,7 @@ We started incorporating stretch goals about two days before the project deadlin
 <!-- Insert code here -->
 
 
-## AirNav Screenshots:
+## View AirNav Screenshots Here:
 ![Homepage](static/img/Homepage.png)
 ![Search](static/img/search.png)
 ![Search Results](static/img/search_results.png)
@@ -146,13 +147,13 @@ We started incorporating stretch goals about two days before the project deadlin
 ![Concourse D](static/img/Concourse-D.pdf)
 ![Concourse E](static/img/Concourse-E.pdf)
 ![Concourse F](static/img/Concourse-F.pdf)
-![Concourse T](static/img/Concourse-T.png)
+![Concourse T](static/img/Concourse-T.pdf)
 ![Domestic Terminal](static/img/DomesticTerminal.pdf)
 
 
 ********
 
-#Contribute to AirNav
+#Contribute to AirNav:
 
 ## 3 Desired Contributions We would like to see :
 1. App reviews from users traveling through Atlanta Airport
