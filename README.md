@@ -140,7 +140,7 @@ We started incorporating stretch goals about two days before the project deadlin
 
 
 ## Airport Terminal Maps:
-![Concourse A](static/img/concourse_a.png)
+![Concourse A](static/img/airport_terminal_maps/concourse_a.pdf)
 ![Concourse B](static/img/concourse_b.png)
 ![Concourse C](static/img/concourse_c.png)
 ![Concourse D](static/img/concourse_d.png)
