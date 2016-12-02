@@ -405,3 +405,32 @@ input:focus{
     font-size: .6em;
     margin-top: 20px;
 }
+
+@media screen and (max-height: 768px) {
+    .welcome {
+        font-size: 2em;
+    }
+
+    .logo {
+        width: 75%;
+    }
+}
+
+@media screen and (max-height: 580px) {
+    .welcome {
+        font-size: 1.5em;
+    }
+
+    .top-half{
+        padding-top: 20px;
+    }
+
+    .app-banner {
+        margin-top: 30px;
+    }
+
+    #weather {
+        font-size: 1em;
+    }
+
+}

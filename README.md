@@ -161,6 +161,50 @@ app.factory('AirportConnect', function($http) {
 });
 ```
 
+A large portion of the front-end work was converting our JSON data to GeoJSON, setting property specific styles, and displaying.  The more difficult parts came in the logic for updating the map view and navigation instructions based on a user location.  We start with itertable route points and instruction objects and check every time a location is returned by the .locate() method of our map
+
+```JavaScript
+//If user location found, check to see if user has reached the next point in the route
+//Every 20 seconds
+map.on('locationfound', function (e) {
+    console.log(e.latlng, e.accuracy);
+    $scope.step_by_step = $scope.instructions_check[0];
+    $scope.time_left = parseInt($scope.dist_to_dest_check[0]/270);
+
+    ///Takes array of route points and removes one each time the user reaches it
+    var tolerance = 0.000137;
+    if ($scope.point_route_check) {
+        //If only one point remaining in route
+        if ($scope.point_route_check.length === 1){
+            //If user is close to remaining point in route, then they have arrived
+            if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
+                //Sets page to arrived state
+                $scope.arrived = true;
+            }
+        }
+        //If there are remaining steps in route (>1)
+        else if ($scope.point_route_check.length > 1){
+            //Current point is first point in route points array
+            $scope.current_point = $scope.point_route_check[0];
+            $scope.next_point = $scope.point_route_check[1];
+            //If user is close to the next point in the array
+            if (((e.latlng.lat - $scope.next_point.latitude) < tolerance) && ((e.latlng.lng - $scope.next_point.longitude) < tolerance)){
+                //Get instructions for current route point
+                $scope.step_by_step = $scope.instructions_check[0];
+                //Get distance remaining for current route point (convert to time)
+                $scope.time_left = parseInt($scope.dist_to_dest_check[0]/270);
+                //Remove current point, its instructions, and its dist from route arrays
+                $scope.instructions_check.splice(0,1);
+                $scope.point_route_check.splice(0,1);
+                $scope.dist_to_dest_check.splice(0,1);
+            }
+        }
+    } else {
+
+    }
+});
+```
+
 ## AirNav Screenshots:
 ![Homepage](static/img/screenshots/splash_page.png)
 ![Search for Destination](static/img/screenshots/search_view.png)
