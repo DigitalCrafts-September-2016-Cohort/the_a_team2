@@ -127,7 +127,7 @@ We started incorporating stretch goals about two days before the project deadlin
 <!-- Insert code here -->
 
 
-## View AirNav Screenshots Here:
+## AirNav Screenshots:
 ![Homepage](static/img/Homepage.png)
 ![Search](static/img/search.png)
 ![Search Results](static/img/search_results.png)
@@ -137,7 +137,7 @@ We started incorporating stretch goals about two days before the project deadlin
 ![iPhone6](static/img/iphone6.png)
 ![iPhone6 without Menu](static/img/iphone6_nomenu.png)
 ![iPad](static/img/ipad.png)
-![Andriod](static/img/andriod.png)
+![Android](static/img/android.png)
 
 
 ## Airport Terminal Maps:
