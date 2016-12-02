@@ -1,7 +1,7 @@
 # The "A" Team - AirNav
 <img src="static/img/red_logo.png" alt="Logo" width="150px"/>
 ######
-[Live Project](http://http://52.40.91.213/#/home)   |  [Overview](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#overview)   |   [Team](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#team-members--roles)   |   [What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#what-we-used)   |   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#mvp-minimum-viable-product)   |   [Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#challenges--solutions)   |   [Code](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#code-snippets)   | [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airnav-screenshots)   |   | [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airport-terminal-maps)   |[Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#contribute-to-airnav)
+[Live Project](http://http://52.40.91.213/#/home)   |  [Overview](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#overview)   |   [Team](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#team-members--roles)   |   [What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#what-we-used)   |   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#mvp-minimum-viable-product)   |   [Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#challenges--solutions)   |   [Code](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#code-snippets)   | [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airnav-screenshots)   |  [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airport-terminal-maps)   |[Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#contribute-to-airnav)
 
 
 ## Overview:
@@ -140,17 +140,15 @@ We started incorporating stretch goals about two days before the project deadlin
 
 
 ## Airport Terminal Maps:
-![Concourse A](static/img/concourse-a.pdf)
-![Concourse B](static/img/concourse-b.pdf)
-![Concourse C](static/img/concourse-c.pdf)
-![Concourse D](static/img/concourse-d.pdf)
-![Concourse E](static/img/concourse-e.pdf)
-![Concourse F](static/img/concourse-f.pdf)
-![Concourse T](static/img/concourse-t.png)
-![Domestic Terminal](static/img/domesticterminal.pdf)
+![Concourse A](static/img/Concourse-A.pdf)
+![Concourse B](static/img/Concourse-B.pdf)
+![Concourse C](static/img/Concourse-C.pdf)
+![Concourse D](static/img/Concourse-D.pdf)
+![Concourse E](static/img/Concourse-E.pdf)
+![Concourse F](static/img/Concourse-F.pdf)
+![Concourse T](static/img/Concourse-T.png)
+![Domestic Terminal](static/img/DomesticTerminal.pdf)
 
-
-URL: http://52.40.91.213/#/home
 
 ********
 
