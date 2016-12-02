@@ -1,5 +1,7 @@
-# The "A" Team
-<img src="static/img/airnav_logo.png" alt="Logo" width="150px"/>
+# The "A" Team - AirNav
+<img src="static/img/white_logo.png" alt="Logo" width="150px"/>
+######
+[Live Project](http://http://52.40.91.213/#/home)   |  [Overview](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#overview)   |   [Team](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#team-members--roles)   |   [What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#what-we-used)   |   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#mvp-minimum-viable-product)   |   [Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#challenges--solutions)   |   [Code](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#code-snippets)   | [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#screenshots)   |   [Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#contribute-to-airnav)
 
 
 ## Overview:
@@ -17,6 +19,7 @@ the way, as well as locate their baggage and ground transportation.
 * Turn-by-turn directions, map view as well as list view
 * User-generated location with map points
 * List of all points of interest along route to gate destination
+* Deploy as a web app as well as on Ionic
 
 ##Github Link:
 [AirNav](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2.git)
@@ -104,11 +107,12 @@ We started incorporating stretch goals about two days before the project deadlin
 
 1.  **Challenge:** Dijkstra's algorithm  
 
-    **Solution:** Still trying to full wrap our heads around this one  
+    **Solution:** Still trying to fully wrap our heads around this one. We continually went through the code, watched youtube explanations and walked through the code line-by-line as if in Python Tutor.  
 
 2.  **Challenge:** Ionic Implementation
 
-    **Solution:** Enlisted guidance from Matthew Brimmer, Teaching Assistant for our cohort, with previous Ionic experience
+    **Solution:** Enlisted guidance from Matthew Brimmer, Teaching Assistant for our cohort, with previous Ionic experience.
+    <!-- Ionic is the only mobile app stack that enables web developers apps for all major app stores and the mobile web with a single code base. Ionic Framework offers the best web and native app components for building highly interactive native and progressive web apps with Angular. -->
 
 3.  **Challenge:** Shortest route results
 
@@ -118,6 +122,8 @@ We started incorporating stretch goals about two days before the project deadlin
 
 
 ##Code Snippets
+
+<!-- Insert code here -->
 
 
 ## View AirNav Screenshots Here:
@@ -132,6 +138,7 @@ We started incorporating stretch goals about two days before the project deadlin
 ![iPad](static/img/ipad.png)
 ![Andriod](static/img/andriod.png)
 
+
 ## Airport Terminal Maps:
 ![Concourse A](static/img/concourse_a.png)
 ![Concourse B](static/img/concourse_b.png)
@@ -143,14 +150,24 @@ We started incorporating stretch goals about two days before the project deadlin
 ![Domestic Terminal](static/img/domestic_terminal.png)
 
 
-URL:
+URL: http://52.40.91.213/#/home
 
+********
+
+#Contribute to AirNav
 
 ## 3 Desired Contributions We would like to see :
-1. App review from users traveling through Atlanta Airport
+1. App reviews from users traveling through Atlanta Airport
 2. Restaurant suggestions for user, based on food preference/allergies
-3. Restaurant review, Yelp style
+3. Restaurant reviews, Yelp style
 
+
+##Contributing
+1. Fork it
+2. Create a new feature branch (named after your intended feature): `git checkout -b new-feature-name`
+3. Commit your changes: `git commit -am 'Added the feature!'`
+4. Push to your feature branch: `git push origin new-feature-name`
+5. Submit a pull request!
 
 
 ##Project History
