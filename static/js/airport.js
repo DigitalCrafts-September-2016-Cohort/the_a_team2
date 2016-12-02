@@ -102,7 +102,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             map.locate({
                 watch: false,
                 setView: false,
-                timeout: 3000,
+                timeout: 1000,
                 maximumAge: 20000,
                 enableHighAccuracy: true
             });
@@ -208,7 +208,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             map.locate({
                 watch: false,
                 setView: false,
-                timeout: 3000,
+                timeout: 1000,
                 maximumAge: 20000,
                 enableHighAccuracy: true
             });
@@ -260,13 +260,13 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         //Set variables to show navigation view elements and hide search view elements
         //sets time footer ng-if boolean to true & hides search bar ng-if
         $scope.navigating = true;
-        $scope.show_all = false;
+        $scope.show_all_steps = false;
         $scope.arrived = false;
 
         //Shows or Hides list of navigation steps for current route (called every time the chevron icon is clicked)
         $scope.showSteps = function(){
             console.log('Show Steps');
-            $scope.show_all = !$scope.show_all;
+            $scope.show_all_steps = !$scope.show_all_steps;
         };
 
         //Set scope destination to node clicked by user in search results
@@ -300,13 +300,12 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 }
             }
 
+            console.log($scope.steps);
+
             //Assigns route point array and instruction array to new variables to use in block that checks user position within route (so original route variables won't be modified)
             $scope.point_route_check = routeResult.points;
             $scope.instructions_check = routeResult.instructions;
             $scope.dist_to_dest_check = routeResult.dist_to_dest;
-            console.log('Point Route:', $scope.point_route_check);
-            console.log('Instructions:', $scope.point_route_check);
-            console.log('Distances:', $scope.point_route_check);
 
             ///////CONVERTS ARRAY OF ROUTE POINTS (JSON) TO GEOJSON FOR DISPLAY
             $scope.line_coord = [];
@@ -371,50 +370,70 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         $scope.drawRoute = function(){
             leafletData.getMap('map').then(function(map) {
 
-                var originStyle = {
-                    radius: 5,
-                    fillColor: "#5fad75",
-                    color: "#5fad75",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 1
-                };
-
-                var destinationStyle = {
-                    radius: 5,
-                    fillColor: "#d63d3d",
-                    color: "#d63d3d",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 1
-                };
-
-                var stationStyle = {
-                    radius: 5,
-                    fillColor: "#2e66d2",
-                    color: "#2e66d2",
-                    weight: 1,
-                    opacity: 0,
-                    fillOpacity: 0
-                };
+                // var originStyle = {
+                //     radius: 5,
+                //     fillColor: "#5fad75",
+                //     color: "#5fad75",
+                //     weight: 1,
+                //     opacity: 1,
+                //     fillOpacity: 1
+                // };
+                //
+                // var destinationStyle = {
+                //     radius: 5,
+                //     fillColor: "#ef473a",
+                //     color: "#ef473a",
+                //     weight: 1,
+                //     opacity: 1,
+                //     fillOpacity: 1
+                // };
+                //
+                // var stationStyle = {
+                //     radius: 5,
+                //     fillColor: "#5c5c5c",
+                //     color: "#5c5c5c",
+                //     weight: 1,
+                //     opacity: 1,
+                //     fillOpacity: 1
+                // };
                 //Plot points
                 L.geoJSON($scope.originGeoJSON, {
-                    pointToLayer: function (feature, latlng) {
-                        return L.circleMarker(latlng, originStyle);
+                    pointToLayer: function (feature, latlng){
+                        // return L.circleMarker(latlng, pointMarkerStyle);
+                        myIcon = L.divIcon({
+                            className: 'label',
+                            html: '<i class="fa fa-map-pin" style="font-size: 2em; color: #56b881;" aria-hidden="true"></i>'
+                        });
+                        return L.marker(latlng, {icon: myIcon});
                     }
                 }).addTo(map);
 
                 L.geoJSON($scope.destGeoJSON, {
-                    pointToLayer: function (feature, latlng) {
-                        return L.circleMarker(latlng, destinationStyle);
+                    pointToLayer: function (feature, latlng){
+                        // return L.circleMarker(latlng, pointMarkerStyle);
+                        myIcon = L.divIcon({
+                            className: 'label',
+                            html: '<i class="fa fa-flag" style="font-size: 2em; color: #ef473a;" aria-hidden="true"></i>'
+                        });
+                        return L.marker(latlng, {icon: myIcon});
                     }
                 }).addTo(map);
 
                 L.geoJSON($scope.stationsGeoJSON, {
-                    pointToLayer: function (feature, latlng) {
-                        return L.circleMarker(latlng, stationStyle);
+                    // pointToLayer: function (feature, latlng) {
+                    //     return L.circleMarker(latlng, stationStyle);
+                    // }
+                    pointToLayer: function (feature, latlng){
+                        // return L.circleMarker(latlng, pointMarkerStyle);
+                        myIcon = L.divIcon({
+                            className: 'label',
+                            html: '<i class="fa fa-subway" style="font-size: 1.5em; color: #5c5c5c;" aria-hidden="true"></i>',
+                        });
+                        return L.marker(latlng, {icon: myIcon});
                     }
                 }).addTo(map);
+
+
 
                 //Plot path
                 var lineStyle = {
@@ -459,6 +478,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 $scope.time_left = parseInt($scope.dist_to_dest_check[0]/270);
 
                 ///Takes array of route points and removes one each time the user reaches it
+                var tolerance = 0.000137;
                 if ($scope.point_route_check) {
                     //If only one point remaining in route
                     if ($scope.point_route_check.length === 1){
@@ -504,8 +524,8 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             L.tileLayer(basemap, {maxZoom:20}).addTo(map);
         });
         $scope.query = '';
-        $scope.results = false;
         $scope.show_results = false;
+        $scope.show_all_steps = false;
         $scope.arrived = false;
     };
 });

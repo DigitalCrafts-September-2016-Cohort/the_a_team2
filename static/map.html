@@ -13,7 +13,7 @@
             <p>pssst! This app is in beta</p>
             <div class="welcomeButtons">
                 <div class="demoButton">
-                    <a href="#">View Demo</a>
+                    <a href="https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2">View Demo</a>
                 </div>
                 <div ng-click="useApp()" class="appButton">
                     Use Anyway
@@ -23,8 +23,8 @@
         <div class="app-banner">
             <div class="getapp">Get the app:</div>
             <div class="app-icons">
-                <a class="left" href="http://youtube.com"><i class="fa fa-apple" aria-hidden="true"></i></a>
-                <a href="http://google.com"><i class="fa fa-android" aria-hidden="true"></i></a>
+                <a class="left" href="#"><i class="fa fa-apple" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-android" aria-hidden="true"></i></a>
             </div>
             <div class="legal">
                 Copyright (c) 2016 AirNav All Rights Reserved.
@@ -79,11 +79,11 @@
     </div>
 </div>
 
-<div ng-show="navigating" ng-if="show_steps" class="search-results">
+<div ng-show="navigating" ng-if="show_all_steps" class="search-results">
     <div class="search-result" ng-repeat="step in steps track by $index">
         <div class="dot">
-            <i ng-show="" class="fa fa-hand-o-right" aria-hidden="true"></i>
-            <i ng-hide="" style="font-size: .6em;" class="fa fa-circle" aria-hidden="true"></i>
+            <i ng-show="step_by_step === step" class="fa fa-hand-o-right" style="color: #ef473a" aria-hidden="true"></i>
+            <!-- <i ng-hide="step_by_step === step" style="font-size: .6em;" class="fa fa-circle" aria-hidden="true"></i> -->
         </div>
         <div class="step">
             {{step}}
