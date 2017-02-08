@@ -37,7 +37,7 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 
 * [Keyur Patel](https://github.com/ekeyur/)  
 **Primary team role:** Back-end Soldier<br />
-**Contributions:** Created the api's needed from python backend for shortest path between two nodes. Modified the original algorithm to accomodate the adding of vertices and return of the route. Built a custom, responsive layout from scratch with focus on clean, robust design. Implemented functionality via the back end, utilizing Djikstra's algorith, returning data from the JSON file for use in front end functionality. <br />
+**Contributions:** Created the api's needed from python backend for shortest path between two nodes. Modified the original algorithm to accomodate the adding of vertices and return of the route. Built a custom, responsive layout from scratch with focus on clean, robust design. Implemented functionality via the back end, utilizing Djikstra's algorithm, returning data from the JSON file for use in front end functionality. <br />
 **Key code portions:** Most of the Python code (server.py) and data (points.JSON).
 
 * [Jason Campbell](https://github.com/mtnzorro/)  
