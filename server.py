@@ -141,9 +141,9 @@ for concourse in concourses:
         # // Only look at points (gates) in the current concourse
             # // Create new JSON point that connects JSON point (gate) to concourse centerline
         if pointsJSON[i]['concourse'] == concourse['name']:
-            bool1 = pointsJSON[i]['name'][1:] in E_horizontal
+            # bool1 = pointsJSON[i]['name'][1:] in E_horizontal
             bool2 = pointsJSON[i]['name'] in E_horizontal
-            if (not bool1 and not bool2):
+            if (not bool2):
                 if (not pointsJSON[i]['poi_type'] == 'train'): # excluding the train terminal gates
                     gate = pointsJSON[i]
                     center = {}
