@@ -1,3 +1,5 @@
+"use strict"
+
 var poi = require('./points.json');
 var train_stations = require('./train_stations');
 var Graph = require('node-dijkstra');
@@ -56,7 +58,7 @@ E_terminal_horizontal_gates.forEach(function(egate){
   }
 });
 // Set the point_id to a greater number
-point_id = 3000;
+point_id = 5000;
 
 
 ////////////////////////////////////////////////////////////////
@@ -86,4 +88,119 @@ concourses.forEach(function(concourse){
 });
 
 // Cloning the array again
-var clone2 = JSON.parse( JSON.stringify( poi ));
+var clone2 = JSON.parse( JSON.stringify(poi));
+
+//////////////////////////////////////////////////////////////////////////////////////////
+////Connect all the vertical center points in each terminal together to make a path  ////
+////////////////////////////////////////////////////////////////////////////////////////
+
+concourses.forEach(function(concourse){
+  // Created an empty array to store all the points of the current concourse
+  let concoursePoints = [];
+  let concoursePointsEH = [];
+
+  // For each airport/restaurat/mid point
+  for(let i=0;i<clone2.length;i++){
+    //If
+    if(clone2[i].concourse === concourse.name){
+      //Push the point in concoursePoints
+      concoursePoints.push(clone2[i]);
+    }
+
+  }
+  // Sort all the points by latitute
+  sortedPoints = concoursePoints.sort(function(a,b){
+    return a.latitude - b.latitude;
+  });
+
+
+  // Create an empty array for center line points
+  let midpoints_arr = [];
+  //Loop over each sorted point in the array
+  sortedPoints.forEach(function(sortedPoint){
+    // If the sorted point is in the current terminal
+    if(sortedPoint.longitude === concourse.longitude){
+      // Pushing the point to midpoints_arr
+      midpoints_arr.push(sortedPoint);
+    }
+  });
+
+  // Here I am going to connect each of the center points with 2 way nodes
+  // using the difference between longitudes and multiplying by a factor
+  for (let i=0; i < midpoints_arr.length-2;i++){
+    let distance = (midpoints_arr[i+1].latitude - midpoints_arr[i].latitude) * 363917.7912;
+    add2WayNode(midpoints_arr[i+1].id,midpoints_arr[i].id,distance);
+  }
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////
+////Connect all the horizontal center points in E terminal together to make a path   ////
+////////////////////////////////////////////////////////////////////////////////////////
+// All points in current concourse by latitude
+let sortedPoints = [];
+let sortedPointsEH = [];
+
+
+for(let i=0;i<clone2.length;i++){
+  // Check if the point belongs to horizontal line in E terminal
+  if(clone2[i].latitude === '33.640631'){
+    // Push it in different array
+    concoursePointsEH.push(clone2[i]);
+  }
+}
+
+// Sort the horizontal points in E Terminal
+sortedPointsEH = concoursePointsEH.sort(function(a,b){
+  return a.longitude - b.longitude;
+});
+
+for(let i=0;i<sortedPoints.length-2;i++){
+  var distance = sortedPoints[i+1].longitude - sortedPoints[i].longitude;
+  add2WayNode(sortedPoints[i+1].id,sortedPoints[i].id,distance);
+}
+
+var terminal_distance = 100;
+var escalator_train_d = 5;
+
+//adding a two way vertex to connect E_horizontal with E Vertical line in the center.
+add2WayNode('2170','6795',terminal_distance);
+
+add2WayNode('294','295',terminal_distance);
+add2WayNode('296','295',terminal_distance);
+
+
+// # Terminal vertexes
+g.addNode('297',{'285':escalator_train_d});
+g.addNode('286',{'298':escalator_train_d});
+
+// #f & e stations
+
+g.addNode('306',{'307' : escalator_train_d});
+g.addNode('307',{'308' : escalator_train_d});
+
+add2WayNode('286','298',escalator_train_d);
+add2WayNode('300','301',escalator_train_d);
+add2WayNode('287','299',escalator_train_d);
+add2WayNode('288','300',escalator_train_d);
+add2WayNode('289','301',escalator_train_d);
+add2WayNode('290','302',escalator_train_d);
+add2WayNode('291','303',escalator_train_d);
+add2WayNode('292','304',escalator_train_d);
+add2WayNode('294','306',escalator_train_d);
+add2WayNode('295','307',escalator_train_d);
+add2WayNode('296','308',escalator_train_d);
+// # Vertices for baggage claim and t terminal
+g.addNode('298',{'297':terminal_distance});
+
+add2WayNode('298','299',terminal_distance);
+add2WayNode('300','301',terminal_distance);
+add2WayNode('302','303',terminal_distance);
+add2WayNode('304','305',terminal_distance);
+
+add2WayNode('299','300',50);
+add2WayNode('301','302',50);
+add2WayNode('303','304',50);
+add2WayNode('305','306',50);
+
+
+g.addNode('285',{});

@@ -280,24 +280,24 @@ g.add_vertex('285',{})
 
 #------------------
 #all shortest paths
-s_path_dict = {}
-def all_s_paths(poi):
-    l = len(poi)
-    for i in range(0,l):
-        print i
-        for j in range(1,l):
-            if i == j:
-                pass
-            else:
-                temp_arr = g.shortest_path(poi[i]['id'],poi[j]['id'])
-                if (temp_arr):
-                    temp_arr.reverse()
-                    dist_sum = 0
-                    for k in range(0,len(temp_arr)-1):
-                        dist_sum += g.get_distance(temp_arr[k],temp_arr[k+1])
-                    s_path_dict[str(poi[i]['id'])+"-"+str(poi[j]['id'])+"-dist"] = dist_sum
-                    s_path_dict[str(poi[i]['id'])+"-"+str(poi[j]['id'])+"-route"] = temp_arr
-    # --------------------
+# s_path_dict = {}
+# def all_s_paths(poi):
+#     l = len(poi)
+#     for i in range(0,l):
+#         print i
+#         for j in range(1,l):
+#             if i == j:
+#                 pass
+#             else:
+#                 temp_arr = g.shortest_path(poi[i]['id'],poi[j]['id'])
+#                 if (temp_arr):
+#                     temp_arr.reverse()
+#                     dist_sum = 0
+#                     for k in range(0,len(temp_arr)-1):
+#                         dist_sum += g.get_distance(temp_arr[k],temp_arr[k+1])
+#                     s_path_dict[str(poi[i]['id'])+"-"+str(poi[j]['id'])+"-dist"] = dist_sum
+#                     s_path_dict[str(poi[i]['id'])+"-"+str(poi[j]['id'])+"-route"] = temp_arr
+#     # --------------------
 # all_s_paths(initial_pointsJSON)
 # with open('all_s_paths.json', 'w') as f:
 #     json.dump(s_path_dict, f)
