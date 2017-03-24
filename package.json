@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#readme",
   "dependencies": {
+    "bluebird": "^3.5.0",
+    "express": "^4.15.2",
     "node-dijkstra": "^2.4.1"
   }
 }

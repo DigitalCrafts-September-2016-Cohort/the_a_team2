@@ -1,4 +1,7 @@
-"use strict"
+"use strict";
+var express = require('express');
+var app = express();
+
 
 var poi = require('./points.json');
 var train_stations = require('./train_stations');
@@ -109,7 +112,7 @@ concourses.forEach(function(concourse){
 
   }
   // Sort all the points by latitute
-  sortedPoints = concoursePoints.sort(function(a,b){
+  var sortedPoints = concoursePoints.sort(function(a,b){
     return a.latitude - b.latitude;
   });
 
@@ -137,9 +140,9 @@ concourses.forEach(function(concourse){
 ////Connect all the horizontal center points in E terminal together to make a path   ////
 ////////////////////////////////////////////////////////////////////////////////////////
 // All points in current concourse by latitude
-let sortedPoints = [];
-let sortedPointsEH = [];
 
+
+var concoursePointsEH = [];
 
 for(let i=0;i<clone2.length;i++){
   // Check if the point belongs to horizontal line in E terminal
@@ -150,13 +153,13 @@ for(let i=0;i<clone2.length;i++){
 }
 
 // Sort the horizontal points in E Terminal
-sortedPointsEH = concoursePointsEH.sort(function(a,b){
+var sortedPointsEH = concoursePointsEH.sort(function(a,b){
   return a.longitude - b.longitude;
 });
 
-for(let i=0;i<sortedPoints.length-2;i++){
-  var distance = sortedPoints[i+1].longitude - sortedPoints[i].longitude;
-  add2WayNode(sortedPoints[i+1].id,sortedPoints[i].id,distance);
+for(let i=0;i<sortedPointsEH.length-2;i++){
+  var distance = sortedPointsEH[i+1].longitude - sortedPointsEH[i].longitude;
+  add2WayNode(sortedPointsEH[i+1].id,sortedPointsEH[i].id,distance);
 }
 
 var terminal_distance = 100;
@@ -204,3 +207,16 @@ add2WayNode('305','306',50);
 
 
 g.addNode('285',{});
+
+
+app.get('/all_points',function(request,response){
+  response.json(poi);
+});
+// console.log(g);
+
+console.log(g.path('300','301'));
+
+
+app.listen(3000,function(){
+  console.log("It's Showtime");
+});
