@@ -1,11 +1,15 @@
 "use strict";
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+
+app.use(express.static('static'));
+app.use(bodyParser.json());
 
 
 var poi = require('./points.json');
 var train_stations = require('./train_stations');
-var Graph = require('node-dijkstra');
+
 var g = new Graph();
 
 var concourses = [  {'name':'T', 'longitude':'-84.442447'},
@@ -19,12 +23,12 @@ var concourses = [  {'name':'T', 'longitude':'-84.442447'},
 var E_terminal_horizontal_gates = ["E14","E15","E16","E17","E18"];
 
 // Cloning the origin points array
-var clone = JSON.parse( JSON.stringify( poi ));
+var clone = JSON.parse( JSON.stringify(poi));
 
 // Function to add a 2 way node
 function add2WayNode(pointA,pointB,distance){
-  g.addNode(pointA,{[pointB] : distance});
-  g.addNode(pointB,{[pointA] : distance});
+  g.addVertex(pointA,{[pointB] : distance});
+  g.addVertex(pointB,{[pointA] : distance});
 }
 
 // Define a point
@@ -36,7 +40,6 @@ function Point(id,name,type,concourse,latitude,longitude){
   this.latitude = latitude;
   this.longitude = longitude;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //// Add center points in E Terminal for horizontal path////
@@ -59,10 +62,12 @@ E_terminal_horizontal_gates.forEach(function(egate){
     // Increment the point_ids
     point_id++;
   }
+
 });
 // Set the point_id to a greater number
 point_id = 5000;
 
+console.log(poi[poi.length-4]);
 
 ////////////////////////////////////////////////////////////////
 //// Add center points in each concourse for vertical paths////
@@ -83,11 +88,12 @@ concourses.forEach(function(concourse){
         // push the point in the poi database
         poi.push(dummy_vertical_point);
         // add a two way node between the newly created point and a gate/restaurat point in the graph.
-        add2WayNode(point_id.toString(),clone[i].id,46)
+        add2WayNode(point_id.toString(),clone[i].id.toString(),46)
       }
-    // Incrementing the point
-    point_id += 1;
-  }
+      // Incrementing the point
+      point_id += 1;
+    }
+
 });
 
 // Cloning the array again
@@ -130,9 +136,9 @@ concourses.forEach(function(concourse){
 
   // Here I am going to connect each of the center points with 2 way nodes
   // using the difference between longitudes and multiplying by a factor
-  for (let i=0; i < midpoints_arr.length-2;i++){
+  for (let i=0; i < midpoints_arr.length-1;i++){
     let distance = (midpoints_arr[i+1].latitude - midpoints_arr[i].latitude) * 363917.7912;
-    add2WayNode(midpoints_arr[i+1].id,midpoints_arr[i].id,distance);
+    add2WayNode(midpoints_arr[i+1].id,midpoints_arr[i].id,distance.toFixed(1));
   }
 });
 
@@ -157,8 +163,9 @@ var sortedPointsEH = concoursePointsEH.sort(function(a,b){
   return a.longitude - b.longitude;
 });
 
-for(let i=0;i<sortedPointsEH.length-2;i++){
-  var distance = sortedPointsEH[i+1].longitude - sortedPointsEH[i].longitude;
+for(let i=0;i<sortedPointsEH.length-1;i++){
+  var distance = (sortedPointsEH[i+1].longitude - sortedPointsEH[i].longitude) * 363917.7912;
+    distance = Math.round(distance);
   add2WayNode(sortedPointsEH[i+1].id,sortedPointsEH[i].id,distance);
 }
 
@@ -166,57 +173,154 @@ var terminal_distance = 100;
 var escalator_train_d = 5;
 
 //adding a two way vertex to connect E_horizontal with E Vertical line in the center.
-add2WayNode('2170','6795',terminal_distance);
-
-add2WayNode('294','295',terminal_distance);
-add2WayNode('296','295',terminal_distance);
-
-
-// # Terminal vertexes
-g.addNode('297',{'285':escalator_train_d});
-g.addNode('286',{'298':escalator_train_d});
-
-// #f & e stations
-
-g.addNode('306',{'307' : escalator_train_d});
-g.addNode('307',{'308' : escalator_train_d});
-
-add2WayNode('286','298',escalator_train_d);
-add2WayNode('300','301',escalator_train_d);
-add2WayNode('287','299',escalator_train_d);
-add2WayNode('288','300',escalator_train_d);
-add2WayNode('289','301',escalator_train_d);
-add2WayNode('290','302',escalator_train_d);
-add2WayNode('291','303',escalator_train_d);
-add2WayNode('292','304',escalator_train_d);
-add2WayNode('294','306',escalator_train_d);
-add2WayNode('295','307',escalator_train_d);
-add2WayNode('296','308',escalator_train_d);
-// # Vertices for baggage claim and t terminal
-g.addNode('298',{'297':terminal_distance});
-
-add2WayNode('298','299',terminal_distance);
-add2WayNode('300','301',terminal_distance);
-add2WayNode('302','303',terminal_distance);
-add2WayNode('304','305',terminal_distance);
-
-add2WayNode('299','300',50);
-add2WayNode('301','302',50);
-add2WayNode('303','304',50);
-add2WayNode('305','306',50);
-
-
-g.addNode('285',{});
+// add2WayNode('2170','6795',terminal_distance);
+//
+// add2WayNode('294','295',terminal_distance);
+// add2WayNode('296','295',terminal_distance);
+//
+//
+// // # Terminal vertexes
+// g.addVertex('297',{'285':escalator_train_d});
+// g.addVertex('286',{'298':escalator_train_d});
+//
+// // #f & e stations
+//
+// g.addVertex('306',{'307' : escalator_train_d});
+// g.addVertex('307',{'308' : escalator_train_d});
+//
+// add2WayNode('286','298',escalator_train_d);
+// add2WayNode('300','301',escalator_train_d);
+// add2WayNode('287','299',escalator_train_d);
+// add2WayNode('288','300',escalator_train_d);
+// add2WayNode('289','301',escalator_train_d);
+// add2WayNode('290','302',escalator_train_d);
+// add2WayNode('291','303',escalator_train_d);
+// add2WayNode('292','304',escalator_train_d);
+// add2WayNode('294','306',escalator_train_d);
+// add2WayNode('295','307',escalator_train_d);
+// add2WayNode('296','308',escalator_train_d);
+// // # Vertices for baggage claim and t terminal
+// g.addVertex('298',{'297':terminal_distance});
+//
+// add2WayNode('298','299',terminal_distance);
+// add2WayNode('300','301',terminal_distance);
+// add2WayNode('302','303',terminal_distance);
+// add2WayNode('304','305',terminal_distance);
+//
+// add2WayNode('299','300',50);
+// add2WayNode('301','302',50);
+// add2WayNode('303','304',50);
+// add2WayNode('305','306',50);
 
 
-app.get('/all_points',function(request,response){
-  response.json(poi);
-});
-// console.log(g);
+g.addVertex('285',{'297' : 5});
 
-console.log(g.path('300','301'));
+// console.log(g.shortestPath('300','304').reverse());
+console.log("Hello");
+
+// app.get('/all_points',function(request,response){
+//   response.json(poi);
+// });
+
+console.log(g);
+
+console.log(g.shortestPath('5657','5856'));
 
 
-app.listen(3000,function(){
-  console.log("It's Showtime");
-});
+// app.listen(3000,function(){
+//   console.log("It's Showtime");
+// });
+
+
+///////////////////////Dijkstra's Algorithm////////////////////////////
+
+function PriorityQueue () {
+  this._nodes = [];
+
+  this.enqueue = function (priority, key) {
+    this._nodes.push({key: key, priority: priority });
+    this.sort();
+  };
+  this.dequeue = function () {
+    return this._nodes.shift().key;
+  };
+  this.sort = function () {
+    this._nodes.sort(function (a, b) {
+      return a.priority - b.priority;
+    });
+  };
+  this.isEmpty = function () {
+    return !this._nodes.length;
+  };
+}
+
+/**
+ * Pathfinding starts here
+ */
+function Graph(){
+
+  var INFINITY = 1/0;
+  this.vertices = {};
+
+
+  this.addVertex = function(name, edges){
+    if (name in this.vertices){
+      Object.assign(this.vertices[name],edges);
+    }else{
+      this.vertices[name] = edges;
+    }
+  };
+
+  this.shortestPath = function (start, finish) {
+    var nodes = new PriorityQueue(),
+        distances = {},
+        previous = {},
+        path = [],
+        smallest, vertex, neighbor, alt;
+
+    for(vertex in this.vertices) {
+      if(vertex === start) {
+        distances[vertex] = 0;
+        nodes.enqueue(0, vertex);
+      }
+      else {
+        distances[vertex] = INFINITY;
+        nodes.enqueue(INFINITY, vertex);
+      }
+
+      previous[vertex] = null;
+    }
+
+    while(!nodes.isEmpty()) {
+      smallest = nodes.dequeue();
+
+      if(smallest === finish) {
+        path = [];
+
+        while(previous[smallest]) {
+          path.push(smallest);
+          smallest = previous[smallest];
+        }
+
+        break;
+      }
+
+      if(!smallest || distances[smallest] === INFINITY){
+        continue;
+      }
+
+      for(neighbor in this.vertices[smallest]) {
+        alt = distances[smallest] + this.vertices[smallest][neighbor];
+
+        if(alt < distances[neighbor]) {
+          distances[neighbor] = alt;
+          previous[neighbor] = smallest;
+
+          nodes.enqueue(alt, neighbor);
+        }
+      }
+    }
+
+    return path;
+  };
+}

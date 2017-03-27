@@ -48,11 +48,6 @@ class Graph:
            self.vertices[name] = edges
 
     def get_distance(self,origin,destination):
-        # print self.vertices
-        # print 'Origin', origin
-        # print 'Origin Vertices', self.vertices[origin]
-        # print 'Destination', destination
-        # print 'Destination Vertices', self.vertices[destination]
         return self.vertices[origin][destination]
 
     def shortest_path(self, start, finish):
@@ -129,7 +124,7 @@ for epoint in E_horizontal:
             centerh['id'] = str(point_id)
             pointsJSON.append(centerh)
             add2way_vertex(str(point_id),pointsJSON[i]['id'],45)
-        point_id += 1
+            point_id += 1
 json_len = len(pointsJSON)
 point_id = 5000
 
@@ -168,7 +163,7 @@ for concourse in concourses:
             # g.add_vertex(gate['name'], cen)
             # g.add_vertex(center['name'], gat)
             add2way_vertex(pointsJSON[i]['id'],str(point_id),46)
-        point_id += 1
+            point_id += 1
 # connect the center line points
 
 # print "JSON OBJECT"
@@ -205,7 +200,7 @@ for concourse in concourses:
         second = {}
         #// Getting latitude distance between points and converting to distance for edge definition
         dist = (float(midpoint_arr[i+1]['latitude']) - float(midpoint_arr[i]['latitude'])) * 363917.7912
-        add2way_vertex(midpoint_arr[i]['id'],midpoint_arr[i+1]['id'],dist)
+        add2way_vertex(midpoint_arr[i]['id'],midpoint_arr[i+1]['id'],round(dist,2))
 
 # If the midpoint belongs to horizontal gates in E terminal, connect the horizontal line
 #---------------------------------- This is the code to connect the horizontal line in E terminal
@@ -219,7 +214,7 @@ pointsSortedEH = sorted(concoursePointsEH,key=lambda k:k['longitude'])
 
 for t in range(0,len(pointsSortedEH)-1):
     dist1 = abs(float(pointsSortedEH[t+1]['longitude']) - float(pointsSortedEH[t]['longitude'])) * 363917.7912
-    add2way_vertex(pointsSortedEH[t]['id'],pointsSortedEH[t+1]['id'],dist1)
+    add2way_vertex(pointsSortedEH[t]['id'],pointsSortedEH[t+1]['id'],round(dist1,2))
 
 #----------------------------------------
 terminal_distance = 100
@@ -268,6 +263,8 @@ add2way_vertex('305','306',50)
 
 
 g.add_vertex('285',{})
+
+print g
 
 # add2way_vertex('285','287',terminal_distance)
 
@@ -324,7 +321,6 @@ def shortest_Path():
     points_only = g.shortest_path(origin,destination)
     points_only.append(origin)
     points_only.reverse()
-    print points_only
     points = []
 
     #distance to destination as we move along the path
@@ -379,11 +375,7 @@ def shortest_Path():
             else:
                 instructions.append("Get on the train")
 
-    # for k in instructions:
-        # print k
 
-
-    # print "point length",len(points)
 
     route_final = {'points': points,
                    'instructions': instructions,

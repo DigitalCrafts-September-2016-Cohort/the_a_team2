@@ -196,7 +196,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
     //////////////// KEYUR COMMENT HERE TO TURN ON LABELS ///////////////////
     //Draws all the points in the network on the map every time page is loaded.
-    // $scope.getAllPoints();
+    $scope.getAllPoints();
     /////////////////////////////////////////////////////////////////////////
 
     //Search All Routes given an origin point object
