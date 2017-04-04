@@ -196,7 +196,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
     //////////////// KEYUR COMMENT HERE TO TURN ON LABELS ///////////////////
     //Draws all the points in the network on the map every time page is loaded.
-    $scope.getAllPoints();
+    // $scope.getAllPoints();
     /////////////////////////////////////////////////////////////////////////
 
     //Search All Routes given an origin point object
@@ -217,7 +217,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 console.log(e.latlng, e.accuracy);
                 // $scope.getOriginNode(e.latlng.lat, e.latlng.lng);
                 $scope.origin = {
-                    "id": "42",
+                "id": "42",
             		"name": "B8",
             		"latitude": "33.638719",
             		"longitude": "-84.436027",
@@ -240,6 +240,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
         console.log($scope.origin.id);
 
+        if($scope.query.length > 1){
         //Call search API and bind results to scope variable
         AirportConnect.getSearchResults($scope.query, $scope.origin).success(function(searchResults) {
             $scope.results = searchResults;
@@ -252,6 +253,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         }).error(function(){
             $scope.show_results= false;
         });
+      }
     };
 
     //Handles the page view changes and API request for retrieving and showing a route
@@ -278,29 +280,54 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             //Separates the point and instruction arrays returned in the JSON object
             $scope.route_points = routeResult.points;
             $scope.instructions = routeResult.instructions;
-
+            $scope.dist_to_dest = routeResult.dist_to_dest;
             // Create an arrary of steps from instructions array(eliminates instructions for points where instruction does not change)
             var previous_step = '';
             var current_step = '';
-            $scope.steps = [];
+            var steps = [];
+            var dist = 0;
+            var distance = [];
             for (var i=0; i<$scope.instructions.length; i++){
                 if (i===0){
-                    $scope.steps.push($scope.instructions[i]);
+
+                    let this_dist = distance.push($scope.dist_to_dest[i] - $scope.dist_to_dest[i+1]);
+                    steps.push({
+                                instruction: $scope.instructions[i],
+                                 distance : parseInt(this_dist)
+                               });
                 } else if (i < $scope.instructions.length-1){
+
+                    dist = dist + $scope.dist_to_dest[i] - $scope.dist_to_dest[i+1];
                     previous_step = $scope.instructions[i-1];
                     current_step = $scope.instructions[i];
                     if (current_step !== previous_step) {
-                        console.log("new step");
-                        $scope.steps.push(current_step);
+                      steps.push({
+                                  instruction: current_step,
+                                   distance : parseInt(dist)
+                                 });
+                        // steps.push(current_step);
+                        // distance.push(dist);
+                        dist = 0;
                     }
-                } else {
+                  }
+                else {
                     previous_step = $scope.instructions[i-1];
                     current_step = $scope.instructions[i];
-                    $scope.steps.push($scope.instructions[i]);
+                    steps.push({
+                                 instruction: $scope.instructions[i],
+                                 distance : parseInt($scope.dist_to_dest[i-1])
+                               });
+                    // steps.push($scope.instructions[i]);
+                    // distance.push($scope.dist_to_dest[i-1]);
                 }
+
             }
 
-            console.log($scope.steps);
+            // $scope.distance = distance;
+            $scope.steps = steps;
+            console.log(steps);
+            // console.log("Distance Array Length",distance.length,"Steps Array Length",steps.length);
+            // console.log($scope.steps);
 
             //Assigns route point array and instruction array to new variables to use in block that checks user position within route (so original route variables won't be modified)
             $scope.point_route_check = routeResult.points;

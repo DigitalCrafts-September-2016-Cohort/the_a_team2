@@ -82,11 +82,12 @@
 <div ng-show="navigating" ng-if="show_all_steps" class="search-results">
     <div class="search-result" ng-repeat="step in steps track by $index">
         <div class="dot">
-            <i ng-show="step_by_step === step" class="fa fa-hand-o-right" style="color: #ef473a" aria-hidden="true"></i>
+            <i ng-show="step_by_step === step.instruction" class="fa fa-hand-o-right" style="color: #ef473a" aria-hidden="true"></i>
             <!-- <i ng-hide="step_by_step === step" style="font-size: .6em;" class="fa fa-circle" aria-hidden="true"></i> -->
         </div>
         <div class="step">
-            {{step}}
+            {{step.instruction}}
+            <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{step.distance}} -->
         </div>
     </div>
 </div>
