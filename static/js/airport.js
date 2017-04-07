@@ -91,8 +91,10 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     };
 
     //Finds the node in the graph closest to the user's location
-    $scope.getOriginNode = function (){
-
+    $scope.getOriginNode = function (a,b){
+      $scope.geoJSON.forEach(function(e){
+        console.log(e.geometry.coordinates);
+      });
     };
 
     //Get the geolocation of the user and set to origin for later API calls
@@ -106,12 +108,15 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 maximumAge: 20000,
                 enableHighAccuracy: true
             });
+
+            console.log("Everything shoud be printed below");
+
+            $scope.getOriginNode(1, 2);
             //If the user location is found
             map.on('locationfound', function (e) {
-                console.log(e.latlng, e.accuracy);
-                // $scope.getOriginNode(e.latlng.lat, e.latlng.lng);
+              console.log(e.latlng, e.accuracy);
                 $scope.origin = {
-                    "id": "42",
+                "id": "42",
             		"name": "B8",
             		"latitude": "33.638719",
             		"longitude": "-84.436027",
@@ -122,7 +127,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             //If the user location is NOT found
             map.on('locationerror', function(e) {
                 $scope.origin = {
-                    "id": "42",
+                "id": "42",
             		"name": "B8",
             		"latitude": "33.638719",
             		"longitude": "-84.436027",
@@ -134,7 +139,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
     };
 
     // Creates GeoJSON for all points (network nodes) - ONLY USED FOR DIAGNOSTICS
-    $scope.all_points = [];
+
     $scope.geoJSON = [];
     $scope.getAllPoints = function(){
         AirportConnect.getAllPoints().success(function(all_points){
@@ -153,7 +158,9 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                 };
                 $scope.geoJSON.push(geoJSON);
             }
-            $scope.drawAllPoints();
+            //////////////// KEYUR COMMENT HERE TO TURN ON LABELS ///////////////////
+            //Draws all the points in the network on the map every time page is loaded.
+            // $scope.drawAllPoints();
         });
     };
 
@@ -194,9 +201,8 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         });
     };
 
-    //////////////// KEYUR COMMENT HERE TO TURN ON LABELS ///////////////////
-    //Draws all the points in the network on the map every time page is loaded.
-    // $scope.getAllPoints();
+
+    $scope.getAllPoints();
     /////////////////////////////////////////////////////////////////////////
 
     //Search All Routes given an origin point object
@@ -214,7 +220,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             });
             //If the user location is found
             map.on('locationfound', function (e) {
-                console.log(e.latlng, e.accuracy);
+                console.log("current location",e.latlng, e.accuracy);
                 // $scope.getOriginNode(e.latlng.lat, e.latlng.lng);
                 $scope.origin = {
                 "id": "42",
@@ -289,7 +295,6 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             var distance = [];
             for (var i=0; i<$scope.instructions.length; i++){
                 if (i===0){
-
                     let this_dist = distance.push($scope.dist_to_dest[i] - $scope.dist_to_dest[i+1]);
                     steps.push({
                                 instruction: $scope.instructions[i],
