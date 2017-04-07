@@ -70,8 +70,8 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             custom: [
                 L.control.locate({
                     clickBehavior: {
-                        inView: 'setView',
-                        outOfView: 'setView'
+                      inView: 'setView',
+                      outOfView: 'setView'
                     },
                     drawCircle: false,
                     icon: 'fa fa-crosshairs geolocate',
@@ -89,12 +89,21 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         $scope.home = false;
         $scope.getOrigin();
     };
-
+    $scope.calculateDistance = function(originlat,originlng,destlat,destlng){
+      return Math.sqrt((Math.pow((destlat-originlat),2) - (Math.pow((destlng-originlng),2))));
+    }
     //Finds the node in the graph closest to the user's location
-    $scope.getOriginNode = function (a,b){
+    $scope.getOriginNode = function (lat,lng){
+      var shortestdistance = 2;
+      var nearestpoint = {};
       $scope.geoJSON.forEach(function(e){
-        console.log(e.geometry.coordinates);
+        var distance = $scope.calculateDistance(lat,lng,e.geometry.coordinates[1],e.geometry.coordinates[0]);
+        if(distance < shortestdistance){
+          shortestdistance = distance;
+          nearestpoint = e;
+        }
       });
+      return nearestpoint;
     };
 
     //Get the geolocation of the user and set to origin for later API calls
@@ -104,25 +113,35 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             map.locate({
                 watch: false,
                 setView: false,
-                timeout: 1000,
+                timeout: 3000,
                 maximumAge: 20000,
                 enableHighAccuracy: true
             });
 
             console.log("Everything shoud be printed below");
 
-            $scope.getOriginNode(1, 2);
+
             //If the user location is found
             map.on('locationfound', function (e) {
-              console.log(e.latlng, e.accuracy);
-                $scope.origin = {
-                "id": "42",
-            		"name": "B8",
-            		"latitude": "33.638719",
-            		"longitude": "-84.436027",
-            		"poi_type": "gate",
-            		"concourse": "B"
-                };
+              console.log("users nearestpoint + location: ",e.latlng, e.accuracy);
+               let p = $scope.getOriginNode(e.latlng.lat, e.latlng.lng);
+               $scope.origin = {
+                 "id" : p.properties.name,
+                 "name": p.properties.realname,
+                 "latitude":p.geometry.coordinates[1],
+                 "longitude":p.geometry.coordinates[0],
+                 "poi_type":p.properties.type,
+                 "concourse":p.properties.concourse
+               }
+
+                // $scope.origin = {
+                // "id": "42",
+            		// "name": "B8",
+            		// "latitude": "33.638719",
+            		// "longitude": "-84.436027",
+            		// "poi_type": "gate",
+            		// "concourse": "B"
+                // };
             });
             //If the user location is NOT found
             map.on('locationerror', function(e) {
@@ -150,7 +169,8 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                         "properties": {
                             "concourse": all_points[point].concourse,
                             "name": all_points[point].id,
-                            "type": all_points[point].poi_type
+                            "type": all_points[point].poi_type,
+                            "realname": all_points[point].name
                         }, "geometry":{
                             "type": "Point",
                             "coordinates": [all_points[point].longitude, all_points[point].latitude]
@@ -175,7 +195,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             L.geoJSON($scope.geoJSON, {
                 style: function(feature) {
                     return {color: '#5fad75'};
-                    switch (feature.properties.poi_type) {
+                      switch (feature.properties.poi_type) {
                         case 'station':   return {color: '#ffa100'};
                         case 'center':   return {color: "#0000ff"};
                         case 'hcenter':   return {color: "#0000ff"};
@@ -214,27 +234,27 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             map.locate({
                 watch: false,
                 setView: false,
-                timeout: 1000,
+                timeout: 3000,
                 maximumAge: 20000,
                 enableHighAccuracy: true
             });
             //If the user location is found
             map.on('locationfound', function (e) {
-                console.log("current location",e.latlng, e.accuracy);
-                // $scope.getOriginNode(e.latlng.lat, e.latlng.lng);
+                let p = $scope.getOriginNode(e.latlng.lat, e.latlng.lng);
+                $scope.origin = {
+                  "id" : p.properties.name,
+                  "name": p.properties.realname,
+                  "latitude":p.geometry.coordinates[1],
+                  "longitude":p.geometry.coordinates[0],
+                  "poi_type":p.properties.type,
+                  "concourse":p.properties.concourse
+                }
+            });
+            // If the user location is NOT found
+            map.on('locationerror', function(e) {
+              console.log("LOcation Error");
                 $scope.origin = {
                 "id": "42",
-            		"name": "B8",
-            		"latitude": "33.638719",
-            		"longitude": "-84.436027",
-            		"poi_type": "gate",
-            		"concourse": "B"
-                };
-            });
-            //If the user location is NOT found
-            map.on('locationerror', function(e) {
-                $scope.origin = {
-                    "id": "42",
             		"name": "B8",
             		"latitude": "33.638719",
             		"longitude": "-84.436027",
@@ -279,7 +299,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
         //Set scope destination to node clicked by user in search results
         $scope.destination = selectedDestination;
-        console.log($scope.destination);
+        // console.log($scope.destination);
 
         //Calls the service method that calls the API route to get a graph route given an origin and destination node
         AirportConnect.getRoute($scope.origin, $scope.destination).success(function(routeResult) {
@@ -330,7 +350,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
             // $scope.distance = distance;
             $scope.steps = steps;
-            console.log(steps);
+            // console.log(steps);
             // console.log("Distance Array Length",distance.length,"Steps Array Length",steps.length);
             // console.log($scope.steps);
 
@@ -486,21 +506,10 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             map.locate({
                 watch: true,
                 setView: false,
-                timeout: 1000,
+                timeout: 3000,
                 maximumAge: 20000,
                 enableHighAccuracy: true
             });
-            ////////DOES THIS ACTUALLY DO ANYTHING???
-            // if ($scope.point_route_check) {
-            //     var latlngs = [];
-            //     for (var i=0; i<$scope.point_route_check; i++){
-            //         if (i === 0 || i == $scope.point_route_check.length-1){
-            //             $scope.latlngs.push({lat: parseFloat($scope.point_route_check).lat,
-            //                           lng: parseFloat($scope.point_route_check).lng
-            //                       });
-            //         }
-            //     }
-            // }
 
             //If user location found, check to see if user has reached the next point in the route
             //Every 20 seconds
