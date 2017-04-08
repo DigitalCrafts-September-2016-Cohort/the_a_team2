@@ -89,12 +89,23 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
         $scope.home = false;
         $scope.getOrigin();
     };
+    $scope.getDistance = function(originLat,originLng,destLat,destLng){
+      return Math.sqrt((Math.pow(destLng - originLng),2) + (Math.pow(destLng - originLng,2)));
+    }
 
     //Finds the node in the graph closest to the user's location
     $scope.getOriginNode = function (a,b){
+      var shortestDistance = 100;
+      var nearestPoint = {};
       $scope.geoJSON.forEach(function(e){
-        console.log(e.geometry.coordinates);
+        // console.log(e.geometry.coordinates);
+        var distance = $scope.getDistance(a,b,parseFloat(e.geometry.coordinates[1]),parseFloat(e.geometry.coordinates[0]))
+        if(distance < shortestDistance){
+          shortestDistance = distance;
+          nearestPoint = e;
+        }
       });
+      return nearestPoint;
     };
 
     //Get the geolocation of the user and set to origin for later API calls
@@ -111,21 +122,23 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
 
             console.log("Everything shoud be printed below");
 
-            $scope.getOriginNode(1, 2);
+
             //If the user location is found
             map.on('locationfound', function (e) {
-              console.log(e.latlng, e.accuracy);
+              console.log("LOCATION_FOUND");
+              let p =  $scope.getOriginNode(e.latlng.lat, e.latlng.lng);
                 $scope.origin = {
-                "id": "42",
-            		"name": "B8",
-            		"latitude": "33.638719",
-            		"longitude": "-84.436027",
-            		"poi_type": "gate",
-            		"concourse": "B"
+                "id": p.properties.name,
+            		"name": p.properties.realname,
+            		"latitude": p.geometry.coordinates[1],
+            		"longitude": p.geometry.coordinates[0],
+            		"poi_type": p.properties.type,
+            		"concourse": p.properties.concourse
                 };
             });
             //If the user location is NOT found
             map.on('locationerror', function(e) {
+                console.log("LOCATION_ERROR");
                 $scope.origin = {
                 "id": "42",
             		"name": "B8",
@@ -150,7 +163,8 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
                         "properties": {
                             "concourse": all_points[point].concourse,
                             "name": all_points[point].id,
-                            "type": all_points[point].poi_type
+                            "type": all_points[point].poi_type,
+                            "realname" : all_points[point].name
                         }, "geometry":{
                             "type": "Point",
                             "coordinates": [all_points[point].longitude, all_points[point].latitude]
@@ -220,8 +234,22 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             });
             //If the user location is found
             map.on('locationfound', function (e) {
+                console.log("LocationFound");
                 console.log("current location",e.latlng, e.accuracy);
                 // $scope.getOriginNode(e.latlng.lat, e.latlng.lng);
+                let k =  $scope.getOriginNode(e.latlng.lat, e.latlng.lng);
+                  $scope.origin = {
+                  "id": k.properties.name,
+              		"name": k.properties.realname,
+              		"latitude": k.geometry.coordinates[1],
+              		"longitude": k.geometry.coordinates[0],
+              		"poi_type": k.properties.type,
+              		"concourse": k.properties.concourse
+                  };
+            });
+            //If the user location is NOT found
+            map.on('locationerror', function(e) {
+                console.log("LocationError");
                 $scope.origin = {
                 "id": "42",
             		"name": "B8",
@@ -231,20 +259,7 @@ app.controller('NavController', function($scope, $state, AirportConnect, leaflet
             		"concourse": "B"
                 };
             });
-            //If the user location is NOT found
-            map.on('locationerror', function(e) {
-                $scope.origin = {
-                    "id": "42",
-            		"name": "B8",
-            		"latitude": "33.638719",
-            		"longitude": "-84.436027",
-            		"poi_type": "gate",
-            		"concourse": "B"
-                };
-            });
         });
-
-        console.log($scope.origin.id);
 
         if($scope.query.length > 1){
         //Call search API and bind results to scope variable
