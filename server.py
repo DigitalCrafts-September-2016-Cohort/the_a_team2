@@ -122,6 +122,7 @@ concourses = [{'name':'T', 'longitude':'-84.442447'},
 E_horizontal = ["E14","E15","E16","E17","E18"]
 json_len = len(pointsJSON)
 point_id = 2000
+# Loop through each gate in E_terminal_horizontal_gates
 for epoint in E_horizontal:
     for i in range(0,json_len):
         if epoint == pointsJSON[i]['name']:
@@ -175,8 +176,6 @@ for concourse in concourses:
 
     #// For each center line point
     for i in range(0,len(midpoint_arr)-1):
-        first = {}
-        second = {}
         #// Getting latitude distance between points and converting to distance for edge definition
         dist = (float(midpoint_arr[i+1]['latitude']) - float(midpoint_arr[i]['latitude'])) * 363917.7912
         add2way_vertex(midpoint_arr[i]['id'],midpoint_arr[i+1]['id'],round(dist,2))
