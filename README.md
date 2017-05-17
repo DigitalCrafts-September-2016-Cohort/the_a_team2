@@ -1,6 +1,6 @@
 # The "A" Team - AirNav
 <img src="static/img/red_logo.png" alt="Logo" width="150px"/>
-######
+###### 
 [Live Project](https://airnavatl.com/#/home)   |  [Overview](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#overview)   |   [Team](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#team-members--roles)   |   [What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#what-we-used)   |   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#mvp-minimum-viable-product)   |   [Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#challenges--solutions)   |   [Code](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#code-snippets)   | [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airnav-screenshots)   |
 [Airport Terminal Maps](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airport-terminal-maps)   |   [Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#contribute-to-airnav)
 
@@ -22,14 +22,14 @@ the way, as well as locate their baggage and ground transportation.
 * List of all points of interest along route to gate destination
 * Deploy as a web app AND a mobile app for both iPhone and Android using the Ionic framework
 
-##Github Link:
+## Github Link:
 [AirNav](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2.git)
 
-##Team Members & Roles:
+## Team Members & Roles:
 **Click on each member's name to see their GitHub profile**
 All team members are students in the [Digital Crafts](https://digitalcrafts.com) September 2016 cohort. This project was initially completed as the second project for that curriculum and utilized the SCRUM agile development methodology.  Paired and mob programming were the focus in the initial and final stages, while mid- and late-stage work was primarily completed through individual but coordinated and co-located programming.
 
-####The A Team
+#### The A Team
 * [Jesslyn Landgren](https://github.com/jesslynlandgren/)  
 **Primary team role:** Front-end Gladiator/Back-end backup, styling<br />
 **Contributions:**  Provided initial project concept. Built a custom layout from scratch with focus on flat design. Split initial algorithm and logic for creating basic custom network graph with Keyur, then assisted with troubleshooting the implementation throughout the project.  Led team in planning the functionality, user-interface, and evaluating it through the project.<br />
@@ -46,11 +46,11 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 **Key code portions:** All of the Ionic build.  Front end AngularJs contributions to the main JS file.
 
 * [Trista McCleary](https://github.com/mccleary/)  
-**Primary team role:** UI/UX chief, prototype, styling<br />
-**Contributions:** Scrum master. Led daily stand up meetings and maintained virtual scrum board. App name, app logo. Assisted with all things visual/client-facing. Regularly studied all code throughout project.<br />
-**Key code portions:** UI/UX mock-ups, shell HTML, README file
+**Primary team role:** UI/UX chief, prototype, Front end styling<br />
+**Contributions:** Scrum master. Led daily stand up meetings and maintained virtual scrum board, kept project on time. Created App name, designed app logo. Assisted with all things visual/client-facing. Assisted with layout, user-interface, project evaluation.<br />
+**Key code portions:** UI/UX mock-ups, shell HTML/CSS, fonts, JavaScript, README file
 
-##What we used:
+## What we used:
 **Languages:**
 * Python
 * JavaScript
@@ -76,7 +76,7 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 * [simpleWeather.js](http://simpleweatherjs.com/)
 
 
-##MVP (Minimum Viable Product):
+## MVP (Minimum Viable Product):
 
 * Point-to-point navigation
 * Search for destination
@@ -113,7 +113,7 @@ We planned our stretch goals in advance of reaching MVP and portions of the team
     **Solution:** To counteract this we handle queries of different lengths differently. Initially we only performed a search if they query was greater than 3 characters, but because we don't have a functionality for multiple node aliases (the user has to type exactly the gate number), we need to support 2 character searches because all gate names are 2-3 characters. We solved this by only searching gates if the query is less than 3 characters and then searching all place nodes if the query is 3 characters or greater. To further accomodate this problem, we implemented MEMOIZATION: i.e. created a dictionary and appended all the routes searched stored the dictionary in a file. This allowed the path to be calculated only once and look it up in the dictionary the next time same route is searched.
 
 
-##Code Snippets
+## Code Snippets
 
 <!-- Insert code here -->
 We created a front-end service to access the API we built on the back-end.  We have two main methods, one for searching for a destination node, and one for retrieving the shortest path from origin and destination to be shown in the navigation view.  (The all points method was for debugging purposes)
@@ -291,7 +291,7 @@ Please click on a Concourse to view Hartsfield-Jackson Atlanta Airport Terminal 
 * [Domestic Terminal](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2/blob/master/static/img/airport_maps/DomesticTerminal.pdf)
 
 
-#Contribute to AirNav:
+# Contribute to AirNav:
 
 ## 3 Desired Contributions We would like to see :
 1. App reviews from users traveling through Atlanta Airport (Bugs, issues, suggestions, praise)
@@ -299,7 +299,7 @@ Please click on a Concourse to view Hartsfield-Jackson Atlanta Airport Terminal 
 3. Restaurant reviews, Yelp style
 
 
-##Contributing
+## Contributing
 1. Fork it
 2. Create a new feature branch (named after your intended feature): `git checkout -b new-feature-name`
 3. Commit your changes: `git commit -am 'Added the feature!'`
@@ -307,6 +307,6 @@ Please click on a Concourse to view Hartsfield-Jackson Atlanta Airport Terminal 
 5. Submit a pull request!
 
 
-##Project History
+## Project History
 12/2/2016 - Project Completion and Deployment  
 11/28/2016 - Project Start  
