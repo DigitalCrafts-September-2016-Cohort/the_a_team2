@@ -1,16 +1,8 @@
 # The "A" Team - AirNav
 <img src="static/img/red_logo.png" alt="Logo" width="150px"/>
 ######
-[Live Project](https://airnavatl.com/#/home)    
-[Overview](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#overview)      
-[Team](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#team-members--roles)   
-[What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#what-we-used)     
-[MVP](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#mvp-minimum-viable-product)    
-[Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#challenges--solutions)   
-[Code](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#code-snippets)   
-[Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airnav-screenshots)  
-[Airport Terminal Maps](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airport-terminal-maps)    
-[Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#contribute-to-airnav)
+[Live Project](https://airnavatl.com/#/home) | [Overview](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#overview)     | [Team](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#team-members--roles) | [What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#what-we-used)  | [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#mvp-minimum-viable-product)  | [Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#challenges--solutions)   |  [Code](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#code-snippets)   
+ |  [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airnav-screenshots)  |  [Airport Terminal Maps](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airport-terminal-maps)   |  [Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#contribute-to-airnav)
 
 
 ## Overview:
@@ -56,7 +48,7 @@ All team members are students in the [Digital Crafts](https://digitalcrafts.com)
 * [Trista McCleary](https://github.com/mccleary/)  
 **Primary team role:** UI/UX chief, prototype, Front end styling<br />
 **Contributions:** Scrum master. Led daily stand up meetings and maintained virtual scrum board, kept project on time. Created App name, designed app logo. Assisted with all things visual/client-facing. Assisted with layout, user-interface, project evaluation.<br />
-**Key code portions:** UI/UX mock-ups, shell HTML/CSS, fonts, JavaScript, README file
+**Key code portions:** UI/UX mock-ups, shell HTML/CSS, fonts, README file
 
 ## What we used:
 **Languages:**
