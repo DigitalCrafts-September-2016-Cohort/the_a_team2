@@ -1,8 +1,16 @@
 # The "A" Team - AirNav
 <img src="static/img/red_logo.png" alt="Logo" width="150px"/>
 ######
-[Live Project](https://airnavatl.com/#/home) ,    [Overview](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#overview) ,     [Team](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#team-members--roles)   ,   [What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#what-we-used)   ,   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#mvp-minimum-viable-product)   ,   [Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#challenges--solutions)   ,   [Code](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#code-snippets)   , [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airnav-screenshots)   ,
-[Airport Terminal Maps](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airport-terminal-maps)   ,   [Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#contribute-to-airnav)
+[Live Project](https://airnavatl.com/#/home)    
+[Overview](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#overview)      
+[Team](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#team-members--roles)   
+[What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#what-we-used)     
+[MVP](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#mvp-minimum-viable-product)    
+[Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#challenges--solutions)   
+[Code](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#code-snippets)   
+[Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airnav-screenshots)  
+[Airport Terminal Maps](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#airport-terminal-maps)    
+[Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/the_a_team2#contribute-to-airnav)
 
 
 ## Overview:
